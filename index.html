@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomline | Crane Rental Software Built for the Field</title>
+<meta name="description" content="Purpose-built software for crane rental companies. Dispatch, fleet management, inspections, billing — all in one platform built by crane people, for crane people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111;
+  --bg3: #181818;
+  --brd: rgba(255,255,255,0.07);
+  --brd2: rgba(255,255,255,0.12);
+  --w: #fff;
+  --w80: rgba(255,255,255,0.8);
+  --w50: rgba(255,255,255,0.5);
+  --w30: rgba(255,255,255,0.3);
+  --w15: rgba(255,255,255,0.15);
+  --w08: rgba(255,255,255,0.07);
+  --w04: rgba(255,255,255,0.03);
+  --y: #FFB800;
+  --yd: rgba(255,184,0,0.12);
+  --yg: rgba(255,184,0,0.25);
+  --dk: #0a0a0a;
+  --ff: 'Bebas Neue', sans-serif;
+  --fb: 'Inter', sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --sp: min(4vw, 56px);
+}
+
+html { overflow-x: clip; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--w);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--y); color: var(--dk); }
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; color: inherit; cursor: pointer; }
+button { border: none; background: none; cursor: pointer; font: inherit; color: inherit; }
+
+/* === LOADER === */
+.ld { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.ld-h { position: absolute; width: 100%; height: 50%; background: var(--dk); transition: transform 1.1s var(--ease); will-change: transform; }
+.ld-t { top: 0; }
+.ld-b { bottom: 0; }
+.ld-c { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 14px; transition: opacity 0.4s; }
+.ld-w { font-family: var(--ff); font-size: clamp(2.5rem, 6vw, 5rem); color: var(--y); letter-spacing: 10px; }
+.ld-bar { width: 100px; height: 2px; background: var(--w08); overflow: hidden; border-radius: 1px; }
+.ld-fill { width: 0; height: 100%; background: var(--y); transition: width 0.6s var(--ease); }
+.ld.done .ld-c { opacity: 0; }
+.ld.done .ld-t { transform: translateY(-101%); }
+.ld.done .ld-b { transform: translateY(101%); }
+.ld.gone { display: none; }
+
+/* === NAV === */
+.nv { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 14px var(--sp); pointer-events: none; }
+.nv-in {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,10,10,0.55);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--brd);
+  border-radius: 14px;
+  padding: 10px 20px;
+  pointer-events: all;
+  transition: border-color 0.4s, background 0.4s;
+}
+.nv-in:hover { border-color: var(--brd2); }
+.nv-logo { display: flex; align-items: center; gap: 8px; }
+.nv-logo img { height: 32px; }
+.nv-links { display: flex; align-items: center; gap: 28px; }
+.nv-links a {
+  font-family: var(--fm); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--w50); position: relative; padding: 4px 0;
+  transition: color 0.3s;
+}
+.nv-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 100%; height: 1.5px; background: var(--y);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+.nv-links a:not(.nv-cta):hover { color: var(--y); }
+.nv-links a:not(.nv-cta):hover::after { transform: scaleX(1); transform-origin: left; }
+.nv-cta {
+  font-family: var(--fm); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 9px 22px !important; background: var(--y); color: var(--dk) !important;
+  border-radius: 8px; position: relative; overflow: hidden;
+  transition: color 0.4s var(--ease);
+}
+.nv-cta::before { content: ''; position: absolute; inset: 0; background: var(--w); transform: translateY(101%); transition: transform 0.4s var(--ease); z-index: 1; }
+.nv-cta:hover { color: var(--dk) !important; }
+.nv-cta:hover::before { transform: translateY(0); }
+.nv-cta span { position: relative; z-index: 2; }
+.nv-cta::after { display: none !important; }
+
+.nv-ham { display: none; width: 26px; height: 18px; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 101; }
+.nv-ham span { width: 100%; height: 2px; background: var(--w); transition: all 0.4s var(--ease); }
+.mm { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 36px; opacity: 0; transition: opacity 0.4s; }
+.mm.on { display: flex; opacity: 1; }
+.mm a { font-family: var(--ff); font-size: clamp(2rem, 7vw, 3.2rem); color: var(--w80); letter-spacing: 4px; text-transform: uppercase; transition: color 0.3s; }
+.mm a:hover { color: var(--y); }
+
+/* === HERO === */
+#hero {
+  height: 500vh;  /* lots of scroll room so everything completes */
+  position: relative;
+  overflow: visible;  /* critical for sticky to work */
+}
+
+.hero-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sky — dark top, warm amber dusk at horizon */
+.hero-sky {
+  position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg,
+    #08080a 0%,
+    #0f0e0c 20%,
+    #1c1812 42%,
+    #2e2518 58%,
+    #4a3a22 72%,
+    #6b5530 82%,
+    #8a6b38 90%,
+    #a07840 96%,
+    #b8883a 100%
+  );
+}
+
+/* Orange/amber glow at horizon */
+.hero-sky::after {
+  content: '';
+  position: absolute;
+  bottom: 10%; left: 50%;
+  transform: translateX(-50%);
+  width: 160%; height: 50%;
+  background: radial-gradient(ellipse 60% 70% at 50% 100%,
+    rgba(255,160,40,0.12) 0%, rgba(255,120,20,0.04) 40%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Ground plane — flat dirt/gravel, bottom 24% */
+.hero-ground {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 24%;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    #5a4828 0%,
+    #4a3c20 20%,
+    #3d3018 50%,
+    #2e2414 80%,
+    #221c10 100%
+  );
+}
+
+/* Dirt/gravel noise texture */
+.hero-ground::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0.2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* Horizon line — warm glow */
+.hero-ground::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg,
+    transparent 5%,
+    rgba(255,170,40,0.2) 25%,
+    rgba(255,150,30,0.35) 50%,
+    rgba(255,170,40,0.2) 75%,
+    transparent 95%
+  );
+  filter: blur(1px);
+}
+
+/* Content — centered vertically in upper portion, above ground */
+.hero-ct {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 78%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp);
+  padding-top: 60px;
+}
+
+.hero-ct-inner {
+  max-width: 1400px; margin: 0 auto; width: 100%;
+}
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 24px;
+  opacity: 0;
+}
+.hero-label.in { opacity: 1; transition: opacity 0.6s var(--ease); }
+.hero-dot { width: 7px; height: 7px; background: var(--y); border-radius: 50%; animation: dp 2s ease infinite; }
+@keyframes dp { 0%,100%{opacity:1;box-shadow:0 0 0 0 var(--yg)} 50%{opacity:.7;box-shadow:0 0 0 7px transparent} }
+.hero-label-text { font-family: var(--fm); font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--w50); }
+
+.hero-title {
+  font-family: var(--ff);
+  font-size: clamp(3rem, 9vw, 9.5rem);
+  line-height: 0.93;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.hero-title .ln { display: block; overflow: hidden; white-space: nowrap; }
+.hero-title .wd { display: inline-block; white-space: nowrap; }
+.hero-title .ch {
+  display: inline-block;
+  transform: translateY(115%);
+  will-change: transform;
+  transition: transform 0.5s var(--ease);
+}
+.hero-title .ch.in { transform: translateY(0); }
+.hero-title .sp { width: 0.27em; display: inline-block; }
+.hero-title .yl { color: var(--y); }
+
+.hero-bot { display: flex; align-items: flex-end; gap: 40px; }
+.hero-info { max-width: 440px; }
+
+.hero-sub {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.6; color: var(--w50);
+  margin-bottom: 32px;
+  opacity: 0; transform: translateY(20px);
+}
+.hero-sub.in { opacity: 1; transform: none; transition: all 0.7s var(--ease); }
+
+.hero-btns {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  opacity: 0; transform: translateY(20px);
+}
+.hero-btns.in { opacity: 1; transform: none; transition: all 0.7s var(--ease) 0.1s; }
+
+/* Crane — sits on the ground, drives right-to-left */
+.hero-crane-layer {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Crane rig — contains image + spinning wheels, moves as one unit */
+.hero-crane-rig {
+  position: absolute;
+  bottom: 17%;
+  left: 0;
+  height: clamp(200px, 38vh, 440px);
+  aspect-ratio: 1376 / 768;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Body image — fills the rig, color graded to scene */
+.hero-crane-rig > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(0 8px 20px rgba(0,0,0,0.8))
+    drop-shadow(0 2px 6px rgba(0,0,0,0.6))
+    sepia(0.15)
+    saturate(1.1)
+    brightness(0.8)
+    contrast(1.1);
+}
+
+/* Real wheel images — cut from the crane photo, spin on scroll */
+.crane-wheel {
+  position: absolute;
+}
+
+.crane-wheel img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+  will-change: transform;
+  filter:
+    sepia(0.15)
+    saturate(1.1)
+    brightness(0.8)
+    contrast(1.1);
+}
+
+/* Dust cloud trailing behind the crane */
+.hero-dust {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  width: 300px; height: 120px;
+  will-change: transform;
+  background: radial-gradient(ellipse 70% 60% at 90% 70%,
+    rgba(90,72,40,0.4) 0%,
+    rgba(70,55,30,0.2) 40%,
+    transparent 70%);
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+/* Scroll hint */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  animation: hintPulse 2s ease infinite;
+  transition: opacity 0.5s;
+}
+.hero-scroll-hint.hide { opacity: 0; pointer-events: none; }
+.hero-scroll-hint span {
+  font-family: var(--fm);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--w30);
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, var(--w30));
+  animation: scrollLine 1.5s ease infinite;
+}
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+@keyframes hintPulse {
+  0%,100% { opacity: 0.5; }
+  50% { opacity: 0.3; }
+}
+
+/* === BUTTONS === */
+.bt {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 32px;
+  font-family: var(--fm); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  border-radius: 8px; position: relative; overflow: hidden;
+  transition: color 0.4s var(--ease), transform 0.3s, box-shadow 0.3s;
+}
+.bt::before { content:''; position:absolute; inset:0; transform:translateY(101%); transition:transform 0.45s var(--ease); z-index:0; }
+.bt:hover::before { transform:translateY(0); }
+.bt span, .bt svg { position:relative; z-index:1; }
+.bt svg { width:14px; height:14px; transition:transform 0.4s var(--ease); }
+.bt:hover svg { transform:translateX(4px); }
+.bt:hover { transform:translateY(-2px); }
+
+.bt-y { background:var(--y); color:var(--dk); }
+.bt-y::before { background:var(--w); }
+.bt-y:hover { box-shadow:0 10px 36px var(--yg); }
+
+.bt-g { background:transparent; color:var(--w80); border:1px solid var(--brd2); }
+.bt-g::before { background:var(--y); }
+.bt-g:hover { color:var(--dk); border-color:var(--y); }
+
+.bt-d { background:var(--dk); color:var(--w); border:1px solid var(--brd); }
+.bt-d::before { background:var(--y); }
+.bt-d:hover { color:var(--dk); box-shadow:0 10px 36px rgba(0,0,0,0.4); }
+
+/* === TICKER === */
+.tk {
+  border-top: 1px solid var(--brd);
+  border-bottom: 1px solid var(--brd);
+  padding: 18px 0; overflow: hidden;
+}
+.tk-tr { display:flex; gap:72px; width:max-content; animation:mq 28s linear infinite; }
+.tk:hover .tk-tr { animation-play-state:paused; }
+.tk-i {
+  font-family:var(--ff); font-size:1.2rem; letter-spacing:3px;
+  color:var(--w15); white-space:nowrap; text-transform:uppercase;
+  display:flex; align-items:center; gap:72px; transition:color 0.3s;
+}
+.tk:hover .tk-i { color:var(--w30); }
+.tk-d { width:5px; height:5px; background:var(--y); border-radius:50%; flex-shrink:0; }
+@keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* === HAZARD === */
+.hz { height:6px; background:repeating-linear-gradient(-45deg,var(--y),var(--y) 10px,var(--dk) 10px,var(--dk) 20px); }
+
+/* === SECTIONS === */
+.sp-lg { padding: min(9vw, 140px) var(--sp); }
+.sl { font-family:var(--fm); font-size:0.65rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--w30); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.sl::before { content:''; width:20px; height:1px; background:var(--y); }
+.st { font-family:var(--ff); font-size:clamp(2.2rem,5.5vw,4.5rem); line-height:0.95; text-transform:uppercase; letter-spacing:-0.01em; }
+.st .yl { color:var(--y); }
+.stx { font-size:clamp(0.95rem,1.3vw,1.08rem); line-height:1.65; color:var(--w50); }
+
+/* reveals */
+.rv { opacity:0; transform:translateY(40px); transition:all 0.85s var(--ease); }
+.rv.in { opacity:1; transform:none; }
+.rv-l { opacity:0; transform:translateX(-40px); transition:all 0.85s var(--ease); }
+.rv-l.in { opacity:1; transform:none; }
+.rv-r { opacity:0; transform:translateX(40px); transition:all 0.85s var(--ease); }
+.rv-r.in { opacity:1; transform:none; }
+
+/* word reveal */
+.wr .w { display:inline-block; overflow:hidden; vertical-align:top; margin-right:0.2em; }
+.wr .wi { display:inline-block; transform:translateY(105%); transition:transform 0.65s var(--ease); }
+.wr.in .wi { transform:translateY(0); }
+
+/* === PROBLEM === */
+.pg { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:min(6vw,90px); align-items:center; }
+.pg .stx { margin-bottom:18px; }
+.pg strong { color:var(--w80); }
+
+.ba { border:1px solid var(--brd); border-radius:10px; overflow:hidden; }
+.ba-h { padding:32px; }
+.ba-bf { background:var(--bg2); border-bottom:1px solid var(--brd); }
+.ba-af { background:var(--bg3); }
+.ba-tag { font-family:var(--fm); font-size:0.6rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--w30); display:flex; align-items:center; gap:7px; margin-bottom:16px; }
+.ba-dot { width:5px; height:5px; border-radius:50%; }
+.ba-bf .ba-dot { background:#e74c3c; }
+.ba-af .ba-dot { background:var(--y); }
+.ba-rows { display:flex; flex-direction:column; gap:8px; }
+.ba-row { height:9px; border-radius:2px; }
+.ba-bf .ba-row { background:var(--w08); }
+.ba-bf .ba-row:nth-child(1) { width:80%; transform:rotate(-0.4deg); }
+.ba-bf .ba-row:nth-child(2) { width:50%; transform:translateX(28px) rotate(0.3deg); }
+.ba-bf .ba-row:nth-child(3) { width:88%; }
+.ba-bf .ba-row:nth-child(4) { width:38%; transform:translateX(44px) rotate(0.6deg); }
+.ba-af .ba-row { background:var(--yd); border-left:3px solid var(--y); width:100%; }
+.ba-dg { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px; }
+.ba-dc { background:var(--w04); border:1px solid var(--brd); border-radius:6px; padding:12px 10px; }
+.ba-dn { font-family:var(--ff); font-size:1.6rem; color:var(--y); line-height:1; }
+.ba-dl { font-family:var(--fm); font-size:0.55rem; color:var(--w30); letter-spacing:1px; text-transform:uppercase; margin-top:3px; }
+
+/* === FEATURES — HORIZONTAL SCROLL === */
+#features { overflow: visible; }
+.fp { height: 400vh; position: relative; }
+.fs {
+  position: sticky; top: 0;
+  height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.fh {
+  padding: 0 var(--sp);
+  max-width: 1400px; margin: 0 auto; width: 100%;
+  margin-bottom: 40px;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 32px;
+}
+.fh .stx { max-width: 360px; text-align: right; }
+.ft-w { width: 100%; overflow: hidden; }
+.ftr {
+  display: flex; gap: 18px;
+  padding: 0 var(--sp) 20px;
+  will-change: transform;
+}
+.fc {
+  flex: 0 0 380px;
+  background: var(--bg);
+  border: 1px solid var(--brd);
+  border-radius: 10px;
+  padding: 40px 32px;
+  position: relative; overflow: hidden;
+  cursor: default;
+  transition: all 0.5s var(--ease);
+}
+.fc::after {
+  content:''; position:absolute; inset:0;
+  background:var(--y); transform:translateY(101%);
+  transition:transform 0.5s var(--ease); z-index:0;
+}
+.fc:hover::after { transform:translateY(0); }
+.fc:hover { border-color:var(--y); transform:translateY(-6px); box-shadow:0 24px 48px rgba(0,0,0,0.3); }
+.fc > * { position:relative; z-index:1; }
+.fc:hover .fc-n, .fc:hover .fc-t { color:var(--dk); }
+.fc:hover .fc-b { color:rgba(0,0,0,0.6); }
+.fc:hover .fc-tg { border-color:rgba(0,0,0,0.15); color:var(--dk); }
+.fc-n { font-family:var(--ff); font-size:3rem; color:var(--w08); line-height:1; margin-bottom:20px; transition:color 0.4s var(--ease); }
+.fc-t { font-family:var(--ff); font-size:1.6rem; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:10px; transition:color 0.4s var(--ease); }
+.fc-b { font-size:0.9rem; line-height:1.6; color:var(--w50); transition:color 0.4s var(--ease); }
+.fc-tg { display:inline-block; margin-top:18px; padding:4px 12px; font-family:var(--fm); font-size:0.55rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; border:1px solid var(--brd); border-radius:3px; color:var(--w30); transition:all 0.4s var(--ease); }
+
+/* === STEPS === */
+.sg { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:min(6vw,90px); align-items:center; }
+.steps { position:relative; padding-left:48px; }
+.steps::before { content:''; position:absolute; left:18px; top:46px; height:calc(100% - 92px); width:2px; background:var(--y); opacity:0.3; }
+.stp { position:relative; padding:24px 0; opacity:0; transform:translateX(-24px); transition:all 0.7s var(--ease); }
+.stp.in { opacity:1; transform:none; }
+.stp-d {
+  position:absolute; left:-48px; top:28px;
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--ff); font-size:0.95rem;
+  background:var(--y); color:var(--dk); border-radius:50%; z-index:2;
+  transition:transform 0.4s var(--ease), box-shadow 0.4s;
+}
+.stp:hover .stp-d { transform:scale(1.12); box-shadow:0 0 24px var(--yg); }
+.stp:last-child .stp-d { background:var(--y); color:var(--dk); }
+.stp h4 { font-family:var(--ff); font-size:1.35rem; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:3px; }
+.stp p { font-size:0.9rem; line-height:1.55; color:var(--w50); }
+
+/* === STATS === */
+#stats { background:var(--bg2); border-top:1px solid var(--brd); border-bottom:1px solid var(--brd); position:relative; overflow:hidden; }
+.stats-gh { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:var(--ff); font-size:clamp(9rem,26vw,22rem); color:var(--w04); white-space:nowrap; text-transform:uppercase; pointer-events:none; }
+.stats-g { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:36px; position:relative; z-index:2; }
+.stc { text-align:center; padding:36px 0; opacity:0; transform:translateY(24px); transition:all 0.7s var(--ease); }
+.stc.in { opacity:1; transform:none; }
+.stc-n { font-family:var(--ff); font-size:clamp(3rem,5.5vw,5rem); color:var(--y); line-height:1; }
+.stc-l { font-family:var(--fm); font-size:0.65rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--w30); margin-top:8px; }
+.stc-s { font-size:0.75rem; color:var(--w15); margin-top:3px; }
+
+/* === CTA === */
+#cta { background:var(--y); position:relative; overflow:hidden; }
+.cta-gh { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:var(--ff); font-size:clamp(8rem,22vw,20rem); color:rgba(0,0,0,0.04); white-space:nowrap; text-transform:uppercase; pointer-events:none; }
+.cta-in { max-width:720px; margin:0 auto; text-align:center; position:relative; z-index:2; }
+.cta-sl { color:rgba(0,0,0,0.3); }
+.cta-sl::before { background:var(--dk); }
+.cta-t { font-family:var(--ff); font-size:clamp(2.8rem,6.5vw,5.5rem); line-height:0.95; text-transform:uppercase; color:var(--dk); margin-bottom:20px; }
+.cta-tx { font-size:1.1rem; line-height:1.65; color:rgba(0,0,0,0.5); max-width:480px; margin:0 auto 40px; }
+.cta-bts { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+/* === FOOTER === */
+footer { background:var(--bg); border-top:1px solid var(--brd); }
+.ft-in { max-width:1400px; margin:0 auto; padding:52px var(--sp) 36px; }
+.ft-g { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+.ft-br { max-width:260px; }
+.ft-br img { height:40px; margin-bottom:12px; filter:brightness(0) invert(1); opacity:0.5; }
+.ft-br p { font-size:0.82rem; color:var(--w30); line-height:1.65; }
+.ft-c h4 { font-family:var(--fm); font-size:0.58rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--w15); margin-bottom:16px; }
+.ft-c ul { display:flex; flex-direction:column; gap:10px; }
+.ft-c a { font-size:0.82rem; color:var(--w30); transition:color 0.3s; }
+.ft-c a:hover { color:var(--y); }
+.ft-bot { display:flex; justify-content:space-between; align-items:center; padding-top:24px; border-top:1px solid var(--brd); }
+.ft-bot p { font-size:0.72rem; color:var(--w15); }
+.ft-soc { display:flex; gap:6px; }
+.ft-soc a { width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:1px solid var(--brd); border-radius:6px; font-family:var(--fm); font-size:0.6rem; font-weight:700; color:var(--w30); transition:all 0.4s var(--ease); }
+.ft-soc a:hover { background:var(--y); color:var(--dk); border-color:var(--y); }
+
+/* === RESPONSIVE === */
+@media(max-width:1024px) {
+  .stats-g { grid-template-columns:repeat(2,1fr); }
+  .ft-g { grid-template-columns:1fr 1fr; }
+  .fc { flex:0 0 320px; }
+  .fh { flex-direction:column; align-items:flex-start; }
+  .fh .stx { text-align:left; }
+}
+
+@media(max-width:768px) {
+  .nv-links { display:none; }
+  .nv-ham { display:flex; }
+  .hero-title .ln { white-space:normal; }
+  .hero-bot { flex-direction:column; align-items:flex-start; }
+  .hero-crane-rig { height: clamp(120px, 22vh, 200px); bottom: 18%; }
+  .pg,.sg { grid-template-columns:1fr; }
+  .ftr { padding:0 24px 20px; }
+  .fc { flex:0 0 280px; }
+  .stats-g { grid-template-columns:1fr 1fr; }
+  .sp-lg { padding:80px 24px; }
+  .ft-g { grid-template-columns:1fr; }
+  .ft-bot { flex-direction:column; gap:10px; text-align:center; }
+}
+
+@media(max-width:480px) {
+  .stats-g { grid-template-columns:1fr; }
+  .hero-btns { flex-direction:column; width:100%; }
+  .hero-btns .bt { width:100%; justify-content:center; }
+  .cta-bts { flex-direction:column; align-items:center; }
+  .cta-bts .bt { width:100%; justify-content:center; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  .hero-title .ch,.hero-sub,.hero-btns,.hero-label,.hero-crane-rig,.crane-wheel,.rv,.rv-l,.rv-r,.wr .wi,.stp,.stc { opacity:1 !important; transform:none !important; }
+  .tk-tr { animation:none !important; }
+  .ld { display:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="ld" id="ld">
+  <div class="ld-h ld-t"></div>
+  <div class="ld-h ld-b"></div>
+  <div class="ld-c">
+    <div class="ld-w">Boomline</div>
+    <div class="ld-bar"><div class="ld-fill" id="ldF"></div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nv">
+  <div class="nv-in">
+    <a href="#" class="nv-logo"><img src="logo.png" alt="Boomline"></a>
+    <div class="nv-links">
+      <a href="#features">Features</a>
+      <a href="#problem">Why Us</a>
+      <a href="#start-small">Get Started</a>
+      <a href="#stats">Results</a>
+      <a href="#cta" class="nv-cta"><span>Get a Demo</span></a>
+    </div>
+    <div class="nv-ham" id="ham" role="button" tabindex="0" aria-label="Menu"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="mm" id="mm">
+  <a href="#features" onclick="closeMM()">Features</a>
+  <a href="#problem" onclick="closeMM()">Why Us</a>
+  <a href="#start-small" onclick="closeMM()">Get Started</a>
+  <a href="#stats" onclick="closeMM()">Results</a>
+  <a href="#cta" onclick="closeMM()">Get a Demo</a>
+</div>
+
+<!-- HERO (300vh for scroll-driven crane) -->
+<section id="hero">
+  <div class="hero-pin">
+    <div class="hero-ct">
+     <div class="hero-ct-inner">
+      <div class="hero-label" id="hL">
+        <span class="hero-dot"></span>
+        <span class="hero-label-text">Boomline Crane Rental Software</span>
+      </div>
+      <h1 class="hero-title" id="hT">
+        <span class="ln" data-w="Built for"></span>
+        <span class="ln" data-w="Crane" data-m="Companies."></span>
+        <span class="ln" data-w="By Crane People."></span>
+      </h1>
+      <div class="hero-bot">
+        <div class="hero-info">
+          <p class="hero-sub" id="hS">
+            The only all-in-one platform purpose-built for crane rental. Dispatch, fleet, inspections, billing &mdash;
+            designed by people who've actually worked in the field.
+          </p>
+          <div class="hero-btns" id="hB">
+            <a href="#cta" class="bt bt-y"><span>Book a Demo</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="#features" class="bt bt-g"><span>See Features</span></a>
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+    <!-- Environment layers -->
+    <div class="hero-sky"></div>
+    <div class="hero-ground"></div>
+    <!-- Crane layer — drives left to right across the ground -->
+    <div class="hero-crane-layer">
+      <div class="hero-dust" id="craneDust"></div>
+      <div class="hero-crane-rig" id="craneRig">
+        <!-- Body with wheel cutouts -->
+        <img src="crane-body.png" alt="Boomline crane">
+        <!-- Real wheel images extracted from the photo — these rotate -->
+        <div class="crane-wheel" style="left:15.9%;top:72%;width:9.1%;height:16.3%;"><img src="wheel1.png" alt=""></div>
+        <div class="crane-wheel" style="left:27%;top:72%;width:9.1%;height:16.3%;"><img src="wheel2.png" alt=""></div>
+        <div class="crane-wheel" style="left:41.8%;top:71.8%;width:9.1%;height:16.3%;"><img src="wheel3.png" alt=""></div>
+        <div class="crane-wheel" style="left:51.9%;top:71.8%;width:9.1%;height:16.3%;"><img src="wheel4.png" alt=""></div>
+        <div class="crane-wheel" style="left:65.5%;top:72%;width:9.1%;height:16.3%;"><img src="wheel5.png" alt=""></div>
+      </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-hint" id="scrollHint">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="tk">
+  <div class="tk-tr">
+    <span class="tk-i">Dispatch & Scheduling <span class="tk-d"></span></span>
+    <span class="tk-i">Fleet Management <span class="tk-d"></span></span>
+    <span class="tk-i">Digital Inspections <span class="tk-d"></span></span>
+    <span class="tk-i">Invoicing & Billing <span class="tk-d"></span></span>
+    <span class="tk-i">Operator Certifications <span class="tk-d"></span></span>
+    <span class="tk-i">Customer Portal <span class="tk-d"></span></span>
+    <span class="tk-i">Dispatch & Scheduling <span class="tk-d"></span></span>
+    <span class="tk-i">Fleet Management <span class="tk-d"></span></span>
+    <span class="tk-i">Digital Inspections <span class="tk-d"></span></span>
+    <span class="tk-i">Invoicing & Billing <span class="tk-d"></span></span>
+    <span class="tk-i">Operator Certifications <span class="tk-d"></span></span>
+    <span class="tk-i">Customer Portal <span class="tk-d"></span></span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem" class="sp-lg">
+  <div class="pg">
+    <div class="rv-l">
+      <div class="sl">The Problem</div>
+      <h2 class="st wr" style="margin-bottom:20px;">Cookie-cutter software wasn't built for <span class="yl">this industry.</span></h2>
+      <p class="stx" style="margin-bottom:16px;">
+        You've tried the generic tools. The ones built for plumbers, electricians, and everyone else.
+        They don't understand crane dispatching, OSHA inspections, or the complexity of running a crane fleet.
+      </p>
+      <p class="stx"><strong>Boomline is different.</strong> Built from the ground up with crane companies &mdash; not as an afterthought, but as the entire focus.</p>
+    </div>
+    <div class="rv-r">
+      <div class="ba">
+        <div class="ba-h ba-bf">
+          <div class="ba-tag"><span class="ba-dot"></span> Before Boomline</div>
+          <div class="ba-rows"><div class="ba-row"></div><div class="ba-row"></div><div class="ba-row"></div><div class="ba-row"></div></div>
+        </div>
+        <div class="ba-h ba-af">
+          <div class="ba-tag"><span class="ba-dot"></span> After Boomline</div>
+          <div class="ba-dg">
+            <div class="ba-dc"><div class="ba-dn">12</div><div class="ba-dl">Active Jobs</div></div>
+            <div class="ba-dc"><div class="ba-dn">8</div><div class="ba-dl">Cranes Out</div></div>
+            <div class="ba-dc"><div class="ba-dn">96%</div><div class="ba-dl">Utilization</div></div>
+          </div>
+          <div class="ba-rows"><div class="ba-row"></div><div class="ba-row"></div><div class="ba-row"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hz"></div>
+
+<!-- FEATURES — HORIZONTAL SCROLL -->
+<section id="features">
+  <div class="fp" id="fP">
+    <div class="fs">
+      <div class="fh">
+        <div>
+          <div class="sl">Platform</div>
+          <h2 class="st">Everything your crane<br>operation needs.</h2>
+        </div>
+        <p class="stx">Six modules. One platform.<br>Start with what you need.</p>
+      </div>
+      <div class="ft-w">
+        <div class="ftr" id="fT">
+          <div class="fc"><div class="fc-n">01</div><h3 class="fc-t">Dispatch & Scheduling</h3><p class="fc-b">Drag-and-drop dispatch board built for crane logistics. See crew availability, crane locations, and job sites at a glance.</p><span class="fc-tg">Core Module</span></div>
+          <div class="fc"><div class="fc-n">02</div><h3 class="fc-t">Fleet Management</h3><p class="fc-b">Track every crane in your fleet &mdash; maintenance schedules, load charts, location history, and utilization rates.</p><span class="fc-tg">Core Module</span></div>
+          <div class="fc"><div class="fc-n">03</div><h3 class="fc-t">Digital Inspections</h3><p class="fc-b">Replace clipboards with mobile-first forms. Pre-operation checks, annual inspections, OSHA compliance &mdash; all digitized.</p><span class="fc-tg">Safety First</span></div>
+          <div class="fc"><div class="fc-n">04</div><h3 class="fc-t">Invoicing & Billing</h3><p class="fc-b">Generate invoices from job data automatically. Hourly, daily, project-based billing with standby and overtime support.</p><span class="fc-tg">Revenue</span></div>
+          <div class="fc"><div class="fc-n">05</div><h3 class="fc-t">Operator Certifications</h3><p class="fc-b">Track NCCCO certs, medical cards, drug tests, training records. Get alerts before anything expires.</p><span class="fc-tg">Compliance</span></div>
+          <div class="fc"><div class="fc-n">06</div><h3 class="fc-t">Customer Portal</h3><p class="fc-b">Branded portal for customers to request lifts, view job status, download invoices, and approve work.</p><span class="fc-tg">Experience</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- START SMALL -->
+<section id="start-small" class="sp-lg">
+  <div class="sg">
+    <div class="rv-l">
+      <div class="sl">Your Pace</div>
+      <h2 class="st wr" style="margin-bottom:20px;">Never used software? <span class="yl">No problem.</span></h2>
+      <p class="stx" style="margin-bottom:16px;">We know some of the best crane companies still run on whiteboards and phone calls. That's okay. Boomline meets you where you are.</p>
+      <p class="stx" style="margin-bottom:32px;">No forced migrations. No big-bang go-lives. Just steady progress.</p>
+      <a href="#cta" class="bt bt-y"><span>Start Your Journey</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="steps rv-r">
+      <div class="stp" data-d="0"><div class="stp-d">1</div><h4>Start with Dispatch</h4><p>Get your jobs and crews organized in one place. Replace the whiteboard in a week.</p></div>
+      <div class="stp" data-d="150"><div class="stp-d">2</div><h4>Add Digital Inspections</h4><p>Ditch the clipboards. Operators do pre-trip checks on their phones.</p></div>
+      <div class="stp" data-d="300"><div class="stp-d">3</div><h4>Turn On Invoicing</h4><p>Jobs auto-populate invoices. No more double-entry. Bill faster.</p></div>
+      <div class="stp" data-d="450"><div class="stp-d">4</div><h4>Go Full Platform</h4><p>Fleet tracking, certifications, customer portal &mdash; the whole nine yards.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="hz"></div>
+
+<!-- STATS -->
+<section id="stats" class="sp-lg">
+  <div class="stats-gh">BOOMLINE</div>
+  <div class="stats-g">
+    <div class="stc" data-d="0"><div class="stc-n" data-v="500" data-s="+">0</div><div class="stc-l">Crane Companies</div><div class="stc-s">and growing every month</div></div>
+    <div class="stc" data-d="150"><div class="stc-n" data-v="50000" data-s="+">0</div><div class="stc-l">Jobs Managed</div><div class="stc-s">dispatched through Boomline</div></div>
+    <div class="stc" data-d="300"><div class="stc-n" data-v="99.9" data-s="%" data-dec="1">0</div><div class="stc-l">Platform Uptime</div><div class="stc-s">because your jobs don't wait</div></div>
+    <div class="stc" data-d="450"><div class="stc-n" data-v="0" data-ex="ZERO">0</div><div class="stc-l">Paper Needed</div><div class="stc-s">fully digital operation</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="sp-lg">
+  <div class="cta-gh">BOOMLINE</div>
+  <div class="cta-in rv">
+    <div class="sl cta-sl">Let's Go</div>
+    <h2 class="cta-t">Ready to modernize<br>your operation?</h2>
+    <p class="cta-tx">Join hundreds of crane companies already running smarter with Boomline. Book a 15-minute demo.</p>
+    <div class="cta-bts">
+      <a href="#" class="bt bt-d"><span>Book a Demo</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="#" class="bt bt-g" style="border-color:rgba(0,0,0,0.12);color:rgba(0,0,0,0.5);"><span>Contact Sales</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="hz"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div class="ft-g">
+      <div class="ft-br"><img src="logo.png" alt="Boomline"><p>Purpose-built crane rental software. From dispatch to invoicing, we've got your operation covered.</p></div>
+      <div class="ft-c"><h4>Platform</h4><ul><li><a href="#">Dispatch</a></li><li><a href="#">Fleet Management</a></li><li><a href="#">Inspections</a></li><li><a href="#">Invoicing</a></li><li><a href="#">Certifications</a></li><li><a href="#">Customer Portal</a></li></ul></div>
+      <div class="ft-c"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div class="ft-c"><h4>Resources</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">API Docs</a></li><li><a href="#">Status Page</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+    </div>
+    <div class="ft-bot"><p>&copy; 2026 Boomline, Inc. All rights reserved.</p><div class="ft-soc"><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Twitter">X</a><a href="#" aria-label="YouTube">YT</a></div></div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  /* LENIS */
+  const lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), touchMultiplier:2 });
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* LOADER */
+  const ld = document.getElementById('ld');
+  const ldF = document.getElementById('ldF');
+  let lp = 0;
+  const li = setInterval(()=>{ lp+=Math.random()*25+15; if(lp>100)lp=100; ldF.style.width=lp+'%'; if(lp>=100)clearInterval(li); },120);
+  window.addEventListener('load',()=>{
+    ldF.style.width='100%';
+    setTimeout(()=>{ ld.classList.add('done'); setTimeout(heroGo,350); setTimeout(()=>ld.classList.add('gone'),1400); },500);
+  });
+
+  /* HERO CHARS */
+  const hT = document.getElementById('hT');
+  hT.querySelectorAll('.ln').forEach(ln=>{
+    const txt = ln.dataset.w||'';
+    const mrk = ln.dataset.m||'';
+    let h = '';
+    txt.split(' ').filter(Boolean).forEach((word,i,arr)=>{
+      h += '<span class="wd">';
+      for(const c of word) h += '<span class="ch">'+c+'</span>';
+      h += '</span>';
+      if(i<arr.length-1 || mrk) h += '<span class="ch sp"> </span>';
+    });
+    if(mrk){
+      mrk.split(' ').filter(Boolean).forEach((word,i,arr)=>{
+        h += '<span class="wd">';
+        for(const c of word) h += '<span class="ch yl">'+c+'</span>';
+        h += '</span>';
+        if(i<arr.length-1) h += '<span class="ch sp yl"> </span>';
+      });
+    }
+    ln.innerHTML = h;
+  });
+
+  function heroGo(){
+    // Label fades in on load, text reveals are scroll-driven
+    document.getElementById('hL').classList.add('in');
+  }
+
+  /* SCROLL-DRIVEN CRANE + TEXT — pinned hero, everything driven by scroll % */
+  const heroSec = document.getElementById('hero');
+  const craneRig = document.getElementById('craneRig');
+  const craneDust = document.getElementById('craneDust');
+  const craneWheels = document.querySelectorAll('.crane-wheel');
+  const heroLines = hT.querySelectorAll('.ln');
+  const hLabel = document.getElementById('hL');
+  const hSub = document.getElementById('hS');
+  const hBtns = document.getElementById('hB');
+  const scrollHint = document.getElementById('scrollHint');
+
+  const linesRevealed = [false, false, false];
+  let subRevealed = false;
+
+  function tickHero(){
+    if(!craneRig || !heroSec){ requestAnimationFrame(tickHero); return; }
+
+    const rect = heroSec.getBoundingClientRect();
+    const total = heroSec.offsetHeight - window.innerHeight;
+    const scrolled = Math.max(0, -rect.top);
+    const p = Math.min(1, scrolled / total);
+
+    /* CRANE: left-to-right. Uses 0-75% of scroll range. */
+    const craneP = Math.min(1, p / 0.75);
+    const vw = window.innerWidth;
+    const rigW = craneRig.offsetWidth || 700;
+    const startX = -rigW - 60;
+    const endX = vw + 120;
+    const cx = startX + (endX - startX) * craneP;
+    craneRig.style.transform = 'translateX(' + cx + 'px)';
+
+    /* WHEELS: spin the real wheel images proportional to distance */
+    const distancePx = (endX - startX) * craneP;
+    const wheelRotation = (distancePx / 180) * 360; // ~180px per full revolution
+    craneWheels.forEach(w => {
+      const wheelImg = w.querySelector('img');
+      if(wheelImg) wheelImg.style.transform = 'rotate(' + wheelRotation + 'deg)';
+    });
+
+    /* DUST: trails behind the crane */
+    if(craneDust){
+      craneDust.style.transform = 'translateX(' + (cx - 140) + 'px)';
+      craneDust.style.opacity = (craneP > 0.03 && craneP < 0.92) ? '1' : '0';
+    }
+
+    /* TEXT: scroll-synced reveals */
+    const lineThresholds = [0.03, 0.15, 0.30];
+    heroLines.forEach((ln, i) => {
+      if (!linesRevealed[i] && p >= lineThresholds[i]) {
+        linesRevealed[i] = true;
+        ln.querySelectorAll('.ch').forEach((c, ci) => {
+          setTimeout(() => c.classList.add('in'), ci * 30);
+        });
+      }
+    });
+
+    if(p >= 0.01) hLabel.classList.add('in');
+    if(scrollHint) scrollHint.classList.toggle('hide', p > 0.05);
+
+    if(!subRevealed && p >= 0.42){
+      subRevealed = true;
+      hSub.classList.add('in');
+      hBtns.classList.add('in');
+    }
+
+    requestAnimationFrame(tickHero);
+  }
+  requestAnimationFrame(tickHero);
+
+  /* WORD REVEAL INIT */
+  document.querySelectorAll('.wr').forEach(el=>{
+    if(el.dataset.done)return; el.dataset.done='1';
+    const tmp=document.createElement('div'); tmp.innerHTML=el.innerHTML;
+    (function walk(p){
+      Array.from(p.childNodes).forEach(n=>{
+        if(n.nodeType===3){
+          const ws=n.textContent.split(/(\s+)/);
+          const f=document.createDocumentFragment();
+          ws.forEach(w=>{
+            if(/^\s+$/.test(w)){f.appendChild(document.createTextNode(w));}
+            else if(w){const s=document.createElement('span');s.className='w';const i=document.createElement('span');i.className='wi';i.textContent=w;s.appendChild(i);f.appendChild(s);}
+          });
+          p.replaceChild(f,n);
+        } else if(n.nodeType===1) walk(n);
+      });
+    })(tmp);
+    el.innerHTML=tmp.innerHTML;
+    el.querySelectorAll('.wi').forEach((w,i)=>{w.style.transitionDelay=i*0.04+'s';});
+  });
+
+  /* OBSERVERS */
+  function obs(sel,cls,opt){
+    const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const d=parseInt(e.target.dataset.d)||0;setTimeout(()=>e.target.classList.add(cls),d);o.unobserve(e.target);}});},opt||{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll(sel).forEach(e=>o.observe(e));
+  }
+  obs('.rv,.rv-l,.rv-r','in');
+  obs('.wr','in',{threshold:0.2});
+  obs('.stp','in',{threshold:0.3});
+
+  /* HORIZONTAL SCROLL */
+  const fP=document.getElementById('fP');
+  const fT=document.getElementById('fT');
+  function tickFeatures(){
+    if(fP&&fT){
+      const r=fP.getBoundingClientRect();
+      const range=fP.offsetHeight-window.innerHeight;
+      const s=-r.top;
+      if(s<=0){ fT.style.transform='translateX(0)'; }
+      else if(s>=range){ const mx=fT.scrollWidth-window.innerWidth+80; fT.style.transform='translateX('+-mx+'px)'; }
+      else { const p=s/range; const mx=fT.scrollWidth-window.innerWidth+80; fT.style.transform='translateX('+-p*mx+'px)'; }
+    }
+    requestAnimationFrame(tickFeatures);
+  }
+  requestAnimationFrame(tickFeatures);
+
+  /* STAT COUNTERS */
+  function ctr(el){
+    const t=parseFloat(el.dataset.v);
+    const sf=el.dataset.s||'';
+    const ex=el.dataset.ex||null;
+    const dc=parseInt(el.dataset.dec)||0;
+    if(ex){let it=0;const mx=ex.length*8;const iv=setInterval(()=>{let r='';for(let i=0;i<ex.length;i++)r+=it>i*8?ex[i]:'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.random()*36|0];el.textContent=r;if(++it>mx){clearInterval(iv);el.textContent=ex;}},30);return;}
+    const dur=2000;const t0=performance.now();
+    (function step(now){const p=Math.min((now-t0)/dur,1);const e=1-Math.pow(1-p,4);const v=t*e;el.textContent=(dc?v.toFixed(dc):Math.round(v).toLocaleString())+sf;if(p<1)requestAnimationFrame(step);else el.textContent=(dc?t.toFixed(dc):t.toLocaleString())+sf;})(t0);
+  }
+  const sO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const d=parseInt(e.target.dataset.d)||0;setTimeout(()=>{e.target.classList.add('in');ctr(e.target.querySelector('.stc-n'));},d);sO.unobserve(e.target);}});},{threshold:0.3});
+  document.querySelectorAll('.stc').forEach(s=>sO.observe(s));
+
+  /* MOBILE MENU */
+  const ham=document.getElementById('ham');
+  const mm=document.getElementById('mm');
+  ham.addEventListener('click',()=>{
+    mm.classList.toggle('on');
+    const sp=ham.querySelectorAll('span');
+    if(mm.classList.contains('on')){sp[0].style.transform='rotate(45deg) translate(5px,5px)';sp[1].style.opacity='0';sp[2].style.transform='rotate(-45deg) translate(5px,-5px)';}
+    else{sp[0].style.transform='';sp[1].style.opacity='1';sp[2].style.transform='';}
+  });
+  window.closeMM=function(){mm.classList.remove('on');const sp=ham.querySelectorAll('span');sp[0].style.transform='';sp[1].style.opacity='1';sp[2].style.transform='';};
+
+  /* SMOOTH SCROLL */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',function(e){const t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-80});}});
+  });
+
+})();
+</script>
+</body>
+</html>
