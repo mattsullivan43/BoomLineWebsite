@@ -33,8 +33,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: SPA fallback (copy index.html → 404.html)
-        run: cp dist/index.html dist/404.html
+      - name: SPA fallback + pre-render routes for SEO
+        run: |
+          cp dist/index.html dist/404.html
+          mkdir -p dist/features dist/about
+          cp dist/index.html dist/features/index.html
+          cp dist/index.html dist/about/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
