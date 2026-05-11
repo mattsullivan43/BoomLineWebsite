@@ -7,6 +7,7 @@ import {
   Calculator,
   Activity,
   MapPin,
+  FileSignature,
   Wrench,
   ClipboardList,
   Construction,
@@ -60,7 +61,7 @@ const categories: Category[] = [
       {
         Icon: Send,
         title: 'Daily Dispatch',
-        body: 'Employee status board. Available, assigned, off. One-click assignments and notifications to the field.',
+        body: 'One board for the whole day. See who’s available, assigned, or off — then push the dispatch to every employee and outside trucking partner at once.',
       },
       {
         Icon: Lightbulb,
@@ -81,6 +82,12 @@ const categories: Category[] = [
         Icon: MapPin,
         title: 'Job-site Logistics',
         body: 'Address, contact, lift specs, access notes. Everything the operator needs before showing up.',
+      },
+      {
+        Icon: FileSignature,
+        title: 'Field Tickets',
+        body: 'Customer signatures, job-site photos, and ticket sign-offs — captured on a phone from the field and attached to the work order.',
+        tag: 'coming soon',
       },
     ],
   },
@@ -192,28 +199,31 @@ const categories: Category[] = [
     eyebrow: 'Finance',
     title: 'Bill faster. Get paid faster.',
     description:
-      'Job data flows straight to invoices. Invoices flow straight to QuickBooks.',
+      'Job data flows straight to invoices. Invoices flow straight to QuickBooks. Rolling out next — every card below is on the roadmap.',
     features: [
       {
         Icon: Receipt,
         title: 'Billing',
         body: 'Hourly, daily, or project-based. Standby, overtime, travel, mileage — all built in.',
+        tag: 'coming soon',
       },
       {
         Icon: DollarSign,
         title: 'Invoicing',
         body: 'Generate from job data automatically. Email to customer. Track sent / viewed / paid.',
+        tag: 'coming soon',
       },
       {
         Icon: RefreshCw,
         title: 'QuickBooks Integration',
         body: 'Two-way sync. Customers, items, invoices, payments. No double-entry, ever.',
-        tag: 'integration',
+        tag: 'coming soon',
       },
       {
         Icon: TrendingUp,
         title: 'Outstanding AR',
         body: 'Past-due tracking with aging buckets. One-click resend. See concentration by customer.',
+        tag: 'coming soon',
       },
     ],
   },
@@ -266,7 +276,7 @@ export default function Features() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden pt-32 pb-12 sm:pt-40 sm:pb-16">
+      <section className="relative overflow-hidden pt-28 pb-10 sm:pt-40 sm:pb-16">
         <div className="absolute inset-0 dot-bg mask-fade pointer-events-none" />
         <div
           className="absolute left-1/2 -top-32 -translate-x-1/2 w-[1100px] h-[600px] rounded-full opacity-50 pointer-events-none blur-3xl"
@@ -307,8 +317,13 @@ export default function Features() {
             transition={{ duration: 0.7, delay: 0.15, ease }}
             className="mt-7 text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
           >
-            Six pillars. Dozens of modules. One platform that doesn&rsquo;t
-            stitch together. Every screen below is shipping in production.
+            Six pillars. Dozens of modules. Modular by design &mdash; turn on
+            the ones you need today, add the rest as your operation grows.
+            Items marked{' '}
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-yellow)] border border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06] rounded-full px-2 py-0.5 align-middle">
+              coming soon
+            </span>{' '}
+            are on the near-term roadmap.
           </motion.p>
 
           <motion.div
@@ -439,7 +454,14 @@ function CategorySection({ cat, index }: { cat: Category; index: number }) {
                     <Icon size={18} strokeWidth={1.75} />
                   </span>
                   {f.tag && (
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-white/35 border border-white/10 rounded-full px-2 py-0.5">
+                    <span
+                      className={[
+                        'font-mono text-[9px] uppercase tracking-widest rounded-full px-2 py-0.5 border',
+                        f.tag === 'coming soon'
+                          ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
+                          : 'text-white/35 border-white/10',
+                      ].join(' ')}
+                    >
                       {f.tag}
                     </span>
                   )}

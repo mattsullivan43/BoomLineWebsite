@@ -77,7 +77,7 @@ export default function Nav() {
 
         <button
           aria-label="Toggle menu"
-          className="md:hidden p-2 -mr-1 text-white/80"
+          className="md:hidden -mr-1 w-11 h-11 flex items-center justify-center rounded-lg text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10 transition-colors"
           onClick={() => setOpen((o) => !o)}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -94,12 +94,12 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div className="pointer-events-auto md:hidden mt-2 max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl p-4 flex flex-col gap-1">
+        <div className="pointer-events-auto md:hidden mt-2 max-w-6xl mx-auto rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl p-3 flex flex-col gap-1">
           {links.map((link) => (
             <Link
               key={'m-' + link.to + link.label}
               to={link.to}
-              className="px-3 py-2.5 text-sm text-white/80 hover:text-white rounded-lg"
+              className="px-3 py-3 text-base text-white/80 hover:text-white rounded-lg"
             >
               {link.label}
             </Link>
@@ -111,7 +111,7 @@ export default function Nav() {
               setOpen(false)
               openDemo()
             }}
-            className="px-3 py-2.5 text-sm font-medium bg-white text-black rounded-lg text-center"
+            className="px-3 py-3 text-sm font-medium bg-white text-black rounded-lg text-center"
           >
             Book a demo
           </button>

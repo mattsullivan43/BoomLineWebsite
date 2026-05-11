@@ -22,8 +22,8 @@ const values = [
   },
   {
     n: '04',
-    title: 'Steady progress',
-    body: 'No big-bang go-lives. Adopt module by module, on your timeline.',
+    title: 'Modular by design',
+    body: 'No big-bang go-lives. Turn on the modules you need today, add — or drop — features as your operation changes. Adopt on your timeline, not ours.',
   },
 ]
 
@@ -32,7 +32,7 @@ export default function About() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24">
+      <section className="relative overflow-hidden pt-28 pb-16 sm:pt-40 sm:pb-24">
         <div className="absolute inset-0 dot-bg mask-fade pointer-events-none" />
         <div
           className="absolute left-1/2 -top-40 -translate-x-1/2 w-[1000px] h-[500px] rounded-full opacity-50 pointer-events-none blur-3xl"

@@ -4,12 +4,20 @@ import logo from '../assets/boomline-logo.png'
 import FeatureMarquee from '../components/FeatureMarquee'
 import { useDemo } from '../contexts/DemoContext'
 
-const features = [
+type HomeFeature = {
+  n: string
+  title: string
+  body: string
+  span: string
+  tag?: string
+}
+
+const features: HomeFeature[] = [
   {
     n: '01',
     title: 'Dispatch & Scheduling',
     body:
-      'Drag-and-drop board built for crane logistics. See crew availability, crane locations, and job sites at a glance.',
+      'One board for the day. See crews, cranes, and job sites at a glance — then push the dispatch to every employee and outside trucking partner in a single tap.',
     span: 'md:col-span-3',
   },
   {
@@ -32,6 +40,7 @@ const features = [
     body:
       'Generate invoices from job data automatically. Hourly, daily, or project-based.',
     span: 'md:col-span-2',
+    tag: 'coming soon',
   },
   {
     n: '05',
@@ -100,9 +109,10 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
                 className="mt-6 text-base sm:text-lg text-white/60 max-w-xl leading-relaxed"
               >
-                Dispatch, fleet, inspections, billing, and role-based access —
-                in one platform built by people who&rsquo;ve actually run a
-                crane company.
+                Dispatch, fleet, inspections, certifications, and more &mdash;
+                modular by design. Turn on the modules you need today, add the
+                rest as your operation grows. Built by people who&rsquo;ve
+                actually run a crane company.
               </motion.p>
 
               <motion.div
@@ -131,12 +141,12 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="mt-12 flex items-center gap-6 text-xs text-white/30 font-mono uppercase tracking-widest"
+                className="mt-12 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-xs text-white/30 font-mono uppercase tracking-widest"
               >
                 <span>OSHA Ready</span>
-                <span className="w-1 h-1 rounded-full bg-white/20" />
+                <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-white/20" />
                 <span>Built in the Field</span>
-                <span className="w-1 h-1 rounded-full bg-white/20" />
+                <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-white/20" />
                 <span>Owner-Operated</span>
               </motion.div>
             </div>
@@ -147,12 +157,12 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
               className="md:col-span-5 flex justify-center md:justify-end"
             >
-              <div className="relative">
+              <div className="relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[440px]">
                 <div className="absolute inset-0 bg-[var(--color-yellow)]/20 blur-3xl scale-110" />
                 <img
                   src={logo}
                   alt="Boomline"
-                  className="relative w-full max-w-[440px] h-auto drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+                  className="relative w-full h-auto drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
                 />
               </div>
             </motion.div>
@@ -259,15 +269,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-                Platform
+                Platform &middot; Modular
               </p>
               <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] leading-[1.02] text-white text-balance">
                 Everything your crane operation needs.
               </h2>
             </div>
             <div className="flex flex-col items-start md:items-end gap-3">
-              <p className="text-white/50 max-w-xs text-sm md:text-right">
-                Five core modules. One platform. Adopt at your pace.
+              <p className="text-white/55 max-w-sm text-sm md:text-right leading-relaxed">
+                Pick the modules you need today. Add &mdash; or drop &mdash;
+                anything as your operation changes. Some modules are still
+                shipping; we&rsquo;ll mark those{' '}
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-yellow)] border border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06] rounded-full px-1.5 py-0.5 align-middle">
+                  coming soon
+                </span>
+                .
               </p>
               <Link
                 to="/features"
@@ -304,9 +320,22 @@ export default function Home() {
                   <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
                     {f.n}
                   </span>
-                  <span className="w-8 h-8 rounded-lg border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </span>
+                  {f.tag ? (
+                    <span
+                      className={[
+                        'font-mono text-[9px] uppercase tracking-widest rounded-full border px-2 py-0.5',
+                        f.tag === 'coming soon'
+                          ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
+                          : 'text-white/35 border-white/10',
+                      ].join(' ')}
+                    >
+                      {f.tag}
+                    </span>
+                  ) : (
+                    <span className="w-8 h-8 rounded-lg border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  )}
                 </div>
 
                 <h3 className="text-lg sm:text-xl font-semibold text-white tracking-tight mb-2">

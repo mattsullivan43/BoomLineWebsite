@@ -16,6 +16,7 @@ import {
   Container,
   Construction,
   FileCheck2,
+  FileSignature,
   Award,
   BarChart3,
   RefreshCw,
@@ -31,8 +32,9 @@ const features: Feature[] = [
   { label: 'Unscheduled Jobs', Icon: Lightbulb },
   { label: 'Operations', Icon: Activity },
   { label: 'Quotes', Icon: Calculator },
-  { label: 'Billing', Icon: Receipt },
-  { label: 'QuickBooks Sync', Icon: RefreshCw, tag: 'integration' },
+  { label: 'Billing', Icon: Receipt, tag: 'coming soon' },
+  { label: 'QuickBooks Sync', Icon: RefreshCw, tag: 'coming soon' },
+  { label: 'Field Tickets', Icon: FileSignature, tag: 'coming soon' },
   { label: 'Voice AI', Icon: Mic, tag: 'optional' },
   { label: 'TimeSheets', Icon: Clock },
   { label: 'Time Off', Icon: CalendarOff },
@@ -76,22 +78,29 @@ export default function FeatureMarquee({
           return (
             <div
               key={`${f.label}-${i}`}
-              className="shrink-0 inline-flex items-center gap-3 px-8"
+              className="shrink-0 inline-flex items-center gap-2.5 sm:gap-3 px-5 sm:px-8"
             >
               <Icon
                 size={18}
                 strokeWidth={1.75}
                 className="text-[var(--color-yellow)] shrink-0"
               />
-              <span className="text-[15px] font-medium text-white/80 whitespace-nowrap tracking-tight">
+              <span className="text-sm sm:text-[15px] font-medium text-white/80 whitespace-nowrap tracking-tight">
                 {f.label}
               </span>
               {f.tag && (
-                <span className="font-mono text-[9px] uppercase tracking-widest text-white/30 ml-1">
-                  · {f.tag}
+                <span
+                  className={[
+                    'ml-1 font-mono text-[9px] uppercase tracking-widest rounded-full border px-2 py-0.5',
+                    f.tag === 'coming soon'
+                      ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
+                      : 'text-white/35 border-white/10',
+                  ].join(' ')}
+                >
+                  {f.tag}
                 </span>
               )}
-              <span aria-hidden className="ml-8 w-1 h-1 rounded-full bg-white/15" />
+              <span aria-hidden className="ml-5 sm:ml-8 w-1 h-1 rounded-full bg-white/15" />
             </div>
           )
         })}

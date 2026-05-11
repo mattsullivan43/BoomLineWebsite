@@ -116,15 +116,15 @@ export default function DemoModal({
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-2)] p-6 sm:p-8 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]"
+            className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-2)] p-5 sm:p-8 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]"
           >
             <button
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors z-10"
+              className="absolute top-3 right-3 w-10 h-10 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors z-10"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
 
             {status === 'success' ? (
@@ -260,7 +260,7 @@ function Field({
         required={required}
         autoComplete={autoComplete}
         disabled={disabled}
-        className="px-3 py-2.5 rounded-lg border border-white/10 bg-white/[0.03] text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--color-yellow)]/40 focus:bg-white/[0.05] transition-colors disabled:opacity-50"
+        className="px-3 py-3 rounded-lg border border-white/10 bg-white/[0.03] text-base sm:text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--color-yellow)]/40 focus:bg-white/[0.05] transition-colors disabled:opacity-50"
       />
     </label>
   )
