@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import FeatureMarquee from '../components/FeatureMarquee'
 import { useDemo } from '../contexts/DemoContext'
 import mattHeadshot from '../assets/matt-headshot.jpg'
+import jasonHeadshot from '../assets/IMG_9970.png'
 
 const values = [
   {
@@ -187,7 +188,7 @@ export default function About() {
               transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
               className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden hover:border-white/20 transition-colors"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-white/[0.03] relative">
+              <div className="aspect-square overflow-hidden bg-white/[0.03] relative">
                 <img
                   src={mattHeadshot}
                   alt="Matt Sullivan"
@@ -215,7 +216,7 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Jason — placeholder until photo */}
+            {/* Jason */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -223,11 +224,13 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.08, ease: [0.19, 1, 0.22, 1] }}
               className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden hover:border-white/20 transition-colors"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-[var(--color-yellow)]/10 via-white/[0.02] to-transparent relative flex items-center justify-center">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">
-                  Photo coming soon
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+              <div className="aspect-square overflow-hidden bg-white/[0.03] relative">
+                <img
+                  src={jasonHeadshot}
+                  alt="Jason"
+                  className="w-full h-full object-cover object-top grayscale-[0.15] group-hover:grayscale-0 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               </div>
               <div className="p-6 sm:p-7">
                 <div className="flex items-baseline justify-between flex-wrap gap-2 mb-2">
