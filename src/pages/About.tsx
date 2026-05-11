@@ -227,7 +227,7 @@ export default function About() {
               <div className="aspect-square overflow-hidden bg-white/[0.03] relative">
                 <img
                   src={jasonHeadshot}
-                  alt="Jason"
+                  alt="Jason O'Donnell"
                   className="w-full h-full object-cover object-top grayscale-[0.15] group-hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -235,7 +235,7 @@ export default function About() {
               <div className="p-6 sm:p-7">
                 <div className="flex items-baseline justify-between flex-wrap gap-2 mb-2">
                   <h3 className="text-2xl font-bold tracking-tight text-white">
-                    Jason
+                    Jason O&rsquo;Donnell
                   </h3>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-yellow)]">
                     Co-founder
