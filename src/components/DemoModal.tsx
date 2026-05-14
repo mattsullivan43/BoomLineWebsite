@@ -65,7 +65,7 @@ export default function DemoModal({
     setStatus('submitting')
     setErrorMsg('')
 
-    const payload = {
+    const body = new URLSearchParams({
       'First Name': form.firstName,
       'Last Name': form.lastName,
       Email: form.email,
@@ -74,16 +74,16 @@ export default function DemoModal({
       _subject: 'Demo Request — Boomline',
       _template: 'table',
       _captcha: 'false',
-    }
+    })
 
     try {
+      // Send as application/x-www-form-urlencoded so the request stays a CORS
+      // "simple request" and skips the preflight that FormSubmit's /ajax/
+      // endpoint does not answer.
       const res = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(payload),
+        headers: { Accept: 'application/json' },
+        body,
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !(data?.success === 'true' || data?.success === true)) {
