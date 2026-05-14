@@ -32,9 +32,9 @@ const features: Feature[] = [
   { label: 'Unscheduled Jobs', Icon: Lightbulb },
   { label: 'Operations', Icon: Activity },
   { label: 'Quotes', Icon: Calculator },
-  { label: 'Billing', Icon: Receipt, tag: 'coming soon' },
-  { label: 'QuickBooks Sync', Icon: RefreshCw, tag: 'coming soon' },
-  { label: 'Field Tickets', Icon: FileSignature, tag: 'coming soon' },
+  { label: 'Billing', Icon: Receipt, tag: 'beta' },
+  { label: 'QuickBooks Sync', Icon: RefreshCw, tag: 'beta' },
+  { label: 'Field Tickets', Icon: FileSignature, tag: 'beta' },
   { label: 'Voice AI', Icon: Mic, tag: 'optional' },
   { label: 'TimeSheets', Icon: Clock },
   { label: 'Time Off', Icon: CalendarOff },
@@ -92,7 +92,7 @@ export default function FeatureMarquee({
                 <span
                   className={[
                     'ml-1 font-mono text-[9px] uppercase tracking-widest rounded-full border px-2 py-0.5',
-                    f.tag === 'coming soon'
+                    f.tag === 'beta'
                       ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
                       : 'text-white/35 border-white/10',
                   ].join(' ')}

@@ -51,7 +51,7 @@ const categories: Category[] = [
     eyebrow: 'Operations',
     title: 'Run the day, every day.',
     description:
-      'The board, the calendar, the dispatch — everything your foreman touches before coffee.',
+      'The board, the calendar, the dispatch — everything your foreman needs to run the day.',
     features: [
       {
         Icon: Briefcase,
@@ -71,12 +71,12 @@ const categories: Category[] = [
       {
         Icon: Calculator,
         title: 'Quotes',
-        body: 'Build quotes from rate cards. Convert to jobs in one click. Send PDF to customer.',
+        body: 'Build quotes from rate cards. Convert to jobs in one step. Send PDF to customer.',
       },
       {
         Icon: Activity,
         title: 'Operations Hub',
-        body: 'Live status of every active job — on-site, en-route, pre-op, complete.',
+        body: 'Real-time job status updates from the field — pre-op, on site, complete.',
       },
       {
         Icon: MapPin,
@@ -86,13 +86,13 @@ const categories: Category[] = [
       {
         Icon: FileSignature,
         title: 'Field Tickets',
-        body: 'Customer signatures, job-site photos, and ticket sign-offs — captured on a phone from the field and attached to the work order.',
-        tag: 'coming soon',
+        body: 'Customer signatures, job-site photos, and ticket sign-offs — captured in the field and attached to the work order.',
+        tag: 'beta',
       },
     ],
   },
   {
-    eyebrow: 'Fleet & Maintenance',
+    eyebrow: 'Equipment & Maintenance',
     title: 'Cranes that earn their keep.',
     description:
       'Track every asset. Catch problems before downtime. Keep your inspectors happy.',
@@ -110,7 +110,7 @@ const categories: Category[] = [
       {
         Icon: Construction,
         title: 'Cranes',
-        body: 'Full asset record per machine. Hours, miles, location, certifications, maintenance log, work order history.',
+        body: 'Full asset record per machine. Hours, miles, certifications, maintenance log, work order history.',
       },
       {
         Icon: Truck,
@@ -120,7 +120,7 @@ const categories: Category[] = [
       {
         Icon: Container,
         title: 'Trailers',
-        body: 'Lowboys, flatbeds, jeeps. Inspection schedules, load ratings, current location.',
+        body: 'Lowboys, flatbeds, jeeps. Inspection schedules, load ratings, current assignment.',
       },
       {
         Icon: RefreshCw,
@@ -143,7 +143,7 @@ const categories: Category[] = [
       {
         Icon: Clock,
         title: 'TimeSheets',
-        body: 'Weekly grid by employee. ST and OT auto-calc by job. Export to PDF or push to QuickBooks.',
+        body: 'Weekly grid by employee. ST and OT auto-calc by job. Export to PDF.',
       },
       {
         Icon: CalendarOff,
@@ -153,7 +153,7 @@ const categories: Category[] = [
       {
         Icon: ListChecks,
         title: 'My Assignments',
-        body: 'Each employee sees only their schedule. Today’s job, this week’s plan, on their phone.',
+        body: 'Each employee sees only their schedule. Today’s job, this week’s plan, from any device.',
       },
       {
         Icon: UserCheck,
@@ -176,7 +176,7 @@ const categories: Category[] = [
       {
         Icon: ClipboardCheck,
         title: 'Pre-Op Inspections',
-        body: 'Mobile-first checklists keyed to crane type. Filed automatically with the job record.',
+        body: 'Checklists keyed to crane type. Filed directly to the job record.',
       },
       {
         Icon: ShieldCheck,
@@ -196,34 +196,34 @@ const categories: Category[] = [
     ],
   },
   {
-    eyebrow: 'Finance',
+    eyebrow: 'Revenue Tracking',
     title: 'Bill faster. Get paid faster.',
     description:
-      'Job data flows straight to invoices. Invoices flow straight to QuickBooks. Rolling out next — every card below is on the roadmap.',
+      'Job data flows straight to invoices. Invoices flow straight to QuickBooks. Every card below is in active beta.',
     features: [
       {
         Icon: Receipt,
         title: 'Billing',
         body: 'Hourly, daily, or project-based. Standby, overtime, travel, mileage — all built in.',
-        tag: 'coming soon',
+        tag: 'beta',
       },
       {
         Icon: DollarSign,
         title: 'Invoicing',
-        body: 'Generate from job data automatically. Email to customer. Track sent / viewed / paid.',
-        tag: 'coming soon',
+        body: 'Generate from job data. Email to customer. Track sent / viewed / paid.',
+        tag: 'beta',
       },
       {
         Icon: RefreshCw,
         title: 'QuickBooks Integration',
         body: 'Two-way sync. Customers, items, invoices, payments. No double-entry, ever.',
-        tag: 'coming soon',
+        tag: 'beta',
       },
       {
         Icon: TrendingUp,
         title: 'Outstanding AR',
-        body: 'Past-due tracking with aging buckets. One-click resend. See concentration by customer.',
-        tag: 'coming soon',
+        body: 'Past-due tracking with aging buckets. Resend in one step. See concentration by customer.',
+        tag: 'beta',
       },
     ],
   },
@@ -242,7 +242,7 @@ const categories: Category[] = [
       {
         Icon: Sparkles,
         title: 'AI Business Analyst',
-        body: 'Ask "which crane underperformed this quarter?" or "who’s our concentration risk?" — the AI reads your data and answers in plain English.',
+        body: 'Ask "which crane underperformed this quarter?" or "who’s our concentration risk?" — the AI reads your data and answers in clear, direct language.',
         tag: 'optional',
       },
       {
@@ -317,13 +317,13 @@ export default function Features() {
             transition={{ duration: 0.7, delay: 0.15, ease }}
             className="mt-7 text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
           >
-            Six pillars. Dozens of modules. Modular by design &mdash; turn on
-            the ones you need today, add the rest as your operation grows.
-            Items marked{' '}
+            Everything from dispatch to the back office. Start small or
+            run the full platform — we flip features on as you grow. Items
+            marked{' '}
             <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-yellow)] border border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06] rounded-full px-2 py-0.5 align-middle">
-              coming soon
+              beta
             </span>{' '}
-            are on the near-term roadmap.
+            are actively rolling out.
           </motion.p>
 
           <motion.div
@@ -457,7 +457,7 @@ function CategorySection({ cat, index }: { cat: Category; index: number }) {
                     <span
                       className={[
                         'font-mono text-[9px] uppercase tracking-widest rounded-full px-2 py-0.5 border',
-                        f.tag === 'coming soon'
+                        f.tag === 'beta'
                           ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
                           : 'text-white/35 border-white/10',
                       ].join(' ')}

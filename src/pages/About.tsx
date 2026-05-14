@@ -23,8 +23,8 @@ const values = [
   },
   {
     n: '04',
-    title: 'Modular by design',
-    body: 'No big-bang go-lives. Turn on the modules you need today, add — or drop — features as your operation changes. Adopt on your timeline, not ours.',
+    title: 'We grow with you',
+    body: 'Start small with what you need today, or run the full platform from day one — we flip features on as you’re ready. Add or drop as your operation changes.',
   },
 ]
 
@@ -104,9 +104,9 @@ export default function About() {
               </p>
               <p>
                 We&rsquo;re building the operating system for crane rental:
-                one platform for dispatch, fleet, inspections, billing, and
-                the whole crew &mdash; from the admin to the foreman to the
-                operator on shift.
+                one platform for dispatch, equipment, inspections, billing,
+                and the whole crew &mdash; from the admin to the foreman to
+                the operator on shift.
               </p>
               <p className="text-white/90">
                 The goal is simple: make the best crane companies in the

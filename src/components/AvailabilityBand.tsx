@@ -42,24 +42,24 @@ export default function AvailabilityBand() {
               </span>
             </a>
 
-            {/* Google Play — coming soon */}
+            {/* Google Play — beta */}
             <div
               role="button"
               aria-disabled="true"
-              aria-label="Google Play — coming soon"
+              aria-label="Google Play — beta"
               className="relative inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] opacity-75 cursor-not-allowed"
             >
               <PlayIcon className="shrink-0 grayscale opacity-70" />
               <span className="flex flex-col leading-tight text-left">
                 <span className="font-mono text-[9px] uppercase tracking-widest text-white/40">
-                  Coming soon to
+                  Beta on
                 </span>
                 <span className="text-[15px] font-semibold text-white/70 tracking-tight">
                   Google Play
                 </span>
               </span>
               <span className="absolute -top-2 -right-2 font-mono text-[9px] uppercase tracking-widest text-[var(--color-yellow)] bg-[var(--color-bg)] border border-[var(--color-yellow)]/40 rounded-full px-2 py-0.5">
-                Soon
+                Beta
               </span>
             </div>
 

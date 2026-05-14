@@ -16,8 +16,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-white/50 leading-relaxed max-w-sm">
-              Purpose-built crane rental software. From dispatch to invoicing,
-              designed by crane rental business owners.
+              Purpose-built crane rental software. Built by people who run
+              cranes.
             </p>
           </div>
 

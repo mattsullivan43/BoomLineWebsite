@@ -17,30 +17,30 @@ const features: HomeFeature[] = [
     n: '01',
     title: 'Dispatch & Scheduling',
     body:
-      'One board for the day. See crews, cranes, and job sites at a glance — then push the dispatch to every employee and outside trucking partner in a single tap.',
+      'One board for the day. See crews, cranes, and job sites at a glance — then send the dispatch to every employee and outside trucking partner in one action.',
     span: 'md:col-span-3',
   },
   {
     n: '02',
-    title: 'Fleet Management',
+    title: 'Equipment Management',
     body:
-      'Track every crane — maintenance, load charts, location history, utilization.',
+      'Track every crane — maintenance, load charts, utilization, certifications.',
     span: 'md:col-span-3',
   },
   {
     n: '03',
     title: 'Digital Inspections',
     body:
-      'Pre-op checks, annual inspections, OSHA compliance — all on a phone.',
+      'Pre-op checks, annual inspections, OSHA compliance — captured in the field.',
     span: 'md:col-span-2',
   },
   {
     n: '04',
     title: 'Invoicing & Billing',
     body:
-      'Generate invoices from job data automatically. Hourly, daily, or project-based.',
+      'Generate invoices from a job. Hourly, daily, or project-based.',
     span: 'md:col-span-2',
-    tag: 'coming soon',
+    tag: 'beta',
   },
   {
     n: '05',
@@ -55,7 +55,7 @@ const roles = [
   {
     label: 'Admin',
     desc: 'Full operational visibility. Run the business.',
-    bullets: ['Fleet & financials', 'User management', 'Reports & analytics'],
+    bullets: ['Equipment & financials', 'User management', 'Reports & analytics'],
   },
   {
     label: 'Foreman',
@@ -109,10 +109,9 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
                 className="mt-6 text-base sm:text-lg text-white/60 max-w-xl leading-relaxed"
               >
-                Dispatch, fleet, inspections, certifications, and more &mdash;
-                modular by design. Turn on the modules you need today, add the
-                rest as your operation grows. Built by people who&rsquo;ve
-                actually run a crane company.
+                Built by a crane company, for crane companies. Dispatch,
+                equipment, inspections, certifications, and more &mdash; turn
+                on what you need today, add the rest as you grow.
               </motion.p>
 
               <motion.div
@@ -193,11 +192,11 @@ export default function Home() {
                 The tools you&rsquo;ve tried were built for plumbers,
                 electricians, and HVAC. They don&rsquo;t understand crane
                 dispatching, OSHA inspections, or the operational complexity
-                of a crane fleet.
+                of running cranes.
               </p>
               <p className="mt-4 text-white/80">
-                Boomline is different — built from the ground up with crane
-                companies, as the entire focus.
+                Boomline is different — built from the ground up for crane
+                companies, by people who run them.
               </p>
             </div>
 
@@ -269,7 +268,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-                Platform &middot; Modular
+                Platform
               </p>
               <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] leading-[1.02] text-white text-balance">
                 Everything your crane operation needs.
@@ -277,13 +276,8 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-start md:items-end gap-3">
               <p className="text-white/55 max-w-sm text-sm md:text-right leading-relaxed">
-                Pick the modules you need today. Add &mdash; or drop &mdash;
-                anything as your operation changes. Some modules are still
-                shipping; we&rsquo;ll mark those{' '}
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-yellow)] border border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06] rounded-full px-1.5 py-0.5 align-middle">
-                  coming soon
-                </span>
-                .
+                Use what you need today. Add or drop anything as your
+                operation changes.
               </p>
               <Link
                 to="/features"
@@ -324,7 +318,7 @@ export default function Home() {
                     <span
                       className={[
                         'font-mono text-[9px] uppercase tracking-widest rounded-full border px-2 py-0.5',
-                        f.tag === 'coming soon'
+                        f.tag === 'beta'
                           ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
                           : 'text-white/35 border-white/10',
                       ].join(' ')}
