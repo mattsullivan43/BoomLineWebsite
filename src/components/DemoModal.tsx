@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle2, Loader2 } from 'lucide-react'
 
-const RECIPIENT = 'mjsullivan0910@gmail.com'
-const ENDPOINT = `https://formsubmit.co/ajax/${RECIPIENT}`
+const WEB3FORMS_ACCESS_KEY = '97f818eb-e4a2-42b7-ac4b-9b24d2d4588f'
+const ENDPOINT = 'https://api.web3forms.com/submit'
 
 type FormState = {
   firstName: string
@@ -65,28 +65,28 @@ export default function DemoModal({
     setStatus('submitting')
     setErrorMsg('')
 
-    const body = new URLSearchParams({
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: 'Demo Request — Boomline',
+      from_name: `${form.firstName} ${form.lastName}`.trim(),
       'First Name': form.firstName,
       'Last Name': form.lastName,
       Email: form.email,
       Company: form.company,
       Phone: form.phone,
-      _subject: 'Demo Request — Boomline',
-      _template: 'table',
-      _captcha: 'false',
-    })
+    }
 
     try {
-      // Send as application/x-www-form-urlencoded so the request stays a CORS
-      // "simple request" and skips the preflight that FormSubmit's /ajax/
-      // endpoint does not answer.
       const res = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
       })
       const data = await res.json().catch(() => null)
-      if (!res.ok || !(data?.success === 'true' || data?.success === true)) {
+      if (!res.ok || !data?.success) {
         throw new Error(data?.message || 'Failed to submit. Try again.')
       }
       setStatus('success')
