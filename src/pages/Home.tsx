@@ -137,16 +137,6 @@ export default function Home() {
                 </a>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="mt-12 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-xs text-white/30 font-mono uppercase tracking-widest"
-              >
-                <span>Built in the Field</span>
-                <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-white/20" />
-                <span>Owner-Operated</span>
-              </motion.div>
             </div>
 
             <motion.div
