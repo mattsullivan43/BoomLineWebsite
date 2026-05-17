@@ -17,22 +17,23 @@ const features: HomeFeature[] = [
     n: '01',
     title: 'Dispatch & Scheduling',
     body:
-      'One board for the day. See crews, cranes, and job sites at a glance — then send the dispatch to every employee and outside trucking partner in one action.',
+      'One board for the day. See crews, cranes, and job sites at a glance — make scheduled adjustments with ease. Dispatch employees with the click of a button.',
     span: 'md:col-span-3',
   },
   {
     n: '02',
     title: 'Equipment Management',
     body:
-      'Track every crane — maintenance, load charts, utilization, certifications.',
+      'Track every asset — maintenance, utilization, and inspections.',
     span: 'md:col-span-3',
   },
   {
     n: '03',
-    title: 'Digital Inspections',
+    title: 'Daily Inspections',
     body:
-      'Pre-op checks, annual inspections, OSHA compliance — captured in the field.',
+      'Daily and monthly on your device — tracked in the field and converted to a PDF document.',
     span: 'md:col-span-2',
+    tag: 'beta',
   },
   {
     n: '04',
@@ -46,7 +47,7 @@ const features: HomeFeature[] = [
     n: '05',
     title: 'Operator Certifications',
     body:
-      'Medical cards, training records, license expiry. Get alerts before anything lapses.',
+      'Medical cards, training records, and certifications. Stay updated before anything expires.',
     span: 'md:col-span-2',
   },
 ]
@@ -58,9 +59,9 @@ const roles = [
     bullets: ['Equipment & financials', 'User management', 'Reports & analytics'],
   },
   {
-    label: 'Foreman',
+    label: 'Management/Dispatch',
     desc: 'Run the day. Move crews and equipment.',
-    bullets: ['Job dispatch', 'Crew assignments', 'Approve inspections'],
+    bullets: ['Job dispatch', 'Crew assignments', 'Oversee maintenance'],
   },
   {
     label: 'Employee',
@@ -109,9 +110,9 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
                 className="mt-6 text-base sm:text-lg text-white/60 max-w-xl leading-relaxed"
               >
-                Built by a crane company, for crane companies. Dispatch,
-                equipment, inspections, certifications, and more &mdash; turn
-                on what you need today, add the rest as you grow.
+                Built with trusted field experts, for crane companies.
+                Dispatch, equipment, inspections, certifications, and more
+                &mdash; turn on what you need today, add the rest as you grow.
               </motion.p>
 
               <motion.div
@@ -142,8 +143,6 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="mt-12 flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-xs text-white/30 font-mono uppercase tracking-widest"
               >
-                <span>OSHA Ready</span>
-                <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-white/20" />
                 <span>Built in the Field</span>
                 <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-white/20" />
                 <span>Owner-Operated</span>
@@ -189,10 +188,9 @@ export default function Home() {
                 </span>
               </h2>
               <p className="mt-6 text-white/60 leading-relaxed">
-                The tools you&rsquo;ve tried were built for plumbers,
-                electricians, and HVAC. They don&rsquo;t understand crane
-                dispatching, OSHA inspections, or the operational complexity
-                of running cranes.
+                They don&rsquo;t properly cover the complexity of the
+                scheduling, operations, and maintenance behind the scenes of a
+                crane rental company.
               </p>
               <p className="mt-4 text-white/80">
                 Boomline is different — built from the ground up for crane
