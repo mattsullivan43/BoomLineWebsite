@@ -37,6 +37,7 @@ type Category = {
   title: string
   description: string
   features: Feature[]
+  layout?: 'row' | 'tile'
 }
 
 const categories: Category[] = [
@@ -45,6 +46,7 @@ const categories: Category[] = [
     title: 'Run the day, every day.',
     description:
       'The board, the calendar, the dispatch — everything you need to run the day.',
+    layout: 'row',
     features: [
       {
         Icon: Briefcase,
@@ -345,12 +347,14 @@ export default function Features() {
 }
 
 function CategorySection({ cat, index }: { cat: Category; index: number }) {
+  const isRow = cat.layout === 'row'
   // Pick a grid that doesn't leave orphan rows.
-  // 4 cards → 2 cols (clean 2x2); otherwise default 3 cols.
-  const gridCls =
-    cat.features.length === 4
-      ? 'grid sm:grid-cols-2 gap-3'
-      : 'grid sm:grid-cols-2 lg:grid-cols-3 gap-3'
+  // row layout → always 2 cols. 4 tile cards → 2 cols (clean 2x2). Otherwise 3 cols.
+  const gridCls = isRow
+    ? 'grid sm:grid-cols-2 gap-3'
+    : cat.features.length === 4
+    ? 'grid sm:grid-cols-2 gap-3'
+    : 'grid sm:grid-cols-2 lg:grid-cols-3 gap-3'
 
   return (
     <section
@@ -388,30 +392,63 @@ function CategorySection({ cat, index }: { cat: Category; index: number }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5, delay: i * 0.04, ease }}
-                className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-6 hover:border-white/20 transition-colors overflow-hidden"
+                className={[
+                  'group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent hover:border-white/20 transition-colors overflow-hidden',
+                  isRow ? 'p-5' : 'p-6',
+                ].join(' ')}
               >
                 <div className="absolute -top-px left-1/2 -translate-x-1/2 w-1/3 h-px bg-gradient-to-r from-transparent via-[var(--color-yellow)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="flex items-start justify-between mb-5">
-                  <span className="w-10 h-10 rounded-xl border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
-                    <Icon size={18} strokeWidth={1.75} />
-                  </span>
-                  {f.tag && (
-                    <span
-                      className={[
-                        'font-mono text-[9px] uppercase tracking-widest rounded-full px-2 py-0.5 border',
-                        f.tag === 'beta'
-                          ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
-                          : 'text-white/35 border-white/10',
-                      ].join(' ')}
-                    >
-                      {f.tag}
+                {isRow ? (
+                  <div className="flex items-start gap-4">
+                    <span className="shrink-0 w-10 h-10 rounded-xl border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
+                      <Icon size={18} strokeWidth={1.75} />
                     </span>
-                  )}
-                </div>
-                <h3 className="text-lg font-semibold text-white tracking-tight mb-2">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-white/55 leading-relaxed">{f.body}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <h3 className="text-base font-semibold text-white tracking-tight">
+                          {f.title}
+                        </h3>
+                        {f.tag && (
+                          <span
+                            className={[
+                              'shrink-0 font-mono text-[9px] uppercase tracking-widest rounded-full px-2 py-0.5 border',
+                              f.tag === 'beta'
+                                ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
+                                : 'text-white/35 border-white/10',
+                            ].join(' ')}
+                          >
+                            {f.tag}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-white/55 leading-relaxed">{f.body}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-start justify-between mb-5">
+                      <span className="w-10 h-10 rounded-xl border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
+                        <Icon size={18} strokeWidth={1.75} />
+                      </span>
+                      {f.tag && (
+                        <span
+                          className={[
+                            'font-mono text-[9px] uppercase tracking-widest rounded-full px-2 py-0.5 border',
+                            f.tag === 'beta'
+                              ? 'text-[var(--color-yellow)] border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/[0.06]'
+                              : 'text-white/35 border-white/10',
+                          ].join(' ')}
+                        >
+                          {f.tag}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-semibold text-white tracking-tight mb-2">
+                      {f.title}
+                    </h3>
+                    <p className="text-sm text-white/55 leading-relaxed">{f.body}</p>
+                  </>
+                )}
               </motion.div>
             )
           })}
