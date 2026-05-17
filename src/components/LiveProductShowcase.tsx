@@ -244,18 +244,18 @@ type RosterEntry = {
 }
 
 const ROSTER: RosterEntry[] = [
-  { id: 'a', name: 'Mike Carter',     role: 'Operator',         kind: 'employee', job: { name: 'Hudson Yards Tower B' } },
-  { id: 'b', name: 'Tony Caruso',     role: 'Operator',         kind: 'employee', job: { name: 'Terminal 4 Rebuild'  } },
-  { id: 'c', name: 'Derek Williams',  role: 'Oiler',            kind: 'employee', job: { name: 'Hudson Yards Tower B' } },
-  { id: 'd', name: 'Carlos Vasquez',  role: 'Operator',         kind: 'employee', job: { name: 'River Span 4'         } },
-  { id: 'e', name: 'Frank DiMarco',   role: 'Operator',         kind: 'employee', job: { name: 'Con Ed Substation'    } },
-  { id: 'f', name: 'JBM Heavy Haul',  role: 'Outside trucking', kind: 'trucking', job: { name: 'Con Ed Substation'    } },
-  { id: 'g', name: 'Jimmy Reyes',     role: 'Oiler',            kind: 'employee', job: { name: 'Terminal 4 Rebuild'   } },
-  { id: 'h', name: 'Adam K.',         role: 'Day labor',        kind: 'temp',     job: { name: 'Hudson Yards Tower B' } },
-  { id: 'i', name: 'Steve Petrowski', role: 'Operator',         kind: 'employee', job: { name: 'Platform 7 Pour'      } },
+  { id: 'a', name: 'Mike Carter',     role: 'Operator',         kind: 'employee', job: { name: 'Westbrook Tower B'   } },
+  { id: 'b', name: 'Tony Caruso',     role: 'Operator',         kind: 'employee', job: { name: 'North Bay Terminal'  } },
+  { id: 'c', name: 'Derek Williams',  role: 'Oiler',            kind: 'employee', job: { name: 'Westbrook Tower B'   } },
+  { id: 'd', name: 'Carlos Vasquez',  role: 'Operator',         kind: 'employee', job: { name: 'Crescent Bridge'     } },
+  { id: 'e', name: 'Frank DiMarco',   role: 'Operator',         kind: 'employee', job: { name: 'Belmont Substation'  } },
+  { id: 'f', name: 'JBM Heavy Haul',  role: 'Outside trucking', kind: 'trucking', job: { name: 'Belmont Substation'  } },
+  { id: 'g', name: 'Jimmy Reyes',     role: 'Oiler',            kind: 'employee', job: { name: 'North Bay Terminal'  } },
+  { id: 'h', name: 'Adam K.',         role: 'Day labor',        kind: 'temp',     job: { name: 'Westbrook Tower B'   } },
+  { id: 'i', name: 'Steve Petrowski', role: 'Operator',         kind: 'employee', job: { name: 'Summit Plaza Pour'   } },
   { id: 'j', name: 'Rich Bauer',      role: 'Operator',         kind: 'available' },
   { id: 'k', name: 'Pete Hernandez',  role: 'Operator',         kind: 'off',      offReason: 'Vacation' },
-  { id: 'l', name: 'Ryan Walsh',      role: 'Oiler',            kind: 'employee', job: { name: 'River Span 4'         } },
+  { id: 'l', name: 'Ryan Walsh',      role: 'Oiler',            kind: 'employee', job: { name: 'Crescent Bridge'     } },
 ]
 
 const DISPATCH_DURATION = 8200
@@ -511,39 +511,39 @@ const CAL_DAYS: { day: number | null; chips: CalChip[] }[] = [
   { day: null, chips: [] },
   { day: null, chips: [] },
   { day: null, chips: [] },
-  { day: 1, chips: [{ color: 'blue', label: 'Bayview HS' }, { color: 'orange', label: 'Ethanol Plant' }] },
-  { day: 2, chips: [{ color: 'blue', label: 'Plaza Tower' }] },
+  { day: 1, chips: [{ color: 'blue', label: 'Westbrook HS' }, { color: 'orange', label: 'Summit Energy' }] },
+  { day: 2, chips: [{ color: 'blue', label: 'Belmont Plaza' }] },
   { day: 3, chips: [] },
   // Week 2
-  { day: 4, chips: [{ color: 'orange', label: 'Bayview HS' }, { color: 'blue', label: 'Ethanol Plant' }, { color: 'blue', label: 'Plaza Inn' }] },
-  { day: 5, chips: [{ color: 'blue', label: 'Bayview HS' }, { color: 'green', label: 'Holiday Inn' }, { color: 'red', label: 'Howard St', cancelled: true }] },
-  { day: 6, chips: [{ color: 'green', label: 'BNSF' }, { color: 'orange', label: 'Lions Park' }, { color: 'blue', label: 'Holiday Inn' }] },
-  { day: 7, chips: [{ color: 'green', label: 'ATMI Russel' }, { color: 'orange', label: 'Gompers Jr.' }, { color: 'blue', label: 'Lions Park' }] },
-  { day: 8, chips: [{ color: 'orange', label: 'Nicks Fab.' }, { color: 'green', label: 'HELM Freeport' }, { color: 'green', label: 'HELM Freeport' }] },
-  { day: 9, chips: [{ color: 'green', label: 'HELM Freeport' }, { color: 'blue', label: 'RFD-ADB7093' }] },
+  { day: 4, chips: [{ color: 'orange', label: 'Westbrook HS' }, { color: 'blue', label: 'Summit Energy' }, { color: 'blue', label: 'Linden Inn' }] },
+  { day: 5, chips: [{ color: 'blue', label: 'Westbrook HS' }, { color: 'green', label: 'Lakeside Resort' }, { color: 'red', label: 'Pier 17 Pour', cancelled: true }] },
+  { day: 6, chips: [{ color: 'green', label: 'Atlas Logistics' }, { color: 'orange', label: 'Linden Park' }, { color: 'blue', label: 'Lakeside Resort' }] },
+  { day: 7, chips: [{ color: 'green', label: 'Cypress Mfg' }, { color: 'orange', label: 'Forest Hills MS' }, { color: 'blue', label: 'Linden Park' }] },
+  { day: 8, chips: [{ color: 'orange', label: 'Granite Works' }, { color: 'green', label: 'Highline Quarry' }, { color: 'green', label: 'Highline Quarry' }] },
+  { day: 9, chips: [{ color: 'green', label: 'Highline Quarry' }, { color: 'blue', label: 'Crescent DC' }] },
   { day: 10, chips: [] },
   // Week 3
-  { day: 11, chips: [{ color: 'red', label: 'Glencoe GC' }, { color: 'green', label: 'HELM Freeport' }, { color: 'black', label: 'Howard St' }] },
-  { day: 12, chips: [{ color: 'green', label: 'Cary Well' }, { color: 'black', label: 'Gable Hall' }, { color: 'orange', label: 'Rivian' }] },
-  { day: 13, chips: [{ color: 'green', label: 'Cary Well' }, { color: 'orange', label: 'Eugene Sayer' }, { color: 'black', label: 'Howard St' }] },
-  { day: 14, chips: [{ color: 'green', label: 'Gould Farms' }, { color: 'blue', label: 'NIU Music' }, { color: 'red', label: 'Ramos Constr.' }] },
-  { day: 15, chips: [{ color: 'black', label: 'Downers Grove' }, { color: 'green', label: 'HELM Quarry' }, { color: 'yellow', label: 'Holiday Inn' }] },
-  { day: 16, chips: [{ color: 'green', label: 'HELM Quarry' }, { color: 'red', label: 'HELM Quarry' }] },
+  { day: 11, chips: [{ color: 'red', label: 'Beachwood Club' }, { color: 'green', label: 'Highline Quarry' }, { color: 'black', label: 'Pier 17 Pour' }] },
+  { day: 12, chips: [{ color: 'green', label: 'North Branch Well' }, { color: 'black', label: 'Hartford Hall' }, { color: 'orange', label: 'Olympic Dist.' }] },
+  { day: 13, chips: [{ color: 'green', label: 'North Branch Well' }, { color: 'orange', label: 'Walden Sub.' }, { color: 'black', label: 'Pier 17 Pour' }] },
+  { day: 14, chips: [{ color: 'green', label: 'Cascade Farms' }, { color: 'blue', label: 'Wesleyan Arts' }, { color: 'red', label: 'Maple Constr.' }] },
+  { day: 15, chips: [{ color: 'black', label: 'Briar Estates' }, { color: 'green', label: 'Pine Valley Q.' }, { color: 'yellow', label: 'Lakeside Resort' }] },
+  { day: 16, chips: [{ color: 'green', label: 'Pine Valley Q.' }, { color: 'red', label: 'Pine Valley Q.' }] },
   { day: 17, chips: [] },
   // Week 4
-  { day: 18, chips: [{ color: 'green', label: 'BNSF' }, { color: 'blue', label: 'NIU Music' }, { color: 'orange', label: 'RFD-ADB7093' }] },
-  { day: 19, chips: [{ color: 'black', label: 'Gable Hall' }, { color: 'blue', label: 'NIU Music' }, { color: 'purple', label: 'Planet Fitness' }] },
-  { day: 20, chips: [{ color: 'blue', label: 'NIU Music' }, { color: 'blue', label: 'Sewage Plant' }] },
-  { day: 21, chips: [{ color: 'blue', label: 'NIU Music' }, { color: 'blue', label: 'Sewage Plant' }] },
-  { day: 22, chips: [{ color: 'black', label: 'CVS Wall St' }, { color: 'blue', label: 'NIU Music' }, { color: 'blue', label: 'Sewage Plant' }] },
+  { day: 18, chips: [{ color: 'green', label: 'Atlas Logistics' }, { color: 'blue', label: 'Wesleyan Arts' }, { color: 'orange', label: 'Crescent DC' }] },
+  { day: 19, chips: [{ color: 'black', label: 'Hartford Hall' }, { color: 'blue', label: 'Wesleyan Arts' }, { color: 'purple', label: 'Echo Gym' }] },
+  { day: 20, chips: [{ color: 'blue', label: 'Wesleyan Arts' }, { color: 'blue', label: 'Reservoir 4' }] },
+  { day: 21, chips: [{ color: 'blue', label: 'Wesleyan Arts' }, { color: 'blue', label: 'Reservoir 4' }] },
+  { day: 22, chips: [{ color: 'black', label: 'Eastlake Drug' }, { color: 'blue', label: 'Wesleyan Arts' }, { color: 'blue', label: 'Reservoir 4' }] },
   { day: 23, chips: [] },
   { day: 24, chips: [] },
   // Week 5
-  { day: 25, chips: [{ color: 'blue', label: 'NIU Music' }] },
-  { day: 26, chips: [{ color: 'blue', label: 'NIU Music' }] },
-  { day: 27, chips: [{ color: 'blue', label: 'NIU Music' }] },
-  { day: 28, chips: [{ color: 'blue', label: 'NIU Music' }] },
-  { day: 29, chips: [{ color: 'blue', label: 'NIU Music' }] },
+  { day: 25, chips: [{ color: 'blue', label: 'Wesleyan Arts' }] },
+  { day: 26, chips: [{ color: 'blue', label: 'Wesleyan Arts' }] },
+  { day: 27, chips: [{ color: 'blue', label: 'Wesleyan Arts' }] },
+  { day: 28, chips: [{ color: 'blue', label: 'Wesleyan Arts' }] },
+  { day: 29, chips: [{ color: 'blue', label: 'Wesleyan Arts' }] },
   { day: 30, chips: [] },
   { day: 31, chips: [] },
 ]
@@ -659,7 +659,7 @@ function Legend({ tone, label }: { tone: ChipColor; label: string }) {
 /* PANE 3 — OVERVIEW / COMMAND CENTER                                  */
 /* ================================================================== */
 
-const OVERVIEW_DURATION = 7200
+const OVERVIEW_DURATION = 9000
 
 const KPI_TILES = [
   { label: 'Active Jobs',       value: 12,  trend: 'running today',  Icon: Briefcase,     tone: 'emerald' as const },
@@ -668,32 +668,128 @@ const KPI_TILES = [
   { label: 'Overdue PM Lines',  value: 7,   trend: 'fleet-wide',     Icon: Bell,          tone: 'amber'   as const },
 ]
 
-const FLEET_BARS = [
-  { label: 'All Terrain',   value: 9 },
-  { label: 'Truck Crane',   value: 5 },
-  { label: 'Rough Terrain', value: 2 },
-  { label: 'Derrick',       value: 1 },
-]
+type SubTabKey = 'operations' | 'fleet' | 'maintenance' | 'cash'
 
-const IDLE_EQUIP = [
-  { id: '730',  desc: 'Truck Crane · Grove TMS 500E' },
-  { id: '6031', desc: 'All Terrain · Grove GMK 5135' },
-  { id: '9406', desc: 'All Terrain · Grove GMK 3055' },
-  { id: '269',  desc: 'Truck Crane · Grove TM 500E-2' },
-]
+type SubTabContent = {
+  chartTitle: string
+  chartSub: string
+  chartTone: 'emerald' | 'sky' | 'amber' | 'yellow'
+  bars: { label: string; value: number; suffix?: string }[]
+  listTitle: string
+  listSub: string
+  listIcon: typeof CircleDot
+  listIconTone: string
+  items: { id: string; desc: string; badge: string; badgeTone: 'amber' | 'orange' | 'rose' | 'emerald' }[]
+}
 
-const ENDING_THIS_WEEK = [
-  { name: 'BNSF',           where: 'Wilmington, IL',   ends: 'Ends May 28' },
-  { name: 'RFD-ADB7093',    where: 'Rockford, IL',     ends: 'Ends May 28' },
-  { name: 'Sheppard HS',    where: 'Palos Heights, IL', ends: 'Ends May 29' },
-]
+const SUB_TAB_CONTENT: Record<SubTabKey, SubTabContent> = {
+  operations: {
+    chartTitle: 'Crew utilization',
+    chartSub: 'Last 4 weeks · % of weekly capacity',
+    chartTone: 'emerald',
+    bars: [
+      { label: 'Wk 17', value: 78, suffix: '%' },
+      { label: 'Wk 18', value: 86, suffix: '%' },
+      { label: 'Wk 19', value: 92, suffix: '%' },
+      { label: 'Wk 20', value: 88, suffix: '%' },
+    ],
+    listTitle: 'Jobs ending this week',
+    listSub: 'Revenue about to drop off — line up follow-on work',
+    listIcon: Activity,
+    listIconTone: 'text-orange-300',
+    items: [
+      { id: 'Atlas Logistics', desc: 'Wilmington · 110-ton',  badge: 'Ends Fri', badgeTone: 'orange' },
+      { id: 'Crescent DC',     desc: 'Rockford · 80-ton',     badge: 'Ends Fri', badgeTone: 'orange' },
+      { id: 'Westbrook HS',    desc: 'Palos Heights · 60-ton', badge: 'Ends Sat', badgeTone: 'orange' },
+    ],
+  },
+  fleet: {
+    chartTitle: 'Crane fleet mix',
+    chartSub: 'Capacity profile by crane type',
+    chartTone: 'emerald',
+    bars: [
+      { label: 'All Terrain',   value: 9 },
+      { label: 'Truck Crane',   value: 5 },
+      { label: 'Rough Terrain', value: 2 },
+      { label: 'Derrick',       value: 1 },
+    ],
+    listTitle: 'Idle equipment',
+    listSub: 'Cranes not assigned — revenue sitting in the yard',
+    listIcon: CircleDot,
+    listIconTone: 'text-amber-300',
+    items: [
+      { id: '730',  desc: 'Truck Crane · Grove TMS 500E',   badge: 'Idle', badgeTone: 'amber' },
+      { id: '6031', desc: 'All Terrain · Grove GMK 5135',   badge: 'Idle', badgeTone: 'amber' },
+      { id: '9406', desc: 'All Terrain · Grove GMK 3055',   badge: 'Idle', badgeTone: 'amber' },
+      { id: '269',  desc: 'Truck Crane · Grove TM 500E-2',  badge: 'Idle', badgeTone: 'amber' },
+    ],
+  },
+  maintenance: {
+    chartTitle: 'PM lines by due state',
+    chartSub: 'Overdue = direct downtime risk',
+    chartTone: 'amber',
+    bars: [
+      { label: 'Overdue',  value: 7,  suffix: '' },
+      { label: 'Due soon', value: 12, suffix: '' },
+      { label: 'On track', value: 38, suffix: '' },
+      { label: 'N/A',      value: 6,  suffix: '' },
+    ],
+    listTitle: 'Certifications expiring',
+    listSub: 'Annual · load test · safety lane',
+    listIcon: Bell,
+    listIconTone: 'text-rose-300',
+    items: [
+      { id: 'Crane 4218', desc: 'Annual inspection · 9 days',  badge: 'Soon',    badgeTone: 'rose' },
+      { id: 'Crane 7102', desc: 'Load test · 14 days',          badge: 'Soon',    badgeTone: 'rose' },
+      { id: 'Op. license', desc: 'D. Williams · 21 days',       badge: 'Renew',   badgeTone: 'amber' },
+    ],
+  },
+  cash: {
+    chartTitle: 'Weekly revenue',
+    chartSub: 'Last 4 weeks · $ thousands',
+    chartTone: 'yellow',
+    bars: [
+      { label: 'Wk 17', value: 82,  suffix: 'K' },
+      { label: 'Wk 18', value: 95,  suffix: 'K' },
+      { label: 'Wk 19', value: 110, suffix: 'K' },
+      { label: 'Wk 20', value: 88,  suffix: 'K' },
+    ],
+    listTitle: 'Outstanding AR',
+    listSub: 'Past-due tracking with aging buckets',
+    listIcon: Activity,
+    listIconTone: 'text-emerald-300',
+    items: [
+      { id: 'Continental Group', desc: '$84,200 · 30-60 day bucket', badge: '30+',  badgeTone: 'orange' },
+      { id: 'Cypress Mfg',       desc: '$31,500 · 0-30 day bucket',   badge: 'Sent', badgeTone: 'emerald' },
+      { id: 'Maple Constr.',     desc: '$12,800 · 60-90 day bucket',  badge: '60+',  badgeTone: 'rose' },
+    ],
+  },
+}
+
+const SUB_TAB_LABEL: Record<SubTabKey, string> = {
+  operations: 'Operations',
+  fleet: 'Fleet',
+  maintenance: 'Maintenance',
+  cash: 'Cash',
+}
+
+const SUB_TAB_ORDER: SubTabKey[] = ['operations', 'fleet', 'maintenance', 'cash']
 
 function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(OVERVIEW_DURATION, active && !reduced)
   const realTick = reduced ? OVERVIEW_DURATION : tick
+  const [subTab, setSubTab] = useState<SubTabKey>('operations')
 
-  // Count-up progress 0..1 over first 1.4s
+  // KPI count-up
   const progress = reduced ? 1 : Math.min(realTick / 1400, 1)
+
+  const content = SUB_TAB_CONTENT[subTab]
+  const max = Math.max(...content.bars.map((b) => b.value))
+  const chartFill =
+    content.chartTone === 'emerald' ? 'from-emerald-500/80 to-emerald-400'
+    : content.chartTone === 'sky'   ? 'from-sky-500/80 to-sky-400'
+    : content.chartTone === 'amber' ? 'from-amber-500/80 to-amber-400'
+    : 'from-[var(--color-yellow)]/80 to-[var(--color-yellow)]'
 
   return (
     <div>
@@ -737,105 +833,103 @@ function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }
         })}
       </div>
 
-      {/* Sub-tab strip (visual only) */}
+      {/* Sub-tab strip — clickable */}
       <div className="rounded-lg border border-white/10 bg-white/[0.02] grid grid-cols-4 mb-3 overflow-hidden">
-        {['Operations', 'Fleet', 'Maintenance', 'Cash'].map((t, i) => (
-          <div
-            key={t}
+        {SUB_TAB_ORDER.map((key) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setSubTab(key)}
             className={[
-              'py-1.5 text-center text-[10px] sm:text-[11px] font-medium',
-              i === 1 ? 'text-white bg-white/[0.04]' : 'text-white/40',
+              'py-2 text-center text-[11px] font-medium transition-colors relative',
+              subTab === key
+                ? 'text-white bg-white/[0.06]'
+                : 'text-white/45 hover:text-white/80 hover:bg-white/[0.02]',
             ].join(' ')}
           >
-            {t}
-          </div>
+            {SUB_TAB_LABEL[key]}
+            {subTab === key && (
+              <motion.span
+                layoutId="subTabUnderline"
+                className="absolute left-3 right-3 bottom-0 h-px bg-[var(--color-yellow)]"
+              />
+            )}
+          </button>
         ))}
       </div>
 
-      {/* Charts row */}
-      <div className="grid sm:grid-cols-2 gap-2">
-        {/* Fleet mix bars */}
-        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-          <div className="text-xs font-semibold text-white mb-0.5">Crane fleet mix</div>
-          <div className="text-[10px] text-white/45 mb-3">Capacity profile by crane type</div>
-          <div className="flex items-end gap-2 h-24">
-            {FLEET_BARS.map((b, i) => {
-              const max = Math.max(...FLEET_BARS.map((x) => x.value))
-              const heightPct = (b.value / max) * 100
-              const delay = 200 + i * 120
-              const grown = reduced ? 1 : Math.min(Math.max((realTick - delay) / 600, 0), 1)
-              return (
-                <div key={b.label} className="flex-1 flex flex-col items-center justify-end gap-1.5">
-                  <div className="w-full rounded-t-sm bg-gradient-to-t from-emerald-500/80 to-emerald-400 transition-all"
-                    style={{ height: `${heightPct * grown}%`, minHeight: '2px' }} />
-                  <div className="font-mono text-[8px] text-white/40 truncate w-full text-center">{b.label}</div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Idle equipment */}
-        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-          <div className="text-xs font-semibold text-white mb-0.5 flex items-center gap-1.5">
-            <CircleDot size={11} className="text-amber-300" />
-            Idle equipment
-          </div>
-          <div className="text-[10px] text-white/45 mb-2">Cranes not assigned — revenue sitting in the yard</div>
-          <div className="space-y-1">
-            {IDLE_EQUIP.map((eq, i) => {
-              const delay = 400 + i * 110
-              const visible = reduced || realTick >= delay
-              return (
-                <motion.div
-                  key={eq.id}
-                  initial={false}
-                  animate={{ opacity: visible ? 1 : 0, x: visible ? 0 : -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center justify-between gap-2 rounded border border-white/8 bg-white/[0.02] px-2 py-1.5"
-                >
-                  <div className="min-w-0">
-                    <div className="text-[11px] font-semibold text-white truncate">{eq.id}</div>
-                    <div className="text-[9px] text-white/45 truncate">{eq.desc}</div>
+      {/* Sub-tab content — bar chart + list, swaps on tab change */}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={subTab}
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -2 }}
+          transition={{ duration: 0.25 }}
+          className="grid sm:grid-cols-2 gap-2"
+        >
+          {/* Bar chart */}
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+            <div className="text-xs font-semibold text-white mb-0.5">{content.chartTitle}</div>
+            <div className="text-[10px] text-white/45 mb-3">{content.chartSub}</div>
+            <div className="flex items-end gap-2 h-28">
+              {content.bars.map((b, i) => {
+                const heightPct = (b.value / max) * 100
+                return (
+                  <div key={b.label} className="flex-1 flex flex-col items-center justify-end gap-1.5 min-w-0">
+                    <span className="font-mono text-[9px] text-white/55 tabular-nums">
+                      {b.value}{b.suffix ?? ''}
+                    </span>
+                    <motion.div
+                      initial={{ height: 0 }}
+                      animate={{ height: `${heightPct}%` }}
+                      transition={{ duration: 0.55, delay: i * 0.08, ease: [0.19, 1, 0.22, 1] }}
+                      className={['w-full rounded-t-sm bg-gradient-to-t', chartFill].join(' ')}
+                      style={{ minHeight: '2px' }}
+                    />
+                    <div className="font-mono text-[8px] text-white/40 truncate w-full text-center">{b.label}</div>
                   </div>
-                  <span className="shrink-0 font-mono text-[8px] uppercase tracking-widest rounded-full border border-amber-400/30 text-amber-300/85 px-1.5 py-0.5">
-                    Idle
-                  </span>
-                </motion.div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Ending-this-week strip */}
-      <div className="mt-2 rounded-xl border border-white/10 bg-white/[0.02] p-3">
-        <div className="text-xs font-semibold text-white mb-0.5">Jobs ending this week</div>
-        <div className="text-[10px] text-white/45 mb-2">Revenue about to drop off — line up follow-on work</div>
-        <div className="grid sm:grid-cols-3 gap-1.5">
-          {ENDING_THIS_WEEK.map((j, i) => {
-            const delay = 700 + i * 120
-            const visible = reduced || realTick >= delay
-            return (
-              <motion.div
-                key={j.name}
-                initial={false}
-                animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 3 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center justify-between gap-2 rounded border border-white/8 bg-white/[0.02] px-2 py-1.5"
-              >
-                <div className="min-w-0">
-                  <div className="text-[11px] font-semibold text-white truncate">{j.name}</div>
-                  <div className="text-[9px] text-white/45 truncate">{j.where}</div>
-                </div>
-                <span className="shrink-0 font-mono text-[8px] uppercase tracking-widest text-orange-300/85">
-                  {j.ends}
-                </span>
-              </motion.div>
-            )
-          })}
-        </div>
-      </div>
+          {/* List */}
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+            <div className="text-xs font-semibold text-white mb-0.5 flex items-center gap-1.5">
+              <content.listIcon size={11} className={content.listIconTone} />
+              {content.listTitle}
+            </div>
+            <div className="text-[10px] text-white/45 mb-2">{content.listSub}</div>
+            <div className="space-y-1">
+              {content.items.map((it, i) => {
+                const badgeBorder =
+                  it.badgeTone === 'amber'   ? 'border-amber-400/30 text-amber-300/85'
+                  : it.badgeTone === 'orange' ? 'border-orange-400/30 text-orange-300/85'
+                  : it.badgeTone === 'rose'   ? 'border-rose-400/30 text-rose-300/85'
+                  : 'border-emerald-400/30 text-emerald-300/85'
+                return (
+                  <motion.div
+                    key={it.id}
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 + i * 0.07 }}
+                    className="flex items-center justify-between gap-2 rounded border border-white/8 bg-white/[0.02] px-2 py-1.5"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-semibold text-white truncate">{it.id}</div>
+                      <div className="text-[9px] text-white/45 truncate">{it.desc}</div>
+                    </div>
+                    <span className={['shrink-0 font-mono text-[8px] uppercase tracking-widest rounded-full border px-1.5 py-0.5', badgeBorder].join(' ')}>
+                      {it.badge}
+                    </span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }
@@ -848,7 +942,7 @@ const AI_DURATION = 9000
 
 const AI_PROMPT = "Who's our biggest concentration risk this quarter?"
 const AI_RESPONSE =
-  "Q1 2026: 41% of revenue came from your top 3 customers. Hudson Yards Group leads at 22% — losing them would cut roughly $580K from the next 90 days. Worth diversifying — BNSF has 3 unscheduled jobs you haven't quoted yet."
+  "Q1 2026: 41% of revenue came from your top 3 customers. Continental Group leads at 22% — losing them would cut roughly $580K from the next 90 days. Worth diversifying — the regional rail pipeline has 3 unscheduled jobs you haven't quoted yet."
 
 const AI_SUGGESTIONS = [
   'Which crane underperformed this quarter?',
@@ -856,23 +950,26 @@ const AI_SUGGESTIONS = [
   'Draft an invoice from yesterday\'s dispatch',
 ]
 
-const AI_PROMPT_TYPE_START = 600
-const AI_PROMPT_TYPE_END = 1900
-const AI_RESPONSE_TYPE_START = 2400
-const AI_RESPONSE_TYPE_END = 7000
-const AI_SUGGEST_AT = 7400
+// Prompt is visible IMMEDIATELY (no typing void). AI thinks for 400ms, then streams response.
+const AI_THINK_AT = 300
+const AI_RESPONSE_TYPE_START = 900
+const AI_RESPONSE_TYPE_END = 4400
+const AI_SOURCES_AT = 4600
+const AI_SUGGEST_AT = 5200
 
 function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(AI_DURATION, active && !reduced)
   const realTick = reduced ? AI_DURATION : tick
 
-  const promptText = useTyped(AI_PROMPT, AI_PROMPT_TYPE_START, AI_PROMPT_TYPE_END, realTick, reduced)
-  const respText   = useTyped(AI_RESPONSE, AI_RESPONSE_TYPE_START, AI_RESPONSE_TYPE_END, realTick, reduced)
-  const showSuggest = reduced || realTick >= AI_SUGGEST_AT
+  const respText = useTyped(AI_RESPONSE, AI_RESPONSE_TYPE_START, AI_RESPONSE_TYPE_END, realTick, reduced)
+  const showAiBubble = reduced || realTick >= AI_THINK_AT
+  const showSources  = reduced || realTick >= AI_SOURCES_AT
+  const showSuggest  = reduced || realTick >= AI_SUGGEST_AT
+  const isStreaming  = !reduced && realTick >= AI_RESPONSE_TYPE_START && realTick < AI_RESPONSE_TYPE_END
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-3 mb-3">
+      <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2.5">
           <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--color-yellow)] to-amber-500 grid place-items-center text-black">
             <Sparkles size={14} strokeWidth={2.5} />
@@ -887,49 +984,55 @@ function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
         </span>
       </div>
 
-      <div className="space-y-2.5 min-h-[260px]">
-        {/* User prompt bubble */}
+      <div className="space-y-2.5">
+        {/* User prompt bubble — visible immediately */}
         <div className="flex justify-end">
           <div className="max-w-[80%] rounded-2xl rounded-tr-md bg-white/[0.06] border border-white/10 px-3.5 py-2 text-sm text-white/85">
-            {promptText}
-            {!reduced && realTick >= AI_PROMPT_TYPE_START && realTick < AI_PROMPT_TYPE_END && (
-              <span className="inline-block w-1 h-3 ml-0.5 align-middle bg-white/60 animate-pulse" />
-            )}
+            {AI_PROMPT}
           </div>
         </div>
 
-        {/* AI response */}
-        {realTick >= AI_RESPONSE_TYPE_START - 200 && (
+        {/* AI response bubble */}
+        {showAiBubble && (
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.3 }}
             className="flex items-start gap-2"
           >
             <span className="shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--color-yellow)] to-amber-500 grid place-items-center text-black">
               <Cpu size={13} strokeWidth={2.5} />
             </span>
             <div className="flex-1 rounded-2xl rounded-tl-md bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/10 px-3.5 py-2.5">
-              <div className="text-sm text-white/85 leading-relaxed">
-                {respText || (
+              <div className="text-sm text-white/85 leading-relaxed min-h-[1.5em]">
+                {respText ? (
+                  <>
+                    {respText}
+                    {isStreaming && (
+                      <span className="inline-block w-1 h-3 ml-0.5 align-middle bg-[var(--color-yellow)] animate-pulse" />
+                    )}
+                  </>
+                ) : (
                   <span className="inline-flex items-center gap-1 text-white/40 text-xs">
                     <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
                     <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse [animation-delay:120ms]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse [animation-delay:240ms]" />
-                    Reading your data...
+                    Reading your data
                   </span>
                 )}
-                {!reduced && realTick >= AI_RESPONSE_TYPE_START && realTick < AI_RESPONSE_TYPE_END && (
-                  <span className="inline-block w-1 h-3 ml-0.5 align-middle bg-[var(--color-yellow)] animate-pulse" />
-                )}
               </div>
-              {respText && (
-                <div className="mt-2 flex items-center gap-2 text-[10px] text-white/45 font-mono">
+              {showSources && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="mt-2 flex items-center gap-2 text-[10px] text-white/45 font-mono"
+                >
                   <span className="inline-flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     Q1 revenue · Top customers · Pipeline
                   </span>
-                </div>
+                </motion.div>
               )}
             </div>
           </motion.div>
@@ -950,15 +1053,17 @@ function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {AI_SUGGESTIONS.map((s, i) => (
-                  <motion.span
+                  <motion.button
                     key={s}
+                    type="button"
+                    tabIndex={-1}
                     initial={{ opacity: 0, y: 3 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, delay: i * 0.07 }}
-                    className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] hover:border-[var(--color-yellow)]/30 px-2.5 py-1 text-[11px] text-white/65 cursor-default"
+                    className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] hover:border-[var(--color-yellow)]/30 hover:text-white px-2.5 py-1 text-[11px] text-white/65 transition-colors"
                   >
                     {s}
-                  </motion.span>
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
