@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import logo from '../assets/boomline-logo.png'
 import FeatureMarquee from '../components/FeatureMarquee'
-import LiveDispatchDemo from '../components/LiveDispatchDemo'
+import LiveProductShowcase from '../components/LiveProductShowcase'
 import { useDemo } from '../contexts/DemoContext'
 
 type HomeFeature = {
@@ -164,33 +164,31 @@ export default function Home() {
       {/* PROBLEM */}
       <section className="relative border-t border-white/5 py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-                The problem
-              </p>
-              <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] leading-[1.02] text-white text-balance">
-                Generic field-service software wasn&rsquo;t built for{' '}
-                <span
-                  style={{ fontFamily: 'var(--font-accent)', letterSpacing: '0.005em' }}
-                  className="uppercase font-normal bg-gradient-to-r from-[var(--color-yellow)] via-amber-300 to-orange-300 bg-clip-text text-transparent pr-1"
-                >
-                  This Industry.
-                </span>
-              </h2>
-              <p className="mt-6 text-white/60 leading-relaxed">
-                They don&rsquo;t properly cover the complexity of the
-                scheduling, operations, and maintenance behind the scenes of a
-                crane rental company.
-              </p>
-              <p className="mt-4 text-white/80">
-                Boomline is different — built from the ground up for crane
-                companies, by people who run them.
-              </p>
-            </div>
-
-            <LiveDispatchDemo />
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <p className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+              The problem
+            </p>
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] leading-[1.02] text-white text-balance">
+              Generic field-service software wasn&rsquo;t built for{' '}
+              <span
+                style={{ fontFamily: 'var(--font-accent)', letterSpacing: '0.005em' }}
+                className="uppercase font-normal bg-gradient-to-r from-[var(--color-yellow)] via-amber-300 to-orange-300 bg-clip-text text-transparent pr-1"
+              >
+                This Industry.
+              </span>
+            </h2>
+            <p className="mt-6 text-white/60 leading-relaxed text-lg">
+              They don&rsquo;t properly cover the complexity of the scheduling,
+              operations, and maintenance behind the scenes of a crane rental
+              company.
+            </p>
+            <p className="mt-4 text-white/80 text-lg">
+              Boomline is different — built from the ground up for crane
+              companies, by people who run them.
+            </p>
           </div>
+
+          <LiveProductShowcase />
         </div>
       </section>
 
