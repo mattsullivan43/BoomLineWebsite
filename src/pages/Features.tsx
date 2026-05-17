@@ -12,12 +12,10 @@ import {
   ClipboardList,
   Construction,
   Truck,
+  Users,
   RefreshCw,
   Clock,
   CalendarOff,
-  ClipboardCheck,
-  ShieldCheck,
-  Award,
   FileWarning,
   Receipt,
   DollarSign,
@@ -87,7 +85,7 @@ const categories: Category[] = [
       {
         Icon: Clock,
         title: 'TimeSheets',
-        body: 'Weekly grid by employee. ST and OT auto-calc by job. Export to PDF.',
+        body: 'Weekly grid by employee. Standard time and overtime auto-calc by job. Export to PDF.',
       },
       {
         Icon: CalendarOff,
@@ -128,32 +126,14 @@ const categories: Category[] = [
         body: 'Trucks, trailers, forklifts, and more — tracked alongside cranes. Same logic, same visibility.',
       },
       {
+        Icon: Users,
+        title: 'Outside Trucking and Employees',
+        body: 'Track third-party trucking and outside employees to stay on top of your managed jobs.',
+      },
+      {
         Icon: RefreshCw,
         title: 'Re-Rent Tracking',
         body: 'When you sub work out or rent machines. Cost, duration, customer billing — all reconciled.',
-      },
-    ],
-  },
-  {
-    eyebrow: 'Compliance & Safety',
-    title: 'Audit-ready by default.',
-    description:
-      'Company information, formatted neatly for quick access.',
-    features: [
-      {
-        Icon: ClipboardCheck,
-        title: 'Pre-Op Inspections',
-        body: 'Checklists keyed to crane type. Filed directly to the job record.',
-      },
-      {
-        Icon: ShieldCheck,
-        title: 'Annual Inspections',
-        body: 'Load tests, safety-lane reviews, full annual workflow. Print-ready report, signature capture.',
-      },
-      {
-        Icon: Award,
-        title: 'Operator Certifications',
-        body: 'Medical cards, training records, license expiry. Alerts before anything lapses.',
       },
     ],
   },
@@ -215,7 +195,7 @@ const categories: Category[] = [
       {
         Icon: PieChart,
         title: 'Customer Concentration',
-        body: 'Top customers by revenue, by jobs, by risk. Know who you can’t afford to lose.',
+        body: 'Top customers by revenue and amount of jobs.',
       },
       {
         Icon: AlertTriangle,
