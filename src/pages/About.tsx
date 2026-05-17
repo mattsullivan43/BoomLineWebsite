@@ -13,11 +13,6 @@ const values = [
   },
   {
     n: '02',
-    title: 'Easy for the crew',
-    body: 'If it adds friction for the foreman or the operator, we don’t ship it.',
-  },
-  {
-    n: '03',
     title: 'We grow with you',
     body: 'Start small with what you need today, or run the full platform from day one — we flip features on as you’re ready. Add or drop as your operation changes.',
   },
