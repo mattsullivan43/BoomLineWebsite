@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import logo from '../assets/boomline-logo.png'
 import FeatureMarquee from '../components/FeatureMarquee'
+import LiveDispatchDemo from '../components/LiveDispatchDemo'
 import { useDemo } from '../contexts/DemoContext'
 
 type HomeFeature = {
@@ -188,64 +189,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="relative">
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent p-6 backdrop-blur-sm">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-white/50">
-                      Live Operations
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] text-white/30">
-                    boomline.co/dispatch
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 mb-5">
-                  {[
-                    { v: '12', l: 'Active jobs' },
-                    { v: '8', l: 'Cranes out' },
-                    { v: '96%', l: 'Utilization' },
-                  ].map((s) => (
-                    <div
-                      key={s.l}
-                      className="rounded-xl bg-white/[0.03] border border-white/5 p-3"
-                    >
-                      <div className="text-2xl font-semibold text-white tabular-nums">
-                        {s.v}
-                      </div>
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-white/40 mt-1">
-                        {s.l}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-2">
-                  {[80, 65, 92, 48].map((w, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 p-2 rounded-lg bg-white/[0.02]"
-                    >
-                      <div
-                        className="w-1 h-6 rounded-full"
-                        style={{
-                          background:
-                            i % 2 === 0
-                              ? 'var(--color-yellow)'
-                              : 'rgba(255,255,255,0.3)',
-                        }}
-                      />
-                      <div
-                        className="h-2 rounded-full bg-white/10"
-                        style={{ width: w + '%' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <LiveDispatchDemo />
           </div>
         </div>
       </section>
