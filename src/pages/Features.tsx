@@ -12,13 +12,9 @@ import {
   ClipboardList,
   Construction,
   Truck,
-  Container,
   RefreshCw,
-  Users,
   Clock,
   CalendarOff,
-  ListChecks,
-  UserCheck,
   ClipboardCheck,
   ShieldCheck,
   Award,
@@ -32,7 +28,6 @@ import {
   Bell,
   Mic,
   Sparkles,
-  Gauge,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import FeatureMarquee from '../components/FeatureMarquee'
@@ -51,7 +46,7 @@ const categories: Category[] = [
     eyebrow: 'Operations',
     title: 'Run the day, every day.',
     description:
-      'The board, the calendar, the dispatch — everything your foreman needs to run the day.',
+      'The board, the calendar, the dispatch — everything you need to run the day.',
     features: [
       {
         Icon: Briefcase,
@@ -71,12 +66,12 @@ const categories: Category[] = [
       {
         Icon: Calculator,
         title: 'Quotes',
-        body: 'Build quotes from rate cards. Convert to jobs in one step. Send PDF to customer.',
+        body: 'Build quotes from rate tables. Convert to jobs in one step. Send PDF to customer.',
       },
       {
         Icon: Activity,
-        title: 'Operations Hub',
-        body: 'Real-time job status updates from the field — pre-op, on site, complete.',
+        title: 'Customizable Dashboard for Operations',
+        body: 'Customize your dashboard by selecting the features most important to you.',
       },
       {
         Icon: MapPin,
@@ -86,59 +81,8 @@ const categories: Category[] = [
       {
         Icon: FileSignature,
         title: 'Field Tickets',
-        body: 'Customer signatures, job-site photos, and ticket sign-offs — captured in the field and attached to the work order.',
+        body: 'Live digital job tickets, first and second signatures captured, linked to the job for billing. Exportable customer copy.',
         tag: 'beta',
-      },
-    ],
-  },
-  {
-    eyebrow: 'Equipment & Maintenance',
-    title: 'Cranes that earn their keep.',
-    description:
-      'Track every asset. Catch problems before downtime. Keep your inspectors happy.',
-    features: [
-      {
-        Icon: Wrench,
-        title: 'Maintenance Command Center',
-        body: 'Recurring PM by hours, miles, or calendar days. Whichever-comes-first logic. Overdue / Due soon / On track.',
-      },
-      {
-        Icon: ClipboardList,
-        title: 'Work Orders',
-        body: 'Field, Shop, or Maintenance source. Priority + status workflow. Assigned to a tech, files in history.',
-      },
-      {
-        Icon: Construction,
-        title: 'Cranes',
-        body: 'Full asset record per machine. Hours, miles, certifications, maintenance log, work order history.',
-      },
-      {
-        Icon: Truck,
-        title: 'Trucks',
-        body: 'Track service trucks and boom trucks alongside cranes — same PM logic, same visibility.',
-      },
-      {
-        Icon: Container,
-        title: 'Trailers',
-        body: 'Lowboys, flatbeds, jeeps. Inspection schedules, load ratings, current assignment.',
-      },
-      {
-        Icon: RefreshCw,
-        title: 'Re-Rent Tracking',
-        body: 'When you sub work out or rent machines in. Cost, duration, customer billing — all reconciled.',
-      },
-    ],
-  },
-  {
-    eyebrow: 'Workforce',
-    title: 'Your people, accounted for.',
-    description:
-      'Who’s on what. Who’s out. Who’s costing you overtime.',
-    features: [
-      {
-        Icon: Users,
-        title: 'Employee Board',
-        body: 'Every operator, every laborer, every foreman — at-a-glance availability for today.',
       },
       {
         Icon: Clock,
@@ -151,19 +95,42 @@ const categories: Category[] = [
         body: 'Request, approve, balance-track. Visible on the dispatch board so you don’t double-book.',
       },
       {
-        Icon: ListChecks,
-        title: 'My Assignments',
-        body: 'Each employee sees only their schedule. Today’s job, this week’s plan, from any device.',
+        Icon: FileWarning,
+        title: 'Safety & Training',
+        body: 'Keep employees up to date with company safety standards.',
+      },
+    ],
+  },
+  {
+    eyebrow: 'Equipment & Maintenance',
+    title: 'Cranes that earn their keep.',
+    description:
+      'Track every asset. Catch problems before downtime. Stay one step ahead.',
+    features: [
+      {
+        Icon: Wrench,
+        title: 'Maintenance Command Center',
+        body: 'Recurring service intervals by hours, miles, or calendar days. Whichever-comes-first logic. Overdue / Due soon / On track.',
       },
       {
-        Icon: UserCheck,
-        title: 'Crews',
-        body: 'Build standing crews — operator + oiler + laborer — and assign as a unit.',
+        Icon: ClipboardList,
+        title: 'Work Orders',
+        body: 'Create field, shop, or maintenance work orders. Filtered by priority status. Ability to assign to techs or employees.',
       },
       {
-        Icon: Gauge,
-        title: 'Utilization & Idle Time',
-        body: 'See exactly who isn’t on a job — and when. Spot unassigned hours before they become a lost day, and squeeze every dollar of capacity out of the people you already have.',
+        Icon: Construction,
+        title: 'Cranes',
+        body: 'Full asset record per machine. Hours, miles, inspections, maintenance log, work order history.',
+      },
+      {
+        Icon: Truck,
+        title: 'Other Assets',
+        body: 'Trucks, trailers, forklifts, and more — tracked alongside cranes. Same logic, same visibility.',
+      },
+      {
+        Icon: RefreshCw,
+        title: 'Re-Rent Tracking',
+        body: 'When you sub work out or rent machines. Cost, duration, customer billing — all reconciled.',
       },
     ],
   },
@@ -171,7 +138,7 @@ const categories: Category[] = [
     eyebrow: 'Compliance & Safety',
     title: 'Audit-ready by default.',
     description:
-      'OSHA, DOT — built into the workflow, not bolted on after.',
+      'Company information, formatted neatly for quick access.',
     features: [
       {
         Icon: ClipboardCheck,
@@ -187,11 +154,6 @@ const categories: Category[] = [
         Icon: Award,
         title: 'Operator Certifications',
         body: 'Medical cards, training records, license expiry. Alerts before anything lapses.',
-      },
-      {
-        Icon: FileWarning,
-        title: 'Safety & Training',
-        body: 'Who’s trained on what crane. What HazMat, what rigging classes. All tracked.',
       },
     ],
   },
@@ -210,7 +172,7 @@ const categories: Category[] = [
       {
         Icon: DollarSign,
         title: 'Invoicing',
-        body: 'Generate from job data. Email to customer. Track sent / viewed / paid.',
+        body: 'Generate from job data. Email to customer. Track sent / paid.',
         tag: 'beta',
       },
       {
@@ -258,7 +220,7 @@ const categories: Category[] = [
       {
         Icon: AlertTriangle,
         title: 'Maintenance Risk',
-        body: 'Overdue PM exposure. Certification gaps. Where downtime is about to bite.',
+        body: 'Overdue maintenance exposure. Inspection gaps. Where downtime is about to bite.',
       },
       {
         Icon: Bell,
