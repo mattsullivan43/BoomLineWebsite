@@ -13,16 +13,11 @@ const values = [
   },
   {
     n: '02',
-    title: 'Operator-first',
+    title: 'Easy for the crew',
     body: 'If it adds friction for the foreman or the operator, we don’t ship it.',
   },
   {
     n: '03',
-    title: 'Compliance by default',
-    body: 'OSHA, DOT — built into the workflow, not bolted on.',
-  },
-  {
-    n: '04',
     title: 'We grow with you',
     body: 'Start small with what you need today, or run the full platform from day one — we flip features on as you’re ready. Add or drop as your operation changes.',
   },
@@ -74,10 +69,10 @@ export default function About() {
             transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
             className="mt-7 text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
           >
-            Designed by crane rental business owners, for crane rental
-            business owners. A platform built around how a crane company
-            actually runs &mdash; not bolted onto generic field-service
-            tools that were never made for the industry.
+            Built with trusted field experts, for crane companies. A
+            platform built around how a crane company actually runs
+            &mdash; not bolted onto generic field-service tools that were
+            never made for the industry.
           </motion.p>
         </div>
       </section>
@@ -96,11 +91,11 @@ export default function About() {
             </h2>
             <div className="space-y-5 text-white/70 leading-relaxed text-lg">
               <p>
-                Crane companies move the country forward &mdash; literally.
-                Bridges, hospitals, data centers, wind farms. None of it
-                goes up without a crane on site. But the people running
-                these businesses are stuck stitching together half a dozen
-                tools that were never made for them.
+                Crane companies move the country forward. Bridges,
+                hospitals, data centers, wind farms. None of it goes up
+                without a crane on site. The people running these
+                businesses need a solution that can handle the flexibility,
+                complexity, and specialization of the crane industry.
               </p>
               <p>
                 We&rsquo;re building the operating system for crane rental:
@@ -172,10 +167,10 @@ export default function About() {
             </h2>
             <p className="mt-6 text-white/60 leading-relaxed text-lg">
               Matt and Jason met in elementary school and have been friends
-              ever since. Decades later &mdash; Matt deep in software,
+              ever since. Many years later &mdash; Matt deep in software,
               Jason running cranes &mdash; they came together when they
-              realized the specialized platform the crane industry
-              actually needed didn&rsquo;t exist. So they built it.
+              realized there was an opportunity to create a specialized
+              platform tailored to the crane industry. So they built it.
             </p>
           </div>
 
