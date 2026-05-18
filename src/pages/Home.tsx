@@ -244,7 +244,7 @@ export default function Home() {
                   <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
                     {f.n}
                   </span>
-                  {f.tag ? (
+                  {f.tag && (
                     <span
                       className={[
                         'font-mono text-[9px] uppercase tracking-widest rounded-full border px-2 py-0.5',
@@ -254,10 +254,6 @@ export default function Home() {
                       ].join(' ')}
                     >
                       {f.tag}
-                    </span>
-                  ) : (
-                    <span className="w-8 h-8 rounded-lg border border-white/10 bg-white/[0.03] flex items-center justify-center text-[var(--color-yellow)] group-hover:border-[var(--color-yellow)]/40 transition-colors">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </span>
                   )}
                 </div>
