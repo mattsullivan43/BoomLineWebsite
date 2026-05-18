@@ -10,13 +10,18 @@ import {
   ChevronRight,
   CircleDot,
   ClipboardList,
+  Construction,
   Cpu,
   LayoutDashboard,
+  MapPin,
+  Pause,
+  Play,
   Send,
   Sparkles,
   Truck,
   UserPlus,
   UserX,
+  X,
 } from 'lucide-react'
 
 /* ------------------------------------------------------------------ */
@@ -34,17 +39,20 @@ type PaneDef = {
 
 const PANES: PaneDef[] = [
   { key: 'dispatch', label: 'Daily Dispatch',   Icon: Send,            durationMs: 8200 },
-  { key: 'calendar', label: 'Jobs Calendar',    Icon: CalendarIcon,    durationMs: 6800 },
+  { key: 'calendar', label: 'Jobs Calendar',    Icon: CalendarIcon,    durationMs: 9500 },
   { key: 'overview', label: 'Command Center',   Icon: LayoutDashboard, durationMs: 7200 },
   { key: 'ai',       label: 'Boomline AI',      Icon: Sparkles,        durationMs: 9000 },
 ]
 
 export default function LiveProductShowcase() {
   const [activeIdx, setActiveIdx] = useState(0)
-  const [paused, setPaused] = useState(false)
+  // userPaused = explicit play/pause control. Tab click also sets it true.
+  const [userPaused, setUserPaused] = useState(false)
   const [visible, setVisible] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion() ?? false
+
+  const paused = userPaused || !visible || reduced
 
   useEffect(() => {
     const el = containerRef.current
@@ -58,23 +66,23 @@ export default function LiveProductShowcase() {
   }, [])
 
   useEffect(() => {
-    if (paused || !visible || reduced) return
+    if (paused) return
     const ms = PANES[activeIdx].durationMs
     const t = window.setTimeout(() => {
       setActiveIdx((i) => (i + 1) % PANES.length)
     }, ms)
     return () => window.clearTimeout(t)
-  }, [activeIdx, paused, visible, reduced])
+  }, [activeIdx, paused])
 
   const active = PANES[activeIdx]
 
+  const handleTabClick = (idx: number) => {
+    setActiveIdx(idx)
+    setUserPaused(true) // exploring — let the user read
+  }
+
   return (
-    <div
-      ref={containerRef}
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
+    <div ref={containerRef} className="relative">
       {/* Ambient glow */}
       <div
         aria-hidden
@@ -99,14 +107,29 @@ export default function LiveProductShowcase() {
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5">
-            <span className="relative flex w-1.5 h-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50 animate-ping" />
-              <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-white/45">
-              Live demo
-            </span>
+          <div className="flex items-center gap-2.5">
+            <div className="hidden sm:flex items-center gap-1.5">
+              <span className="relative flex w-1.5 h-1.5">
+                {!userPaused && (
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50 animate-ping" />
+                )}
+                <span className={[
+                  'relative inline-flex w-1.5 h-1.5 rounded-full',
+                  userPaused ? 'bg-white/30' : 'bg-emerald-400',
+                ].join(' ')} />
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/45">
+                {userPaused ? 'Paused' : 'Live demo'}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setUserPaused((p) => !p)}
+              aria-label={userPaused ? 'Play demo' : 'Pause demo'}
+              className="inline-flex items-center justify-center w-6 h-6 rounded-md border border-white/10 bg-white/[0.04] hover:border-[var(--color-yellow)]/40 hover:bg-[var(--color-yellow)]/10 text-white/70 hover:text-[var(--color-yellow)] transition-colors"
+            >
+              {userPaused ? <Play size={11} strokeWidth={2.5} /> : <Pause size={11} strokeWidth={2.5} />}
+            </button>
           </div>
         </div>
 
@@ -119,7 +142,7 @@ export default function LiveProductShowcase() {
               <button
                 key={p.key}
                 type="button"
-                onClick={() => setActiveIdx(i)}
+                onClick={() => handleTabClick(i)}
                 className={[
                   'group relative inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs font-medium rounded-t-lg transition-colors whitespace-nowrap',
                   isActive
@@ -161,12 +184,15 @@ export default function LiveProductShowcase() {
 
         {/* Progress strip — shows cycle position */}
         <div className="grid grid-cols-4 gap-1 px-3 pb-3">
-          {PANES.map((_, i) => (
+          {PANES.map((p, i) => (
             <ProgressBar
-              key={i}
+              key={p.key}
               active={i === activeIdx}
-              durationMs={PANES[i].durationMs}
-              paused={paused || !visible || reduced}
+              past={i < activeIdx}
+              durationMs={p.durationMs}
+              paused={paused}
+              // cycleId resets the bar only on tab change, not on pause toggle
+              cycleId={`${activeIdx}`}
             />
           ))}
         </div>
@@ -175,6 +201,10 @@ export default function LiveProductShowcase() {
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { scrollbar-width: none; }
+        @keyframes showcaseProgress {
+          from { width: 0%; }
+          to   { width: 100%; }
+        }
       `}</style>
     </div>
   )
@@ -182,25 +212,32 @@ export default function LiveProductShowcase() {
 
 function ProgressBar({
   active,
+  past,
   durationMs,
   paused,
+  cycleId,
 }: {
   active: boolean
+  past: boolean
   durationMs: number
   paused: boolean
+  cycleId: string
 }) {
   return (
     <div className="h-0.5 rounded-full bg-white/5 overflow-hidden">
-      {active && !paused && (
-        <motion.div
-          key={`${durationMs}`}
-          initial={{ width: '0%' }}
-          animate={{ width: '100%' }}
-          transition={{ duration: durationMs / 1000, ease: 'linear' }}
+      {active ? (
+        <div
+          key={cycleId}
           className="h-full bg-[var(--color-yellow)]/70"
+          style={{
+            width: '0%',
+            animation: `showcaseProgress ${durationMs}ms linear forwards`,
+            animationPlayState: paused ? 'paused' : 'running',
+          }}
         />
-      )}
-      {active && paused && <div className="h-full w-full bg-[var(--color-yellow)]/30" />}
+      ) : past ? (
+        <div className="h-full w-full bg-white/15" />
+      ) : null}
     </div>
   )
 }
@@ -548,18 +585,19 @@ const CAL_DAYS: { day: number | null; chips: CalChip[] }[] = [
   { day: 31, chips: [] },
 ]
 
-const CALENDAR_DURATION = 6800
-// Highlight one cell mid-cycle to feel "alive"
-const CAL_HIGHLIGHT_AT = 2400
-const CAL_HIGHLIGHT_END = 4200
+const CALENDAR_DURATION = 9500
+// Highlight one cell mid-cycle, then pop the job-detail modal over the calendar.
+const CAL_HIGHLIGHT_AT = 1800
 const CAL_HIGHLIGHT_DAY = 13
+const CAL_MODAL_OPEN_AT = 2400
 
 function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(CALENDAR_DURATION, active && !reduced)
   const realTick = reduced ? CALENDAR_DURATION : tick
+  const modalOpen = realTick >= CAL_MODAL_OPEN_AT
 
   return (
-    <div>
+    <div className="relative">
       <div className="flex items-center justify-between gap-2 mb-3">
         <div>
           <div className="text-base font-semibold text-white tracking-tight">Jobs Calendar</div>
@@ -587,10 +625,7 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
 
       <div className="grid grid-cols-7 gap-1">
         {CAL_DAYS.map((cell, i) => {
-          const highlighted =
-            cell.day === CAL_HIGHLIGHT_DAY &&
-            realTick >= CAL_HIGHLIGHT_AT &&
-            realTick < CAL_HIGHLIGHT_END
+          const highlighted = cell.day === CAL_HIGHLIGHT_DAY && realTick >= CAL_HIGHLIGHT_AT
           return (
             <div
               key={i}
@@ -599,7 +634,7 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
                 cell.day == null
                   ? 'border-white/5 bg-white/[0.01]'
                   : highlighted
-                  ? 'border-[var(--color-yellow)]/50 bg-[var(--color-yellow)]/[0.06]'
+                  ? 'border-[var(--color-yellow)]/60 bg-[var(--color-yellow)]/[0.08] shadow-[0_0_0_1px_rgba(255,184,0,0.35)]'
                   : 'border-white/10 bg-white/[0.025]',
               ].join(' ')}
             >
@@ -607,28 +642,24 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
                 <div className="text-[9px] text-white/45 font-medium leading-none mb-1">{cell.day}</div>
               )}
               <div className="space-y-[2px]">
-                {cell.chips
-                  .filter((c) => (c as CalChip).color)
-                  .slice(0, 3)
-                  .map((chip, idx) => {
-                    const c = chip as CalChip
-                    const delay = i * 0.012 + idx * 0.04
-                    return (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: -2 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.25, delay }}
-                        className={[
-                          'truncate rounded px-1 py-[1px] text-[8px] sm:text-[9px] font-medium leading-tight border',
-                          CHIP_TONES[c.color],
-                          c.cancelled ? 'line-through opacity-85' : '',
-                        ].join(' ')}
-                      >
-                        {c.label}
-                      </motion.div>
-                    )
-                  })}
+                {cell.chips.slice(0, 3).map((chip, idx) => {
+                  const delay = i * 0.012 + idx * 0.04
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: -2 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, delay }}
+                      className={[
+                        'truncate rounded px-1 py-[1px] text-[8px] sm:text-[9px] font-medium leading-tight border',
+                        CHIP_TONES[chip.color],
+                        chip.cancelled ? 'line-through opacity-85' : '',
+                      ].join(' ')}
+                    >
+                      {chip.label}
+                    </motion.div>
+                  )
+                })}
               </div>
             </div>
           )
@@ -641,6 +672,148 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
         <Legend tone="orange" label="In progress" />
         <Legend tone="black" label="Internal"   />
         <Legend tone="red"   label="Cancelled"  />
+      </div>
+
+      {/* Job detail modal */}
+      <AnimatePresence>
+        {modalOpen && (
+          <motion.div
+            key="job-modal-scrim"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="absolute inset-0 z-10 flex items-center justify-center"
+          >
+            <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px] rounded-md" />
+            <motion.div
+              key="job-modal"
+              initial={{ opacity: 0, y: 14, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 6, scale: 0.97 }}
+              transition={{ duration: 0.3, delay: 0.04, ease: [0.19, 1, 0.22, 1] }}
+              className="relative w-[94%] sm:w-[90%] max-w-md rounded-xl border border-white/15 bg-[#0c0c0d] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] p-4"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <Construction size={16} className="text-[var(--color-yellow)] shrink-0" />
+                  <span className="text-sm sm:text-base font-bold text-white truncate">
+                    North Branch Well
+                  </span>
+                </div>
+                <button tabIndex={-1} aria-hidden className="text-white/35 hover:text-white/70 cursor-default p-0.5">
+                  <X size={13} />
+                </button>
+              </div>
+
+              <div className="text-[10px] text-white/45 mb-3 leading-relaxed">
+                No quote linked to this job.{' '}
+                <span className="text-emerald-300/80 underline underline-offset-2">Edit job</span>{' '}
+                and choose one under "Linked quote".
+              </div>
+
+              {/* Action button row */}
+              <div className="flex flex-wrap gap-1 mb-3">
+                <ModalAction tone="emerald" filled>Create Dispatch</ModalAction>
+                <ModalAction>Edit</ModalAction>
+                <ModalAction>Re-Rent</ModalAction>
+                <ModalAction tone="rose">Cancel Day</ModalAction>
+                <ModalAction tone="amber">Idle Day</ModalAction>
+                <ModalAction>Delay Job</ModalAction>
+              </div>
+
+              {/* Job Information */}
+              <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
+                <div className="text-[11px] font-semibold text-white mb-2 flex items-center gap-1.5">
+                  <MapPin size={11} className="text-emerald-300/80" />
+                  Job Information
+                </div>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-[10px]">
+                  <ModalField label="Address"      value="1284 County Rd 17" />
+                  <ModalField label="City & State" value="Greenfield, OH" />
+                  <ModalField label="Start"        value="May 12 · 7:00 AM" />
+                  <ModalField label="End"          value="May 13 · 3:00 PM" />
+                  <ModalField label="Duration"     value="2 days (weekdays)" />
+                  <ModalField label="Salesperson"  value="Not set" muted />
+                  <ModalField label="Contact"      value="Mason · (555) 040-9009" />
+                  <ModalField label="Equipment"    value="110 ton" />
+                </div>
+                <div className="mt-2 pt-2 border-t border-white/8">
+                  <div className="font-mono text-[8px] uppercase tracking-widest text-white/40 mb-0.5">
+                    Description
+                  </div>
+                  <div className="text-[10px] text-white/85">Set well pipe</div>
+                </div>
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <span className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/65">
+                    PO · MC26-1256
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/70">
+                    $ Unpaid
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-md border border-amber-400/30 bg-amber-500/[0.08] px-1.5 py-0.5 text-[9px] text-amber-300/85">
+                    Grease Time
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function ModalAction({
+  children,
+  tone,
+  filled,
+}: {
+  children: React.ReactNode
+  tone?: 'emerald' | 'rose' | 'amber'
+  filled?: boolean
+}) {
+  const cls =
+    filled && tone === 'emerald'
+      ? 'bg-emerald-500/90 hover:bg-emerald-400 text-black border-emerald-400'
+      : tone === 'rose'
+      ? 'border-rose-400/40 text-rose-300/90 hover:bg-rose-500/10'
+      : tone === 'amber'
+      ? 'border-amber-400/40 text-amber-300/90 hover:bg-amber-500/10'
+      : tone === 'emerald'
+      ? 'border-emerald-400/40 text-emerald-300/90 hover:bg-emerald-500/10'
+      : 'border-white/15 text-white/75 hover:bg-white/[0.04]'
+  return (
+    <button
+      type="button"
+      tabIndex={-1}
+      className={[
+        'inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium transition-colors cursor-default',
+        cls,
+      ].join(' ')}
+    >
+      {children}
+    </button>
+  )
+}
+
+function ModalField({
+  label,
+  value,
+  muted,
+}: {
+  label: string
+  value: string
+  muted?: boolean
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="font-mono text-[8px] uppercase tracking-widest text-white/40 leading-none mb-0.5">
+        {label}
+      </div>
+      <div className={['text-[10px] truncate', muted ? 'text-white/45 italic' : 'text-white/85'].join(' ')}>
+        {value}
       </div>
     </div>
   )

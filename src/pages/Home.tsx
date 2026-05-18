@@ -314,7 +314,7 @@ export default function Home() {
                   </span>
                   <span className="w-2 h-2 rounded-full bg-[var(--color-yellow)]" />
                 </div>
-                <h3 className="text-3xl font-bold tracking-tight text-white mb-2">
+                <h3 className="text-2xl font-bold tracking-tight text-white mb-2">
                   {r.label}
                 </h3>
                 <p className="text-sm text-white/55 mb-5">{r.desc}</p>
