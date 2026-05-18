@@ -136,8 +136,9 @@ export default function LiveProductShowcase() {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 px-2 sm:px-3 pt-2 pb-0 border-b border-white/5 overflow-x-auto no-scrollbar">
-          {PANES.map((p, i) => {
+        <div className="relative border-b border-white/5">
+          <div className="flex items-center gap-1 px-2 sm:px-3 pt-2 pb-0 overflow-x-auto no-scrollbar">
+            {PANES.map((p, i) => {
             const isActive = i === activeIdx
             const Icon = p.Icon
             return (
@@ -163,6 +164,9 @@ export default function LiveProductShowcase() {
               </button>
             )
           })}
+          </div>
+          {/* Mobile-only fade hint that tabs scroll horizontally */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0d0d0e] to-transparent sm:hidden" />
         </div>
 
         {/* Pane body */}
@@ -362,7 +366,7 @@ function DispatchPane({ reduced, active }: { reduced: boolean; active: boolean }
       </div>
 
       {/* Stat strip */}
-      <div className="grid grid-cols-4 gap-2 mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
         <Stat label="Available" value={ROSTER.filter((r) => r.kind === 'available').length} tone="emerald" />
         <Stat label="Assigned"  value={assignedTotal} tone="white" />
         <Stat label="Off"       value={ROSTER.filter((r) => r.kind === 'off').length} tone="white" />
@@ -774,6 +778,7 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
                               'truncate rounded px-1 py-[1px] text-[8px] sm:text-[9px] font-medium leading-tight border',
                               CHIP_TONES[chip.color],
                               chip.cancelled ? 'line-through opacity-85' : '',
+                              idx === 2 ? 'hidden sm:block' : '',
                             ].join(' ')}
                           >
                             {chip.label}
@@ -850,10 +855,10 @@ function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }
               <div className="flex flex-wrap gap-1 mb-3">
                 <ModalAction tone="emerald" filled>Create Dispatch</ModalAction>
                 <ModalAction>Edit</ModalAction>
-                <ModalAction>Re-Rent</ModalAction>
+                <ModalAction mobileHidden>Re-Rent</ModalAction>
                 <ModalAction tone="rose">Cancel Day</ModalAction>
-                <ModalAction tone="amber">Idle Day</ModalAction>
-                <ModalAction>Delay Job</ModalAction>
+                <ModalAction tone="amber" mobileHidden>Idle Day</ModalAction>
+                <ModalAction mobileHidden>Delay Job</ModalAction>
               </div>
 
               {/* Job Information */}
@@ -902,10 +907,12 @@ function ModalAction({
   children,
   tone,
   filled,
+  mobileHidden,
 }: {
   children: React.ReactNode
   tone?: 'emerald' | 'rose' | 'amber'
   filled?: boolean
+  mobileHidden?: boolean
 }) {
   const cls =
     filled && tone === 'emerald'
@@ -922,7 +929,8 @@ function ModalAction({
       type="button"
       tabIndex={-1}
       className={[
-        'inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium transition-colors cursor-default',
+        mobileHidden ? 'hidden sm:inline-flex' : 'inline-flex',
+        'items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium transition-colors cursor-default',
         cls,
       ].join(' ')}
     >
@@ -963,9 +971,10 @@ function Legend({ tone, label }: { tone: ChipColor; label: string }) {
 
 function WeekView() {
   return (
-    <div className="grid grid-cols-7 gap-1.5">
-      {WEEK_DATA.map((col, colIdx) => (
-        <div key={col.date} className="flex flex-col gap-1.5 min-w-0">
+    <div className="-mx-1 px-1 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-x-visible no-scrollbar pb-2 sm:pb-0">
+      <div className="flex sm:grid sm:grid-cols-7 gap-1.5">
+        {WEEK_DATA.map((col, colIdx) => (
+          <div key={col.date} className="flex flex-col gap-1.5 shrink-0 w-[148px] sm:w-auto sm:shrink sm:min-w-0">
           {/* Column header */}
           <div className="text-center">
             <div className="font-mono text-[9px] uppercase tracking-widest text-white/40">{col.day}</div>
@@ -1014,7 +1023,8 @@ function WeekView() {
             </div>
           )}
         </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
@@ -1138,6 +1148,13 @@ const SUB_TAB_LABEL: Record<SubTabKey, string> = {
   cash: 'Cash',
 }
 
+const SUB_TAB_LABEL_SHORT: Record<SubTabKey, string> = {
+  operations: 'Ops',
+  fleet: 'Fleet',
+  maintenance: 'Maint.',
+  cash: 'Cash',
+}
+
 const SUB_TAB_ORDER: SubTabKey[] = ['operations', 'fleet', 'maintenance', 'cash']
 
 function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }) {
@@ -1215,7 +1232,8 @@ function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }
                 : 'text-white/45 hover:text-white/80 hover:bg-white/[0.02]',
             ].join(' ')}
           >
-            {SUB_TAB_LABEL[key]}
+            <span className="sm:hidden">{SUB_TAB_LABEL_SHORT[key]}</span>
+            <span className="hidden sm:inline">{SUB_TAB_LABEL[key]}</span>
             {subTab === key && (
               <motion.span
                 layoutId="subTabUnderline"
