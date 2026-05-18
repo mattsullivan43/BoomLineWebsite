@@ -6,10 +6,12 @@ import {
   Briefcase,
   Calendar as CalendarIcon,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   CircleDot,
   ClipboardList,
+  Clock,
   Construction,
   Cpu,
   LayoutDashboard,
@@ -39,9 +41,9 @@ type PaneDef = {
 
 const PANES: PaneDef[] = [
   { key: 'dispatch', label: 'Daily Dispatch',   Icon: Send,            durationMs: 8200 },
-  { key: 'calendar', label: 'Jobs Calendar',    Icon: CalendarIcon,    durationMs: 9500 },
-  { key: 'overview', label: 'Command Center',   Icon: LayoutDashboard, durationMs: 7200 },
-  { key: 'ai',       label: 'Boomline AI',      Icon: Sparkles,        durationMs: 9000 },
+  { key: 'calendar', label: 'Jobs Calendar',    Icon: CalendarIcon,    durationMs: 13000 },
+  { key: 'overview', label: 'Command Center',   Icon: LayoutDashboard, durationMs: 12000 },
+  { key: 'ai',       label: 'Boomline AI',      Icon: Sparkles,        durationMs: 12000 },
 ]
 
 export default function LiveProductShowcase() {
@@ -585,94 +587,225 @@ const CAL_DAYS: { day: number | null; chips: CalChip[] }[] = [
   { day: 31, chips: [] },
 ]
 
-const CALENDAR_DURATION = 9500
-// Highlight one cell mid-cycle, then pop the job-detail modal over the calendar.
+const CALENDAR_DURATION = 13000
+// Story: chips fade in → day 13 highlights → job modal pops → modal closes →
+// period dropdown opens → Week option highlights → view morphs to Week.
 const CAL_HIGHLIGHT_AT = 1800
 const CAL_HIGHLIGHT_DAY = 13
 const CAL_MODAL_OPEN_AT = 2400
+const CAL_MODAL_CLOSE_AT = 5400
+const CAL_DROPDOWN_OPEN_AT = 5800
+const CAL_DROPDOWN_HOVER_AT = 6300  // Week option highlights yellow
+const CAL_WEEK_VIEW_AT = 6800       // view transitions to Week
+
+type WeekCard = {
+  color: ChipColor
+  name: string
+  addr: string
+  time: string
+  tag?: string
+}
+
+const WEEK_TONES: Record<ChipColor, string> = {
+  green:  'border-l-emerald-400 bg-emerald-500/[0.07]',
+  blue:   'border-l-sky-400 bg-sky-500/[0.07]',
+  red:    'border-l-rose-400 bg-rose-500/[0.07]',
+  orange: 'border-l-orange-400 bg-orange-500/[0.07]',
+  black:  'border-l-zinc-400 bg-zinc-700/30',
+  purple: 'border-l-violet-400 bg-violet-500/[0.07]',
+  yellow: 'border-l-amber-400 bg-amber-500/[0.07]',
+}
+
+const WEEK_DATA: { day: string; date: number; cards: WeekCard[]; emptyLabel?: string }[] = [
+  { day: 'MON', date: 11, cards: [
+    { color: 'red',    name: 'Beachwood Club',    addr: '621 Westley Rd, Glen',    time: '7:00 AM' },
+    { color: 'green',  name: 'Highline Quarry',   addr: '1708 S Hollywd',          time: '7:00 AM', tag: 'Day Billed' },
+    { color: 'black',  name: 'Pier 17 Pour',      addr: '424 Howard Ave',          time: '7:00 AM' },
+  ] },
+  { day: 'TUE', date: 12, cards: [
+    { color: 'green',  name: 'North Branch Well', addr: '8920 State Rt 31',        time: '7:00 AM' },
+    { color: 'black',  name: 'Hartford Hall',     addr: '200 University Cir',      time: '7:00 AM' },
+    { color: 'orange', name: 'Olympic Dist.',     addr: '100 Westbrook Rd',        time: '7:00 AM' },
+  ] },
+  { day: 'WED', date: 13, cards: [
+    { color: 'green',  name: 'North Branch Well', addr: '8920 State Rt 31',        time: '7:00 AM' },
+    { color: 'orange', name: 'Walden Sub.',       addr: '3300 E Cheltenham',       time: '7:00 AM' },
+    { color: 'black',  name: 'Pier 17 Pour',      addr: '424 Howard Ave',          time: '7:00 AM' },
+  ] },
+  { day: 'THU', date: 14, cards: [
+    { color: 'green',  name: 'Cascade Farms',     addr: '49W924 Perry Rd',         time: '7:00 AM' },
+    { color: 'blue',   name: 'Wesleyan Arts',     addr: '552 Lucinda Dr',          time: '7:00 AM' },
+    { color: 'red',    name: 'Maple Constr.',     addr: '635 Magnolia St',         time: '7:00 AM' },
+  ] },
+  { day: 'FRI', date: 15, cards: [
+    { color: 'black',  name: 'Briar Estates',     addr: '2254-2280 Warren',        time: '7:00 AM' },
+    { color: 'green',  name: 'Pine Valley Q.',    addr: '1708 S Hollywd',          time: '7:00 AM', tag: 'Day Billed' },
+    { color: 'yellow', name: 'Lakeside Resort',   addr: '880 N Peace Rd',          time: '7:00 AM' },
+  ] },
+  { day: 'SAT', date: 16, cards: [
+    { color: 'green',  name: 'Pine Valley Q.',    addr: '1708 S Hollywd',          time: '7:00 AM' },
+    { color: 'red',    name: 'Pine Valley Q.',    addr: '1708 S Hollywd',          time: '7:00 AM' },
+  ] },
+  { day: 'SUN', date: 17, cards: [], emptyLabel: 'No jobs' },
+]
 
 function CalendarPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(CALENDAR_DURATION, active && !reduced)
   const realTick = reduced ? CALENDAR_DURATION : tick
-  const modalOpen = realTick >= CAL_MODAL_OPEN_AT
+
+  const modalOpen     = realTick >= CAL_MODAL_OPEN_AT && realTick < CAL_MODAL_CLOSE_AT
+  const dropdownOpen  = realTick >= CAL_DROPDOWN_OPEN_AT && realTick < CAL_WEEK_VIEW_AT
+  const weekHover     = realTick >= CAL_DROPDOWN_HOVER_AT
+  const view: 'month' | 'week' = realTick >= CAL_WEEK_VIEW_AT ? 'week' : 'month'
 
   return (
     <div className="relative">
       <div className="flex items-center justify-between gap-2 mb-3">
         <div>
           <div className="text-base font-semibold text-white tracking-tight">Jobs Calendar</div>
-          <div className="text-[11px] text-white/45">12 active · 593 in pipeline</div>
+          <div className="text-[11px] text-white/45">
+            {view === 'month' ? '12 active · 593 in pipeline' : 'May 11 – May 17, 2026'}
+          </div>
         </div>
+
         <div className="flex items-center gap-1.5">
+          {/* Period dropdown trigger */}
+          <div className="relative">
+            <button
+              tabIndex={-1}
+              aria-hidden
+              className={[
+                'inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-medium transition-colors cursor-default',
+                dropdownOpen
+                  ? 'border-[var(--color-yellow)]/40 text-white bg-white/[0.05]'
+                  : 'border-white/10 text-white/75 bg-white/[0.03]',
+              ].join(' ')}
+            >
+              {view === 'month' ? 'Month' : 'Week'}
+              <ChevronDown size={11} className="text-white/45" />
+            </button>
+
+            <AnimatePresence>
+              {dropdownOpen && (
+                <motion.div
+                  key="period-dropdown"
+                  initial={{ opacity: 0, y: -4, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -4, scale: 0.97 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute right-0 top-full mt-1 w-28 rounded-md border border-white/15 bg-[#0c0c0d] shadow-[0_15px_40px_-10px_rgba(0,0,0,0.8)] py-1 z-20"
+                >
+                  <div className="w-full flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] text-white/85">
+                    <Check size={11} className="text-[var(--color-yellow)]" />
+                    Month
+                  </div>
+                  <div
+                    className={[
+                      'w-full flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] transition-colors',
+                      weekHover
+                        ? 'bg-[var(--color-yellow)]/15 text-[var(--color-yellow)]'
+                        : 'text-white/65',
+                    ].join(' ')}
+                  >
+                    <span className="w-[11px]" />
+                    Week
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <button tabIndex={-1} aria-hidden className="w-6 h-6 rounded-md border border-white/10 bg-white/[0.03] grid place-items-center text-white/50 cursor-default">
             <ChevronLeft size={12} />
           </button>
-          <span className="text-xs text-white/75 font-medium px-1">May 2026</span>
           <button tabIndex={-1} aria-hidden className="w-6 h-6 rounded-md border border-white/10 bg-white/[0.03] grid place-items-center text-white/50 cursor-default">
             <ChevronRight size={12} />
           </button>
         </div>
       </div>
 
-      {/* Day-of-week header */}
-      <div className="grid grid-cols-7 gap-1 mb-1 px-1">
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-          <div key={d} className="font-mono text-[9px] uppercase tracking-widest text-white/35 text-center">
-            {d}
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-7 gap-1">
-        {CAL_DAYS.map((cell, i) => {
-          const highlighted = cell.day === CAL_HIGHLIGHT_DAY && realTick >= CAL_HIGHLIGHT_AT
-          return (
-            <div
-              key={i}
-              className={[
-                'min-h-[60px] sm:min-h-[72px] rounded-md border p-1 sm:p-1.5 overflow-hidden transition-colors',
-                cell.day == null
-                  ? 'border-white/5 bg-white/[0.01]'
-                  : highlighted
-                  ? 'border-[var(--color-yellow)]/60 bg-[var(--color-yellow)]/[0.08] shadow-[0_0_0_1px_rgba(255,184,0,0.35)]'
-                  : 'border-white/10 bg-white/[0.025]',
-              ].join(' ')}
-            >
-              {cell.day != null && (
-                <div className="text-[9px] text-white/45 font-medium leading-none mb-1">{cell.day}</div>
-              )}
-              <div className="space-y-[2px]">
-                {cell.chips.slice(0, 3).map((chip, idx) => {
-                  const delay = i * 0.012 + idx * 0.04
-                  return (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, y: -2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25, delay }}
-                      className={[
-                        'truncate rounded px-1 py-[1px] text-[8px] sm:text-[9px] font-medium leading-tight border',
-                        CHIP_TONES[chip.color],
-                        chip.cancelled ? 'line-through opacity-85' : '',
-                      ].join(' ')}
-                    >
-                      {chip.label}
-                    </motion.div>
-                  )
-                })}
-              </div>
+      <AnimatePresence mode="wait" initial={false}>
+        {view === 'month' ? (
+          <motion.div
+            key="month-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div className="text-xs text-white/55 font-medium mb-2">May 2026</div>
+            {/* Day-of-week header */}
+            <div className="grid grid-cols-7 gap-1 mb-1 px-1">
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+                <div key={d} className="font-mono text-[9px] uppercase tracking-widest text-white/35 text-center">
+                  {d}
+                </div>
+              ))}
             </div>
-          )
-        })}
-      </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-white/45">
-        <Legend tone="green" label="Day billed" />
-        <Legend tone="blue"  label="Active"     />
-        <Legend tone="orange" label="In progress" />
-        <Legend tone="black" label="Internal"   />
-        <Legend tone="red"   label="Cancelled"  />
-      </div>
+            <div className="grid grid-cols-7 gap-1">
+              {CAL_DAYS.map((cell, i) => {
+                const highlighted = cell.day === CAL_HIGHLIGHT_DAY && realTick >= CAL_HIGHLIGHT_AT
+                return (
+                  <div
+                    key={i}
+                    className={[
+                      'min-h-[60px] sm:min-h-[72px] rounded-md border p-1 sm:p-1.5 overflow-hidden transition-colors',
+                      cell.day == null
+                        ? 'border-white/5 bg-white/[0.01]'
+                        : highlighted
+                        ? 'border-[var(--color-yellow)]/60 bg-[var(--color-yellow)]/[0.08] shadow-[0_0_0_1px_rgba(255,184,0,0.35)]'
+                        : 'border-white/10 bg-white/[0.025]',
+                    ].join(' ')}
+                  >
+                    {cell.day != null && (
+                      <div className="text-[9px] text-white/45 font-medium leading-none mb-1">{cell.day}</div>
+                    )}
+                    <div className="space-y-[2px]">
+                      {cell.chips.slice(0, 3).map((chip, idx) => {
+                        const delay = i * 0.012 + idx * 0.04
+                        return (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: -2 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.25, delay }}
+                            className={[
+                              'truncate rounded px-1 py-[1px] text-[8px] sm:text-[9px] font-medium leading-tight border',
+                              CHIP_TONES[chip.color],
+                              chip.cancelled ? 'line-through opacity-85' : '',
+                            ].join(' ')}
+                          >
+                            {chip.label}
+                          </motion.div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-white/45">
+              <Legend tone="green" label="Day billed" />
+              <Legend tone="blue"  label="Active"     />
+              <Legend tone="orange" label="In progress" />
+              <Legend tone="black" label="Internal"   />
+              <Legend tone="red"   label="Cancelled"  />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="week-view"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <WeekView />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Job detail modal */}
       <AnimatePresence>
@@ -828,11 +961,70 @@ function Legend({ tone, label }: { tone: ChipColor; label: string }) {
   )
 }
 
+function WeekView() {
+  return (
+    <div className="grid grid-cols-7 gap-1.5">
+      {WEEK_DATA.map((col, colIdx) => (
+        <div key={col.date} className="flex flex-col gap-1.5 min-w-0">
+          {/* Column header */}
+          <div className="text-center">
+            <div className="font-mono text-[9px] uppercase tracking-widest text-white/40">{col.day}</div>
+            <div className="text-lg font-bold text-white leading-none mt-0.5">{col.date}</div>
+            <div className="font-mono text-[8px] text-white/35 mt-0.5">
+              {col.cards.length > 0 ? `${col.cards.length} jobs` : ''}
+            </div>
+          </div>
+
+          {/* Cards or empty state */}
+          {col.cards.length === 0 ? (
+            <div className="rounded-md border border-dashed border-white/8 bg-white/[0.01] py-2 px-1.5 text-center text-[9px] text-white/30">
+              {col.emptyLabel ?? 'No jobs'}
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              {col.cards.map((card, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: colIdx * 0.04 + i * 0.06 }}
+                  className={[
+                    'rounded-md border border-white/8 border-l-[3px] px-1.5 py-1.5 overflow-hidden',
+                    WEEK_TONES[card.color],
+                  ].join(' ')}
+                >
+                  <div className="text-[10px] font-bold text-white truncate leading-tight">
+                    {card.name}
+                  </div>
+                  <div className="mt-0.5 flex items-center gap-0.5 text-[8px] text-white/55">
+                    <MapPin size={8} className="shrink-0" />
+                    <span className="truncate">{card.addr}</span>
+                  </div>
+                  <div className="mt-0.5 flex items-center gap-0.5 text-[8px] text-white/55">
+                    <Clock size={8} className="shrink-0" />
+                    <span>{card.time}</span>
+                  </div>
+                  {card.tag && (
+                    <div className="mt-1 inline-flex items-center font-mono text-[7px] uppercase tracking-widest text-white/45">
+                      {card.tag}
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /* ================================================================== */
 /* PANE 3 — OVERVIEW / COMMAND CENTER                                  */
 /* ================================================================== */
 
-const OVERVIEW_DURATION = 9000
+const OVERVIEW_DURATION = 12000
+const SUB_TAB_DURATION = OVERVIEW_DURATION / 4
 
 const KPI_TILES = [
   { label: 'Active Jobs',       value: 12,  trend: 'running today',  Icon: Briefcase,     tone: 'emerald' as const },
@@ -951,7 +1143,10 @@ const SUB_TAB_ORDER: SubTabKey[] = ['operations', 'fleet', 'maintenance', 'cash'
 function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(OVERVIEW_DURATION, active && !reduced)
   const realTick = reduced ? OVERVIEW_DURATION : tick
-  const [subTab, setSubTab] = useState<SubTabKey>('operations')
+  // userSubTab overrides the auto-cycle when the visitor clicks a sub-tab.
+  const [userSubTab, setUserSubTab] = useState<SubTabKey | null>(null)
+  const autoSubTabIdx = Math.min(Math.floor(realTick / SUB_TAB_DURATION), 3)
+  const subTab: SubTabKey = userSubTab ?? SUB_TAB_ORDER[autoSubTabIdx]
 
   // KPI count-up
   const progress = reduced ? 1 : Math.min(realTick / 1400, 1)
@@ -1012,7 +1207,7 @@ function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }
           <button
             key={key}
             type="button"
-            onClick={() => setSubTab(key)}
+            onClick={() => setUserSubTab(key)}
             className={[
               'py-2 text-center text-[11px] font-medium transition-colors relative',
               subTab === key
@@ -1111,7 +1306,7 @@ function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }
 /* PANE 4 — AI ASSISTANT                                               */
 /* ================================================================== */
 
-const AI_DURATION = 9000
+const AI_DURATION = 12000
 
 const AI_PROMPT = "Who's our biggest concentration risk this quarter?"
 const AI_RESPONSE =
@@ -1123,22 +1318,41 @@ const AI_SUGGESTIONS = [
   'Draft an invoice from yesterday\'s dispatch',
 ]
 
+// Follow-up Q&A — visitor "clicks" the first suggestion mid-cycle.
+const AI_FOLLOWUP_PROMPT = AI_SUGGESTIONS[0]
+const AI_FOLLOWUP_RESPONSE =
+  "Crane 6031 had 31 billable hours last quarter against $4,200 in PM and repair costs — net negative. Compare to Crane 4218 at 178 hours / $1,100 spend, top of the fleet. Recommend sidelining 6031 for 60 days while you review repair root causes."
+
 // Prompt is visible IMMEDIATELY (no typing void). AI thinks for 400ms, then streams response.
 const AI_THINK_AT = 300
 const AI_RESPONSE_TYPE_START = 900
 const AI_RESPONSE_TYPE_END = 4400
 const AI_SOURCES_AT = 4600
 const AI_SUGGEST_AT = 5200
+// Follow-up turn
+const AI_CHIP_CLICK_AT = 6500       // first chip highlights as if clicked
+const AI_PROMPT2_AT = 6900          // second user bubble appears
+const AI_THINK2_AT = 7200           // AI thinking dots for follow-up
+const AI_RESPONSE2_TYPE_START = 7700
+const AI_RESPONSE2_TYPE_END = 11200
+const AI_SOURCES2_AT = 11400
 
 function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
   const tick = useTick(AI_DURATION, active && !reduced)
   const realTick = reduced ? AI_DURATION : tick
 
   const respText = useTyped(AI_RESPONSE, AI_RESPONSE_TYPE_START, AI_RESPONSE_TYPE_END, realTick, reduced)
+  const respText2 = useTyped(AI_FOLLOWUP_RESPONSE, AI_RESPONSE2_TYPE_START, AI_RESPONSE2_TYPE_END, realTick, reduced)
+
   const showAiBubble = reduced || realTick >= AI_THINK_AT
   const showSources  = reduced || realTick >= AI_SOURCES_AT
-  const showSuggest  = reduced || realTick >= AI_SUGGEST_AT
+  const showSuggest  = realTick >= AI_SUGGEST_AT && realTick < AI_CHIP_CLICK_AT + 300
   const isStreaming  = !reduced && realTick >= AI_RESPONSE_TYPE_START && realTick < AI_RESPONSE_TYPE_END
+  const chipClicked  = realTick >= AI_CHIP_CLICK_AT
+  const showPrompt2  = reduced || realTick >= AI_PROMPT2_AT
+  const showAiBubble2 = reduced || realTick >= AI_THINK2_AT
+  const isStreaming2 = !reduced && realTick >= AI_RESPONSE2_TYPE_START && realTick < AI_RESPONSE2_TYPE_END
+  const showSources2 = reduced || realTick >= AI_SOURCES2_AT
 
   return (
     <div>
@@ -1211,13 +1425,13 @@ function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
           </motion.div>
         )}
 
-        {/* Suggested follow-ups */}
+        {/* Suggested follow-ups (disappear once the visitor "clicks") */}
         <AnimatePresence>
           {showSuggest && (
             <motion.div
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, y: -2 }}
               transition={{ duration: 0.3 }}
               className="pt-1"
             >
@@ -1225,19 +1439,97 @@ function AiPane({ reduced, active }: { reduced: boolean; active: boolean }) {
                 Try next
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {AI_SUGGESTIONS.map((s, i) => (
-                  <motion.button
-                    key={s}
-                    type="button"
-                    tabIndex={-1}
-                    initial={{ opacity: 0, y: 3 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25, delay: i * 0.07 }}
-                    className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] hover:border-[var(--color-yellow)]/30 hover:text-white px-2.5 py-1 text-[11px] text-white/65 transition-colors"
+                {AI_SUGGESTIONS.map((s, i) => {
+                  const isClicked = i === 0 && chipClicked
+                  return (
+                    <motion.button
+                      key={s}
+                      type="button"
+                      tabIndex={-1}
+                      initial={{ opacity: 0, y: 3 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        scale: isClicked ? 0.96 : 1,
+                      }}
+                      transition={{ duration: 0.25, delay: i * 0.07 }}
+                      className={[
+                        'inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition-colors',
+                        isClicked
+                          ? 'border-[var(--color-yellow)]/60 bg-[var(--color-yellow)]/[0.12] text-[var(--color-yellow)]'
+                          : 'border-white/10 bg-white/[0.03] hover:border-[var(--color-yellow)]/30 hover:text-white text-white/65',
+                      ].join(' ')}
+                    >
+                      {s}
+                    </motion.button>
+                  )
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Follow-up user prompt */}
+        <AnimatePresence>
+          {showPrompt2 && (
+            <motion.div
+              key="prompt2"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex justify-end"
+            >
+              <div className="max-w-[80%] rounded-2xl rounded-tr-md bg-white/[0.06] border border-white/10 px-3.5 py-2 text-sm text-white/85">
+                {AI_FOLLOWUP_PROMPT}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Follow-up AI response */}
+        <AnimatePresence>
+          {showAiBubble2 && (
+            <motion.div
+              key="aibubble2"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-start gap-2"
+            >
+              <span className="shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--color-yellow)] to-amber-500 grid place-items-center text-black">
+                <Cpu size={13} strokeWidth={2.5} />
+              </span>
+              <div className="flex-1 rounded-2xl rounded-tl-md bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/10 px-3.5 py-2.5">
+                <div className="text-sm text-white/85 leading-relaxed min-h-[1.5em]">
+                  {respText2 ? (
+                    <>
+                      {respText2}
+                      {isStreaming2 && (
+                        <span className="inline-block w-1 h-3 ml-0.5 align-middle bg-[var(--color-yellow)] animate-pulse" />
+                      )}
+                    </>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-white/40 text-xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse [animation-delay:120ms]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse [animation-delay:240ms]" />
+                      Reading your data
+                    </span>
+                  )}
+                </div>
+                {showSources2 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-2 flex items-center gap-2 text-[10px] text-white/45 font-mono"
                   >
-                    {s}
-                  </motion.button>
-                ))}
+                    <span className="inline-flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      Billable hrs · PM cost · Fleet ROI
+                    </span>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           )}
