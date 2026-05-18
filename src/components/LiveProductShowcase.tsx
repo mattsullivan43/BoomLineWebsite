@@ -147,7 +147,9 @@ export default function LiveProductShowcase() {
                 type="button"
                 onClick={() => handleTabClick(i)}
                 className={[
-                  'group relative inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs font-medium rounded-t-lg transition-colors whitespace-nowrap',
+                  'group relative items-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs font-medium rounded-t-lg transition-colors whitespace-nowrap',
+                  // On mobile, only the active tab is visible; non-active tabs hide.
+                  isActive ? 'inline-flex' : 'hidden sm:inline-flex',
                   isActive
                     ? 'text-white bg-white/[0.04]'
                     : 'text-white/45 hover:text-white/75',
@@ -165,8 +167,6 @@ export default function LiveProductShowcase() {
             )
           })}
           </div>
-          {/* Mobile-only fade hint that tabs scroll horizontally */}
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0d0d0e] to-transparent sm:hidden" />
         </div>
 
         {/* Pane body */}
@@ -971,22 +971,29 @@ function Legend({ tone, label }: { tone: ChipColor; label: string }) {
 
 function WeekView() {
   return (
-    <div className="-mx-1 px-1 sm:mx-0 sm:px-0 overflow-x-auto sm:overflow-x-visible no-scrollbar pb-2 sm:pb-0">
-      <div className="flex sm:grid sm:grid-cols-7 gap-1.5">
-        {WEEK_DATA.map((col, colIdx) => (
-          <div key={col.date} className="flex flex-col gap-1.5 shrink-0 w-[148px] sm:w-auto sm:shrink sm:min-w-0">
-          {/* Column header */}
-          <div className="text-center">
-            <div className="font-mono text-[9px] uppercase tracking-widest text-white/40">{col.day}</div>
-            <div className="text-lg font-bold text-white leading-none mt-0.5">{col.date}</div>
-            <div className="font-mono text-[8px] text-white/35 mt-0.5">
-              {col.cards.length > 0 ? `${col.cards.length} jobs` : ''}
+    <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-7 sm:gap-1.5">
+      {WEEK_DATA.map((col, colIdx) => (
+        <div key={col.date} className="flex flex-col gap-1.5 sm:min-w-0">
+          {/* Column header — inline row on mobile, stacked & centered on desktop */}
+          <div className="flex items-baseline gap-2 pb-1.5 border-b border-white/10 sm:block sm:text-center sm:border-0 sm:pb-0">
+            <span className="sm:hidden font-mono text-[10px] uppercase tracking-widest text-white/55">{col.day}</span>
+            <span className="sm:hidden text-base font-bold text-white leading-none">{col.date}</span>
+            <span className="sm:hidden font-mono text-[9px] text-white/40 ml-auto">
+              {col.cards.length > 0 ? `${col.cards.length} jobs` : 'No jobs'}
+            </span>
+
+            <div className="hidden sm:block">
+              <div className="font-mono text-[9px] uppercase tracking-widest text-white/40">{col.day}</div>
+              <div className="text-lg font-bold text-white leading-none mt-0.5">{col.date}</div>
+              <div className="font-mono text-[8px] text-white/35 mt-0.5">
+                {col.cards.length > 0 ? `${col.cards.length} jobs` : ''}
+              </div>
             </div>
           </div>
 
           {/* Cards or empty state */}
           {col.cards.length === 0 ? (
-            <div className="rounded-md border border-dashed border-white/8 bg-white/[0.01] py-2 px-1.5 text-center text-[9px] text-white/30">
+            <div className="hidden sm:block rounded-md border border-dashed border-white/8 bg-white/[0.01] py-2 px-1.5 text-center text-[9px] text-white/30">
               {col.emptyLabel ?? 'No jobs'}
             </div>
           ) : (
@@ -998,23 +1005,23 @@ function WeekView() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: colIdx * 0.04 + i * 0.06 }}
                   className={[
-                    'rounded-md border border-white/8 border-l-[3px] px-1.5 py-1.5 overflow-hidden',
+                    'rounded-md border border-white/8 border-l-[3px] px-2 py-1.5 sm:px-1.5 overflow-hidden',
                     WEEK_TONES[card.color],
                   ].join(' ')}
                 >
-                  <div className="text-[10px] font-bold text-white truncate leading-tight">
+                  <div className="text-[12px] sm:text-[10px] font-bold text-white truncate leading-tight">
                     {card.name}
                   </div>
-                  <div className="mt-0.5 flex items-center gap-0.5 text-[8px] text-white/55">
-                    <MapPin size={8} className="shrink-0" />
+                  <div className="mt-0.5 flex items-center gap-1 sm:gap-0.5 text-[10px] sm:text-[8px] text-white/55">
+                    <MapPin size={10} className="shrink-0 sm:!w-2 sm:!h-2" />
                     <span className="truncate">{card.addr}</span>
                   </div>
-                  <div className="mt-0.5 flex items-center gap-0.5 text-[8px] text-white/55">
-                    <Clock size={8} className="shrink-0" />
+                  <div className="mt-0.5 flex items-center gap-1 sm:gap-0.5 text-[10px] sm:text-[8px] text-white/55">
+                    <Clock size={10} className="shrink-0 sm:!w-2 sm:!h-2" />
                     <span>{card.time}</span>
                   </div>
                   {card.tag && (
-                    <div className="mt-1 inline-flex items-center font-mono text-[7px] uppercase tracking-widest text-white/45">
+                    <div className="mt-1 inline-flex items-center font-mono text-[8px] sm:text-[7px] uppercase tracking-widest text-white/45">
                       {card.tag}
                     </div>
                   )}
@@ -1023,8 +1030,7 @@ function WeekView() {
             </div>
           )}
         </div>
-        ))}
-      </div>
+      ))}
     </div>
   )
 }
