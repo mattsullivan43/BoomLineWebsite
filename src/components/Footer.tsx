@@ -70,6 +70,12 @@ export default function Footer() {
             >
               Privacy Policy
             </a>
+            <Link
+              to="/terms"
+              className="text-white/40 hover:text-white transition-colors"
+            >
+              Terms &amp; Conditions
+            </Link>
             <a
               href="https://boomline.app"
               target="_blank"

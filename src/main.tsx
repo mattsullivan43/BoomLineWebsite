@@ -6,6 +6,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Features from './pages/Features'
+import Terms from './pages/Terms'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
         </Route>
+        <Route path="/terms" element={<Terms />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

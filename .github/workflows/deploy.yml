@@ -36,9 +36,10 @@ jobs:
       - name: SPA fallback + pre-render routes for SEO
         run: |
           cp dist/index.html dist/404.html
-          mkdir -p dist/features dist/about
+          mkdir -p dist/features dist/about dist/terms
           cp dist/index.html dist/features/index.html
           cp dist/index.html dist/about/index.html
+          cp dist/index.html dist/terms/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
