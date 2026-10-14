@@ -232,7 +232,7 @@ export default function Features() {
 
         <div className="relative max-w-5xl mx-auto px-6 sm:px-8 text-center">
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-5"
@@ -241,7 +241,7 @@ export default function Features() {
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05, ease }}
             className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-[-0.04em] leading-[1.05] text-white text-balance"
@@ -256,7 +256,7 @@ export default function Features() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease }}
             className="mt-7 text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"
@@ -271,7 +271,7 @@ export default function Features() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25, ease }}
             className="mt-8 flex flex-wrap items-center justify-center gap-3"

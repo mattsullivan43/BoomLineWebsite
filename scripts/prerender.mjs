@@ -19,11 +19,28 @@ const { render, pages, notFoundMeta, canonicalUrl, SITE_URL } = await import(
 )
 
 const template = readFileSync(path.join(dist, 'index.html'), 'utf8')
+const manifestPath = path.join(dist, '.vite', 'manifest.json')
+const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+
+// The page's own chunk plus the shared chunks it imports, so the browser
+// fetches them alongside the main bundle instead of after it.
+function preloadsFor(source) {
+  const files = new Set()
+  const walk = (key) => {
+    const entry = manifest[key]
+    if (!entry || entry.isEntry || files.has(entry.file)) return
+    files.add(entry.file)
+    for (const imp of entry.imports ?? []) walk(imp)
+  }
+  walk(source)
+  if (!files.size) throw new Error(`No chunk in the Vite manifest for ${source}`)
+  return [...files].map((f) => `<link rel="modulepreload" crossorigin href="/${f}" />`)
+}
 
 const esc = (s) =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-function headTags({ title, description, canonical, robots }) {
+function headTags({ title, description, canonical, robots, extra = [] }) {
   return [
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}" />`,
@@ -34,6 +51,7 @@ function headTags({ title, description, canonical, robots }) {
     `<meta property="og:description" content="${esc(description)}" />`,
     `<meta name="twitter:title" content="${esc(title)}" />`,
     `<meta name="twitter:description" content="${esc(description)}" />`,
+    ...extra,
   ]
     .filter(Boolean)
     .join('\n    ')
@@ -47,13 +65,18 @@ function fill(head, html) {
 }
 
 for (const page of pages) {
-  const html = render(page.path)
+  const html = await render(page.path)
   if (!html.trim()) throw new Error(`Empty render for ${page.path}`)
   const head = headTags({
     title: page.title,
     description: page.description,
     canonical: canonicalUrl(page.path),
     robots: 'index, follow, max-image-preview:large',
+    extra: [
+      ...preloadsFor(page.source),
+      page.jsonLd &&
+        `<script type="application/ld+json">${JSON.stringify(page.jsonLd).replace(/</g, '\\u003c')}</script>`,
+    ].filter(Boolean),
   })
   const file = page.path === '/' ? 'index.html' : `${page.path.slice(1)}.html`
   writeFileSync(path.join(dist, file), fill(head, html))
@@ -105,3 +128,4 @@ ${urls}
 console.log(`wrote dist/sitemap.xml (${pages.length} URLs, ${SITE_URL})`)
 
 rmSync(ssrDir, { recursive: true, force: true })
+rmSync(path.join(dist, '.vite'), { recursive: true, force: true })

@@ -8,8 +8,10 @@ export type PageMeta = {
   path: string
   title: string
   description: string
-  /** Source file, used for sitemap <lastmod>. */
+  /** Page component file: sitemap <lastmod> and the chunk to preload. */
   source: string
+  /** Extra JSON-LD for this page (site-wide schema lives in index.html). */
+  jsonLd?: object
 }
 
 export const pages: PageMeta[] = [
@@ -33,6 +35,20 @@ export const pages: PageMeta[] = [
     description:
       'Built with trusted field experts, for crane companies. A platform built around how a crane company actually runs — not bolted onto generic field-service tools that were never made for the industry.',
     source: 'src/pages/About.tsx',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      url: 'https://boomline.co/about',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'Boomline',
+        url: 'https://boomline.co',
+        founder: [
+          { '@type': 'Person', name: 'Matt Sullivan', jobTitle: 'Co-founder, Technology' },
+          { '@type': 'Person', name: "Jason O'Donnell", jobTitle: 'Co-founder, Crane Operations' },
+        ],
+      },
+    },
   },
   {
     path: '/terms',

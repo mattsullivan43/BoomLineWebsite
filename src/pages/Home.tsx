@@ -91,7 +91,7 @@ export default function Home() {
           <div className="grid md:grid-cols-12 gap-10 items-center">
             <div className="md:col-span-7">
               <motion.h1
-                initial={{ opacity: 0, y: 24 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.05, ease: [0.19, 1, 0.22, 1] }}
                 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-[-0.04em] leading-[1.05] text-white text-balance"
@@ -106,7 +106,7 @@ export default function Home() {
               </motion.h1>
 
               <motion.p
-                initial={{ opacity: 0, y: 24 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
                 className="mt-6 text-base sm:text-lg text-white/60 max-w-xl leading-relaxed"
@@ -117,7 +117,7 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.25, ease: [0.19, 1, 0.22, 1] }}
                 className="mt-8 flex flex-wrap items-center gap-3"
@@ -141,7 +141,7 @@ export default function Home() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={false}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
               className="md:col-span-5 flex justify-center md:justify-end"

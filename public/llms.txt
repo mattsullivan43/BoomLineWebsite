@@ -1,0 +1,56 @@
+# Boomline
+
+> Boomline is purpose-built crane rental software — dispatch, equipment, inspections, certifications, and field operations for crane companies. Built with trusted field experts, for crane companies. On iOS, Android, and the web.
+
+Generic field-service software wasn't built for crane rental. It doesn't properly cover the complexity of the scheduling, operations, and maintenance behind the scenes of a crane rental company. Boomline is built from the ground up for crane companies. Start small or run the full platform — we flip features on as you grow.
+
+## Pages
+
+- [Home](https://boomline.co/): The operating system for crane rental.
+- [Features](https://boomline.co/features): Everything from dispatch to the back office.
+- [About](https://boomline.co/about): Software written by people who actually run cranes. Founded by Matt Sullivan (co-founder, technology) and Jason O'Donnell (co-founder, crane operations).
+- [Terms & Conditions](https://boomline.co/terms)
+- [Privacy Policy](https://boomline.app/privacy)
+
+## Operations
+
+- Daily Dispatch: One board for the whole day. See who's available, assigned, or off — then push the dispatch to every employee and outside trucking partner at once.
+- Jobs: Calendar and list views. Multi-day jobs, multi-crane jobs, job-site notes — all linked to a customer record.
+- Unscheduled Jobs: The pipeline of work that isn't on the calendar yet. Quote it, schedule it, lose nothing.
+- Quotes: Build quotes from rate tables. Convert to jobs in one step. Send PDF to customer.
+- Job-site Logistics: Address, contact, lift specs, access notes. Everything the operator needs before showing up.
+- Field Tickets (beta): Live digital job tickets, first and second signatures captured, linked to the job for billing. Exportable customer copy.
+- TimeSheets: Weekly grid by employee. Standard time and overtime by job. Export to PDF.
+- Time Off: Request, approve, balance-track. Visible on the dispatch board so you don't double-book.
+- Safety & Training: Keep employees up to date with company safety standards.
+
+## Equipment
+
+- Cranes: Full asset record per machine. Hours, miles, inspections, maintenance log, work order history.
+- Maintenance Command Center: Recurring service intervals by hours, miles, or calendar days. Overdue / Due soon / On track.
+- Work Orders: Field, shop, or maintenance work orders, filtered by priority and assignable to techs or employees.
+- Other Assets: Trucks, trailers, forklifts, and more — tracked alongside cranes.
+- Outside Trucking and Employees: Track third-party trucking and outside employees on your managed jobs.
+- Re-Rent Tracking: When you sub work out or rent machines. Cost, duration, customer billing — all reconciled.
+- Inspections: Daily and monthly, tracked in the field and converted to a PDF document.
+- Certifications: Medical cards, training records, and certifications. Stay updated before anything expires.
+
+## Billing (beta)
+
+- Billing (beta): Hourly, daily, or project-based. Standby, overtime, travel, mileage — all built in.
+- Invoicing (beta): Generate from job data. Email to customer. Track sent / paid.
+
+## Insights
+
+- Equipment ROI: Jobs-per-crane, this quarter vs last.
+- Customer Concentration: Top customers by revenue and amount of jobs.
+- Maintenance Risk: Overdue maintenance exposure and inspection gaps.
+- Notifications: Inspections expiring, certs lapsing, jobs unassigned — the right alert, to the right person.
+- AI Business Analyst (optional): Ask questions about your data and get answers in clear, direct language.
+- Voice AI (optional): Update jobs, dispatch crews, or log a note out loud.
+
+## Contact
+
+- Book a demo: 15-minute call at https://boomline.co
+- Support: support@boomline.app
+- iOS app: https://apps.apple.com/us/app/boomline/id6764630978

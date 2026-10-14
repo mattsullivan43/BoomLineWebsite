@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Nav from './Nav'
 import Footer from './Footer'
@@ -20,7 +20,9 @@ export default function Layout() {
       <div className="min-h-screen flex flex-col bg-[var(--color-bg)]">
         <Nav />
         <main className="flex-1">
-          <Outlet />
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <Outlet />
+          </Suspense>
         </main>
         <AvailabilityBand />
         <Footer />

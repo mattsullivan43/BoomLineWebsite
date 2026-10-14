@@ -35,7 +35,7 @@ export default function About() {
 
         <div className="relative max-w-4xl mx-auto px-6 sm:px-8 text-center">
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-5"
@@ -44,7 +44,7 @@ export default function About() {
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05, ease: [0.19, 1, 0.22, 1] }}
             className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-[-0.04em] leading-[1.12] text-white text-balance"
@@ -59,7 +59,7 @@ export default function About() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.19, 1, 0.22, 1] }}
             className="mt-7 text-lg text-white/60 max-w-2xl mx-auto leading-relaxed"

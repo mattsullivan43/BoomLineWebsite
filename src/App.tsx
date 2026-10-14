@@ -1,11 +1,15 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import RouteMeta from './components/RouteMeta'
-import Home from './pages/Home'
-import About from './pages/About'
-import Features from './pages/Features'
-import Terms from './pages/Terms'
-import NotFound from './pages/NotFound'
+
+// Each page is its own chunk so visitors download only the page they open.
+// scripts/prerender.mjs adds a <link rel="modulepreload"> for the page's chunk.
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
+const Features = lazy(() => import('./pages/Features'))
+const Terms = lazy(() => import('./pages/Terms'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 export default function App() {
   return (
@@ -18,7 +22,14 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="/terms" element={<Terms />} />
+        <Route
+          path="/terms"
+          element={
+            <Suspense fallback={null}>
+              <Terms />
+            </Suspense>
+          }
+        />
       </Routes>
     </>
   )
