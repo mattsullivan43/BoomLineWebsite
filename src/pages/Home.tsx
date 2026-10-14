@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import logo from '../assets/boomline-logo.png'
+import logo from '../assets/boomline-logo.webp'
 import FeatureMarquee from '../components/FeatureMarquee'
 import LiveProductShowcase from '../components/LiveProductShowcase'
 import { useDemo } from '../contexts/DemoContext'
@@ -151,6 +151,9 @@ export default function Home() {
                 <img
                   src={logo}
                   alt="Boomline"
+                  width={597}
+                  height={600}
+                  fetchPriority="high"
                   className="relative w-full h-auto drop-shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
                 />
               </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import logo from '../assets/boomline-logo.png'
+import logo from '../assets/boomline-logo-sm.webp'
 import { useDemo } from '../contexts/DemoContext'
 
 const links = [
@@ -39,7 +39,7 @@ export default function Nav() {
         ].join(' ')}
       >
         <Link to="/" className="flex items-center gap-2 group">
-          <img src={logo} alt="Boomline" className="h-9 w-9 object-contain" />
+          <img src={logo} alt="Boomline" width={36} height={36} className="h-9 w-9 object-contain" />
           <span className="font-semibold tracking-tight text-white text-[15px]">
             Boomline
           </span>

@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so the sitemap gets real <lastmod> dates
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,16 +32,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Also prerenders every route, writes 404.html and sitemap.xml
+      # (see scripts/prerender.mjs).
       - name: Build
         run: npm run build
-
-      - name: SPA fallback + pre-render routes for SEO
-        run: |
-          cp dist/index.html dist/404.html
-          mkdir -p dist/features dist/about dist/terms
-          cp dist/index.html dist/features/index.html
-          cp dist/index.html dist/about/index.html
-          cp dist/index.html dist/terms/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

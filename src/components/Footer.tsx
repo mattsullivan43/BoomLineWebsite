@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import logo from '../assets/boomline-logo.png'
+import logo from '../assets/boomline-logo-sm.webp'
 import { useDemo } from '../contexts/DemoContext'
 
 export default function Footer() {
@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
           <div className="md:col-span-6">
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Boomline" className="h-12 w-12 object-contain" />
+              <img src={logo} alt="Boomline" width={48} height={48} loading="lazy" className="h-12 w-12 object-contain" />
               <span className="font-semibold text-white text-lg tracking-tight">
                 Boomline
               </span>

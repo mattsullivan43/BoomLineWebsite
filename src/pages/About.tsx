@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import FeatureMarquee from '../components/FeatureMarquee'
 import { useDemo } from '../contexts/DemoContext'
-import mattHeadshot from '../assets/matt-headshot.jpg'
-import jasonHeadshot from '../assets/IMG_9970.png'
+import mattHeadshot from '../assets/matt-sullivan.webp'
+import jasonHeadshot from '../assets/jason-odonnell.webp'
 
 const values = [
   {
@@ -182,6 +182,9 @@ export default function About() {
                 <img
                   src={mattHeadshot}
                   alt="Matt Sullivan"
+                  width={1000}
+                  height={667}
+                  loading="lazy"
                   className="w-full h-full object-cover object-[50%_30%] grayscale-[0.15] group-hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -218,6 +221,9 @@ export default function About() {
                 <img
                   src={jasonHeadshot}
                   alt="Jason O'Donnell"
+                  width={800}
+                  height={1067}
+                  loading="lazy"
                   className="w-full h-full object-cover object-top grayscale-[0.15] group-hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
