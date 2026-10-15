@@ -12,6 +12,8 @@ export type PageMeta = {
   source: string
   /** Extra JSON-LD for this page (site-wide schema lives in index.html). */
   jsonLd?: object
+  /** Listed under "Solutions" in the footer with this label. */
+  solutionLabel?: string
 }
 
 export const pages: PageMeta[] = [
@@ -49,6 +51,14 @@ export const pages: PageMeta[] = [
         ],
       },
     },
+  },
+  {
+    path: '/crane-dispatch-software',
+    title: 'Crane Dispatch Software for Crane Companies | Boomline',
+    description:
+      'Crane dispatch software with one board for the whole day. See crews, cranes, and job sites, then dispatch employees and outside trucking at once.',
+    source: 'src/pages/solutions/CraneDispatchSoftware.tsx',
+    solutionLabel: 'Crane Dispatch Software',
   },
   {
     path: '/terms',

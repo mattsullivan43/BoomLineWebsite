@@ -10,6 +10,7 @@ const About = lazy(() => import('./pages/About'))
 const Features = lazy(() => import('./pages/Features'))
 const Terms = lazy(() => import('./pages/Terms'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const CraneDispatchSoftware = lazy(() => import('./pages/solutions/CraneDispatchSoftware'))
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
+          <Route path="/crane-dispatch-software" element={<CraneDispatchSoftware />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route
