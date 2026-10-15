@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import FeatureMarquee from './FeatureMarquee'
-import LiveProductShowcase from './LiveProductShowcase'
+import LiveProductShowcase, { type ShowcaseStart } from './LiveProductShowcase'
 import { useDemo } from '../contexts/DemoContext'
 
 // Shared layout for keyword landing pages (/crane-dispatch-software, …).
@@ -13,7 +13,8 @@ export type SolutionContent = {
   h1: string
   h1Accent: string
   intro: string[]
-  showcase?: boolean
+  /** Show the live product demo; optionally open it on a specific pane. */
+  showcase?: boolean | ShowcaseStart
   features: {
     eyebrow: string
     heading: string
@@ -143,7 +144,7 @@ export default function SolutionPage({ content: c }: { content: SolutionContent 
 
         {c.showcase && (
           <div className="relative max-w-6xl mx-auto px-6 sm:px-8 mt-16 sm:mt-20">
-            <LiveProductShowcase />
+            <LiveProductShowcase start={c.showcase === true ? undefined : c.showcase} />
           </div>
         )}
       </section>

@@ -126,12 +126,12 @@ const content: SolutionContent = {
       {
         title: 'Operator certifications',
         body: 'Medical cards, training records, and certifications. Alerts before anything expires.',
-        to: '/features',
+        to: '/crane-certification-tracking',
       },
       {
         title: 'Field tickets',
         body: 'Live digital job tickets with signatures, linked to the job for billing.',
-        to: '/features',
+        to: '/crane-field-ticket-software',
         tag: 'beta',
       },
       {

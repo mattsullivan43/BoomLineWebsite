@@ -12,8 +12,6 @@ export type PageMeta = {
   source: string
   /** Extra JSON-LD for this page (site-wide schema lives in index.html). */
   jsonLd?: object
-  /** Listed under "Solutions" in the footer with this label. */
-  solutionLabel?: string
 }
 
 export const pages: PageMeta[] = [
@@ -58,7 +56,27 @@ export const pages: PageMeta[] = [
     description:
       'Crane dispatch software with one board for the whole day. See crews, cranes, and job sites, then dispatch employees and outside trucking at once.',
     source: 'src/pages/solutions/CraneDispatchSoftware.tsx',
-    solutionLabel: 'Crane Dispatch Software',
+  },
+  {
+    path: '/crane-field-ticket-software',
+    title: 'Crane Field Ticket Software | Digital Job Tickets | Boomline',
+    description:
+      'Crane field ticket software that replaces paper job tickets. Capture signatures in the field and link every ticket to the job for billing.',
+    source: 'src/pages/solutions/CraneFieldTicketSoftware.tsx',
+  },
+  {
+    path: '/crane-certification-tracking',
+    title: 'Crane Operator Certification Tracking | Boomline',
+    description:
+      'Track crane operator certifications, medical cards, and training records in one place, with alerts before anything expires.',
+    source: 'src/pages/solutions/CraneCertificationTracking.tsx',
+  },
+  {
+    path: '/crane-inspection-software',
+    title: 'Crane Inspection Software | Daily Inspections | Boomline',
+    description:
+      'Crane inspection software for daily and monthly inspections, filed in the field, converted to PDF, and kept on each crane’s record.',
+    source: 'src/pages/solutions/CraneInspectionSoftware.tsx',
   },
   {
     path: '/terms',

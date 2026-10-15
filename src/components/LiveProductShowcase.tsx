@@ -46,8 +46,13 @@ const PANES: PaneDef[] = [
   { key: 'ai',       label: 'Boomline AI',      Icon: Sparkles,        durationMs: 12000 },
 ]
 
-export default function LiveProductShowcase() {
-  const [activeIdx, setActiveIdx] = useState(0)
+export type ShowcaseStart = { pane?: PaneKey; subTab?: SubTabKey }
+
+export default function LiveProductShowcase({ start }: { start?: ShowcaseStart } = {}) {
+  // Keyword pages can open on the pane that matches their topic.
+  const [activeIdx, setActiveIdx] = useState(() =>
+    Math.max(0, PANES.findIndex((p) => p.key === (start?.pane ?? 'dispatch'))),
+  )
   // userPaused = explicit play/pause control. Tab click also sets it true.
   const [userPaused, setUserPaused] = useState(false)
   const [visible, setVisible] = useState(true)
@@ -182,7 +187,7 @@ export default function LiveProductShowcase() {
             >
               {active.key === 'dispatch' && <DispatchPane reduced={reduced} active={!paused && visible} />}
               {active.key === 'calendar' && <CalendarPane reduced={reduced} active={!paused && visible} />}
-              {active.key === 'overview' && <OverviewPane reduced={reduced} active={!paused && visible} />}
+              {active.key === 'overview' && <OverviewPane reduced={reduced} active={!paused && visible} initialSubTab={start?.subTab} />}
               {active.key === 'ai'       && <AiPane       reduced={reduced} active={!paused && visible} />}
             </motion.div>
           </AnimatePresence>
@@ -1163,11 +1168,11 @@ const SUB_TAB_LABEL_SHORT: Record<SubTabKey, string> = {
 
 const SUB_TAB_ORDER: SubTabKey[] = ['operations', 'fleet', 'maintenance', 'cash']
 
-function OverviewPane({ reduced, active }: { reduced: boolean; active: boolean }) {
+function OverviewPane({ reduced, active, initialSubTab }: { reduced: boolean; active: boolean; initialSubTab?: SubTabKey }) {
   const tick = useTick(OVERVIEW_DURATION, active && !reduced)
   const realTick = reduced ? OVERVIEW_DURATION : tick
   // userSubTab overrides the auto-cycle when the visitor clicks a sub-tab.
-  const [userSubTab, setUserSubTab] = useState<SubTabKey | null>(null)
+  const [userSubTab, setUserSubTab] = useState<SubTabKey | null>(initialSubTab ?? null)
   const autoSubTabIdx = Math.min(Math.floor(realTick / SUB_TAB_DURATION), 3)
   const subTab: SubTabKey = userSubTab ?? SUB_TAB_ORDER[autoSubTabIdx]
 

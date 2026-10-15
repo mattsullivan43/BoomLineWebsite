@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom'
 import logo from '../assets/boomline-logo-sm.webp'
 import { useDemo } from '../contexts/DemoContext'
-import { pages } from '../seo'
-
-const solutions = pages.filter((p) => p.solutionLabel)
 
 export default function Footer() {
   const { open: openDemo } = useDemo()
@@ -11,7 +8,7 @@ export default function Footer() {
     <footer className="relative border-t border-white/5 bg-[var(--color-bg)]">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
-          <div className="md:col-span-4">
+          <div className="md:col-span-6">
             <div className="flex items-center gap-3 mb-4">
               <img src={logo} alt="Boomline" width={48} height={48} loading="lazy" className="h-12 w-12 object-contain" />
               <span className="font-semibold text-white text-lg tracking-tight">
@@ -25,19 +22,6 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-              Solutions
-            </h4>
-            <ul className="flex flex-col gap-2.5 text-sm text-white/60">
-              {solutions.map((s) => (
-                <li key={s.path}>
-                  <Link to={s.path} className="hover:text-white">{s.solutionLabel}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="md:col-span-2">
             <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
               Company
             </h4>

@@ -11,6 +11,9 @@ const Features = lazy(() => import('./pages/Features'))
 const Terms = lazy(() => import('./pages/Terms'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const CraneDispatchSoftware = lazy(() => import('./pages/solutions/CraneDispatchSoftware'))
+const CraneFieldTicketSoftware = lazy(() => import('./pages/solutions/CraneFieldTicketSoftware'))
+const CraneCertificationTracking = lazy(() => import('./pages/solutions/CraneCertificationTracking'))
+const CraneInspectionSoftware = lazy(() => import('./pages/solutions/CraneInspectionSoftware'))
 
 export default function App() {
   return (
@@ -22,6 +25,9 @@ export default function App() {
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
           <Route path="/crane-dispatch-software" element={<CraneDispatchSoftware />} />
+          <Route path="/crane-field-ticket-software" element={<CraneFieldTicketSoftware />} />
+          <Route path="/crane-certification-tracking" element={<CraneCertificationTracking />} />
+          <Route path="/crane-inspection-software" element={<CraneInspectionSoftware />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route
