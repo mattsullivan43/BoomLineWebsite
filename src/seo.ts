@@ -52,9 +52,9 @@ export const pages: PageMeta[] = [
   },
   {
     path: '/crane-dispatch-software',
-    title: 'Crane Dispatch Software for Crane Companies | Boomline',
+    title: 'Crane Dispatch & Scheduling Software | Boomline',
     description:
-      'Crane dispatch software with one board for the whole day. See crews, cranes, and job sites, then dispatch employees and outside trucking at once.',
+      'Crane dispatch and scheduling software with one board for the whole day. Schedule crews, cranes, and job sites, then dispatch employees and outside trucking at once.',
     source: 'src/pages/solutions/CraneDispatchSoftware.tsx',
   },
   {
@@ -66,9 +66,9 @@ export const pages: PageMeta[] = [
   },
   {
     path: '/crane-certification-tracking',
-    title: 'Crane Operator Certification Tracking | Boomline',
+    title: 'Crane & Equipment Operator Certification Tracking | Boomline',
     description:
-      'Track crane operator certifications, medical cards, and training records in one place, with alerts before anything expires.',
+      'Track crane and equipment operator certifications, medical cards, and training records in one place, with alerts before anything expires.',
     source: 'src/pages/solutions/CraneCertificationTracking.tsx',
   },
   {
@@ -77,6 +77,13 @@ export const pages: PageMeta[] = [
     description:
       'Crane inspection software for daily and monthly inspections, filed in the field, converted to PDF, and kept on each crane’s record.',
     source: 'src/pages/solutions/CraneInspectionSoftware.tsx',
+  },
+  {
+    path: '/crane-maintenance-software',
+    title: 'Crane Maintenance Software | Work Orders & Service | Boomline',
+    description:
+      'Crane maintenance software that tracks service intervals by hours, miles, or days, manages work orders, and shows which cranes are overdue.',
+    source: 'src/pages/solutions/CraneMaintenanceSoftware.tsx',
   },
   {
     path: '/terms',

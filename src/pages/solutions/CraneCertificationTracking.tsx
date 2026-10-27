@@ -129,9 +129,9 @@ const content: SolutionContent = {
         tag: 'beta',
       },
       {
-        title: 'Equipment',
-        body: 'Full asset record per crane — hours, miles, inspections, maintenance log, work order history.',
-        to: '/features',
+        title: 'Crane maintenance',
+        body: 'Maintenance intervals, work orders, and a full record for every crane.',
+        to: '/crane-maintenance-software',
       },
     ],
   },
@@ -147,6 +147,10 @@ const content: SolutionContent = {
     {
       q: 'Can Boomline track medical cards and training records too?',
       a: 'Yes. Medical cards, training records, and certifications are all tracked together.',
+    },
+    {
+      q: 'Can Boomline track certifications for other equipment operators?',
+      a: 'Yes. Certification tracking works for every equipment operator on your crew, not just crane operators. Any certification with an expiration date can be tracked on the employee’s record with alerts before it lapses.',
     },
     {
       q: 'Can Boomline track NCCCO certifications?',

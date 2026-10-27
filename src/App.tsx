@@ -14,6 +14,7 @@ const CraneDispatchSoftware = lazy(() => import('./pages/solutions/CraneDispatch
 const CraneFieldTicketSoftware = lazy(() => import('./pages/solutions/CraneFieldTicketSoftware'))
 const CraneCertificationTracking = lazy(() => import('./pages/solutions/CraneCertificationTracking'))
 const CraneInspectionSoftware = lazy(() => import('./pages/solutions/CraneInspectionSoftware'))
+const CraneMaintenanceSoftware = lazy(() => import('./pages/solutions/CraneMaintenanceSoftware'))
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/crane-field-ticket-software" element={<CraneFieldTicketSoftware />} />
           <Route path="/crane-certification-tracking" element={<CraneCertificationTracking />} />
           <Route path="/crane-inspection-software" element={<CraneInspectionSoftware />} />
+          <Route path="/crane-maintenance-software" element={<CraneMaintenanceSoftware />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route

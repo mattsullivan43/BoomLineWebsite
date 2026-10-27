@@ -130,9 +130,9 @@ const content: SolutionContent = {
         tag: 'beta',
       },
       {
-        title: 'Equipment',
+        title: 'Crane maintenance',
         body: 'Maintenance intervals, work orders, and a full record for every crane.',
-        to: '/features',
+        to: '/crane-maintenance-software',
       },
     ],
   },

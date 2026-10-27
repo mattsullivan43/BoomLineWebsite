@@ -53,7 +53,7 @@ const content: SolutionContent = {
   },
   steps: {
     eyebrow: 'How it works',
-    heading: 'How crane dispatch works in Boomline.',
+    heading: 'How crane dispatch and scheduling works in Boomline.',
     items: [
       {
         title: 'Get the job on the books',
@@ -119,9 +119,9 @@ const content: SolutionContent = {
     heading: 'Connected to the rest of your operation.',
     items: [
       {
-        title: 'Equipment',
-        body: 'Full asset record per crane — hours, miles, inspections, maintenance log, work order history.',
-        to: '/features',
+        title: 'Crane maintenance',
+        body: 'Maintenance intervals, work orders, and a full record for every crane.',
+        to: '/crane-maintenance-software',
       },
       {
         title: 'Operator certifications',
@@ -143,6 +143,10 @@ const content: SolutionContent = {
     ],
   },
   faqs: [
+    {
+      q: 'Is Boomline crane scheduling software too?',
+      a: 'Yes. Boomline is crane scheduling and dispatch software in one. Schedule cranes, operators, and crews on the jobs calendar and the dispatch board, then send the dispatch to everyone at once.',
+    },
     {
       q: 'What is crane dispatch software?',
       a: 'Crane dispatch software schedules cranes, operators, and crews to jobs and sends each person their assignments. Boomline does it from one board built for crane companies — including multi-crane jobs, job-site details, and outside trucking.',
