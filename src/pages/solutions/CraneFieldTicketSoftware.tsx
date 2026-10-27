@@ -130,9 +130,10 @@ const content: SolutionContent = {
         tag: 'beta',
       },
       {
-        title: 'TimeSheets',
-        body: 'Standard time and overtime by job, exported to PDF.',
-        to: '/features',
+        title: 'Crane inspections',
+        body: 'Daily and monthly inspections, tracked in the field and converted to a PDF document.',
+        to: '/crane-inspection-software',
+        tag: 'beta',
       },
       {
         title: 'Operator certifications',

@@ -24,14 +24,14 @@ export const pages: PageMeta[] = [
   },
   {
     path: '/features',
-    title: 'Everything your crane operation actually needs | Boomline',
+    title: 'Crane Rental Software Features | Dispatch to Billing | Boomline',
     description:
       'Everything from dispatch to the back office. Start small or run the full platform — we flip features on as you grow.',
     source: 'src/pages/Features.tsx',
   },
   {
     path: '/about',
-    title: 'Software written by people who actually run cranes | Boomline',
+    title: 'About Boomline | Crane Software Built by People Who Run Cranes',
     description:
       'Built with trusted field experts, for crane companies. A platform built around how a crane company actually runs — not bolted onto generic field-service tools that were never made for the industry.',
     source: 'src/pages/About.tsx',
