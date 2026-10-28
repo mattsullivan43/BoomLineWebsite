@@ -165,7 +165,7 @@ const content: SolutionContent = {
   ],
   cta: {
     heading: 'Catch it in the shop, not on the job.',
-    body: 'Book a 15-minute demo. We’ll show you Boomline running on a real crane company’s data.',
+    body: 'Book a platform walkthrough. We’ll show you Boomline running on a real crane company’s data.',
   },
 }
 

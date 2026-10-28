@@ -321,7 +321,7 @@ export default function Features() {
             </span>
           </h2>
           <p className="mt-6 text-white/60 max-w-xl mx-auto">
-            Book a 15-minute demo and we&rsquo;ll walk through Boomline on
+            Book a platform walkthrough and we&rsquo;ll walk through Boomline on
             real crane company workflows.
           </p>
           <div className="mt-7 flex items-center justify-center gap-3 flex-wrap">

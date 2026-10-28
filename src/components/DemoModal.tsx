@@ -217,7 +217,7 @@ export default function DemoModal({
                   </h3>
                   <p className="mt-2 text-sm text-white/55">
                     We&rsquo;ll respond within one business day to set up a
-                    15-minute walkthrough.
+                    platform walkthrough.
                   </p>
                 </div>
 

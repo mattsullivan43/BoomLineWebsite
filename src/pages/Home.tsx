@@ -351,7 +351,7 @@ export default function Home() {
             Ready to modernize your operation?
           </h2>
           <p className="mt-6 text-white/60 leading-relaxed max-w-xl mx-auto">
-            Book a 15-minute demo. We&rsquo;ll show you Boomline running on a
+            Book a platform walkthrough. We&rsquo;ll show you Boomline running on a
             real crane company&rsquo;s data.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

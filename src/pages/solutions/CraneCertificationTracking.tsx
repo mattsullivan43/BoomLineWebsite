@@ -167,7 +167,7 @@ const content: SolutionContent = {
   ],
   cta: {
     heading: 'Never get caught with an expired card.',
-    body: 'Book a 15-minute demo. We’ll show you Boomline running on a real crane company’s data.',
+    body: 'Book a platform walkthrough. We’ll show you Boomline running on a real crane company’s data.',
   },
 }
 

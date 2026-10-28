@@ -174,7 +174,7 @@ const content: SolutionContent = {
   ],
   cta: {
     heading: 'See the dispatch board in action.',
-    body: 'Book a 15-minute demo. We’ll show you Boomline running on a real crane company’s data.',
+    body: 'Book a platform walkthrough. We’ll show you Boomline running on a real crane company’s data.',
   },
 }
 
