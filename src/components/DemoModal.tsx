@@ -4,6 +4,57 @@ import { X, Send, CheckCircle2, Loader2 } from 'lucide-react'
 
 const WEB3FORMS_ACCESS_KEY = '97f818eb-e4a2-42b7-ac4b-9b24d2d4588f'
 const ENDPOINT = 'https://api.web3forms.com/submit'
+// Boomline Sales intake. Runs alongside Web3Forms and never blocks the visitor.
+const INTAKE_URL = 'https://0jfeh75ble.execute-api.us-east-1.amazonaws.com/intake'
+const PENDING_KEY = 'boomline_pending_demo_requests'
+
+type Pending = { body: Record<string, string>; at: number }
+
+function readPending(): Pending[] {
+  try {
+    const items = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]') as Pending[]
+    // Keep at most a week of unsent requests
+    return items.filter((p) => Date.now() - p.at < 7 * 86_400_000).slice(-5)
+  } catch {
+    return []
+  }
+}
+
+function writePending(items: Pending[]) {
+  try {
+    if (items.length) localStorage.setItem(PENDING_KEY, JSON.stringify(items))
+    else localStorage.removeItem(PENDING_KEY)
+  } catch {
+    // Storage unavailable: Web3Forms still delivered the request by email
+  }
+}
+
+/** True when delivered, or rejected as invalid (no point retrying). False means retry later. */
+async function postIntake(body: Record<string, string>): Promise<boolean> {
+  try {
+    const res = await fetch(INTAKE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      keepalive: true,
+    })
+    return res.ok || (res.status >= 400 && res.status < 500 && res.status !== 429)
+  } catch {
+    return false
+  }
+}
+
+async function sendToIntake(body: Record<string, string>) {
+  if (!(await postIntake(body))) writePending([...readPending(), { body, at: Date.now() }])
+}
+
+async function retryPendingIntake() {
+  const pending = readPending()
+  if (!pending.length) return
+  const stillPending: Pending[] = []
+  for (const p of pending) if (!(await postIntake(p.body))) stillPending.push(p)
+  writePending(stillPending)
+}
 
 type FormState = {
   firstName: string
@@ -35,6 +86,11 @@ export default function DemoModal({
   const [errorMsg, setErrorMsg] = useState<string>('')
   // Honeypot: hidden from people, bots fill it in
   const [honeypot, setHoneypot] = useState('')
+
+  // Retry any request that couldn't reach the intake on an earlier visit
+  useEffect(() => {
+    retryPendingIntake()
+  }, [])
 
   useEffect(() => {
     if (!isOpen) {
@@ -72,6 +128,16 @@ export default function DemoModal({
     }
     setStatus('submitting')
     setErrorMsg('')
+
+    // Fire and forget: the visitor's experience depends only on Web3Forms, as before
+    void sendToIntake({
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      company: form.company,
+      phone: form.phone,
+      hp_field_x: honeypot,
+    })
 
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
