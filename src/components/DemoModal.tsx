@@ -33,12 +33,15 @@ export default function DemoModal({
   const [form, setForm] = useState<FormState>(initial)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState<string>('')
+  // Honeypot: hidden from people, bots fill it in
+  const [honeypot, setHoneypot] = useState('')
 
   useEffect(() => {
     if (!isOpen) {
       setForm(initial)
       setStatus('idle')
       setErrorMsg('')
+      setHoneypot('')
     }
   }, [isOpen])
 
@@ -62,6 +65,11 @@ export default function DemoModal({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    // Bot filled the hidden field: show success, send nothing
+    if (honeypot) {
+      setStatus('success')
+      return
+    }
     setStatus('submitting')
     setErrorMsg('')
 
@@ -148,6 +156,19 @@ export default function DemoModal({
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                  <div aria-hidden="true" className="sr-only">
+                    <label>
+                      Leave this field empty
+                      <input
+                        type="text"
+                        name="hp_field_x"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                      />
+                    </label>
+                  </div>
                   <div className="grid grid-cols-2 gap-2.5">
                     <Field
                       label="First name"
