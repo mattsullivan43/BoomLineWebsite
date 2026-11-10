@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, CheckCircle2, Loader2 } from 'lucide-react'
+import { X, Send, CheckCircle2, Loader2, ChevronDown } from 'lucide-react'
 
 const WEB3FORMS_ACCESS_KEY = '97f818eb-e4a2-42b7-ac4b-9b24d2d4588f'
 const ENDPOINT = 'https://api.web3forms.com/submit'
@@ -335,7 +335,7 @@ export default function DemoModal({
                       onChange={(v) => update('role', v)}
                       required
                       autoComplete="organization-title"
-                      placeholder="e.g. Owner, Dispatcher"
+                      placeholder="e.g. Owner"
                       disabled={status === 'submitting'}
                     />
                     <Field
@@ -461,12 +461,13 @@ function SelectField({
         {label}
         {required && <span className="text-[var(--color-yellow)] ml-1">*</span>}
       </span>
+      <div className="relative">
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
         disabled={disabled}
-        className={`px-3 py-3 rounded-lg border border-white/10 bg-[var(--color-bg-2)] text-base sm:text-sm focus:outline-none focus:border-[var(--color-yellow)]/40 transition-colors disabled:opacity-50 ${value ? 'text-white' : 'text-white/30'}`}
+        className={`w-full appearance-none pl-3 pr-9 py-3 rounded-lg border border-white/10 bg-[var(--color-bg-2)] text-base sm:text-sm focus:outline-none focus:border-[var(--color-yellow)]/40 transition-colors disabled:opacity-50 ${value ? 'text-white' : 'text-white/30'}`}
       >
         <option value="" disabled>
           Select
@@ -477,6 +478,12 @@ function SelectField({
           </option>
         ))}
       </select>
+      <ChevronDown
+        size={16}
+        aria-hidden="true"
+        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/40"
+      />
+      </div>
     </label>
   )
 }
