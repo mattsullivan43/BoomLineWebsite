@@ -305,7 +305,7 @@ export default function Home() {
                   delay: i * 0.08,
                   ease: [0.19, 1, 0.22, 1],
                 }}
-                className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-7 sm:p-8 hover:border-white/20 transition-colors"
+                className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-6 sm:p-8 hover:border-white/20 transition-colors"
               >
                 <div className="flex items-center justify-between mb-6">
                   <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--color-yellow)]">
@@ -313,8 +313,9 @@ export default function Home() {
                   </span>
                   <span className="w-2 h-2 rounded-full bg-[var(--color-yellow)]" />
                 </div>
-                <h3 className="text-2xl font-bold tracking-tight text-white mb-2">
-                  {r.label}
+                <h3 className="text-xl min-[375px]:text-2xl font-bold tracking-tight text-white mb-2">
+                  {/* Let "Management/Dispatch" wrap after the slash on narrow phones */}
+                  {r.label.replace('/', '/\u200B')}
                 </h3>
                 <p className="text-sm text-white/55 mb-5">{r.desc}</p>
                 <ul className="space-y-2.5">
