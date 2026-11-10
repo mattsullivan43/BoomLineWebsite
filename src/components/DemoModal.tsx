@@ -6,15 +6,23 @@ const WEB3FORMS_ACCESS_KEY = '97f818eb-e4a2-42b7-ac4b-9b24d2d4588f'
 const ENDPOINT = 'https://api.web3forms.com/submit'
 // Boomline Sales intake. Runs alongside Web3Forms and never blocks the visitor.
 const INTAKE_URL = 'https://0jfeh75ble.execute-api.us-east-1.amazonaws.com/intake'
+// Boomline CRM: each request becomes a Lead card in our Sales pipeline. The
+// extra answers (role, location, fleet size, software) go in the card's Notes.
+// The key is a public identifier that can only create leads. Requests are
+// blocked by CORS until the API allows https://boomline.co on /api/widget/lead;
+// until then they wait in the retry queue below.
+const CRM_LEAD_URL = 'https://api.boomline.app/api/widget/lead'
+const CRM_WIDGET_KEY = 'pk_0b5f3010a4a022614ebffcaf58fac039'
 const PENDING_KEY = 'boomline_pending_demo_requests'
 
-type Pending = { body: Record<string, string>; at: number }
+// url is missing on items queued before the CRM was added: those are intake requests
+type Pending = { url?: string; body: Record<string, string>; at: number }
 
 function readPending(): Pending[] {
   try {
     const items = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]') as Pending[]
     // Keep at most a week of unsent requests
-    return items.filter((p) => Date.now() - p.at < 7 * 86_400_000).slice(-5)
+    return items.filter((p) => Date.now() - p.at < 7 * 86_400_000).slice(-10)
   } catch {
     return []
   }
@@ -30,9 +38,9 @@ function writePending(items: Pending[]) {
 }
 
 /** True when delivered, or rejected as invalid (no point retrying). False means retry later. */
-async function postIntake(body: Record<string, string>): Promise<boolean> {
+async function postJson(url: string, body: Record<string, string>): Promise<boolean> {
   try {
-    const res = await fetch(INTAKE_URL, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -44,17 +52,25 @@ async function postIntake(body: Record<string, string>): Promise<boolean> {
   }
 }
 
-async function sendToIntake(body: Record<string, string>) {
-  if (!(await postIntake(body))) writePending([...readPending(), { body, at: Date.now() }])
+async function sendWithRetry(url: string, body: Record<string, string>) {
+  if (!(await postJson(url, body))) writePending([...readPending(), { url, body, at: Date.now() }])
 }
 
-async function retryPendingIntake() {
+async function retryPending() {
   const pending = readPending()
   if (!pending.length) return
   const stillPending: Pending[] = []
-  for (const p of pending) if (!(await postIntake(p.body))) stillPending.push(p)
+  for (const p of pending) {
+    if (!(await postJson(p.url ?? INTAKE_URL, p.body))) stillPending.push(p)
+  }
   writePending(stillPending)
 }
+
+function sendToIntake(body: Record<string, string>) {
+  return sendWithRetry(INTAKE_URL, body)
+}
+
+const FLEET_SIZES = ['0–10', '11–20', '21–30', '31–40', '41–50', '50+']
 
 type FormState = {
   firstName: string
@@ -62,6 +78,10 @@ type FormState = {
   email: string
   company: string
   phone: string
+  role: string
+  location: string
+  fleetSize: string
+  currentSoftware: string
 }
 
 const initial: FormState = {
@@ -70,6 +90,10 @@ const initial: FormState = {
   email: '',
   company: '',
   phone: '',
+  role: '',
+  location: '',
+  fleetSize: '',
+  currentSoftware: '',
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -89,7 +113,7 @@ export default function DemoModal({
 
   // Retry any request that couldn't reach the intake on an earlier visit
   useEffect(() => {
-    retryPendingIntake()
+    retryPending()
   }, [])
 
   useEffect(() => {
@@ -129,6 +153,8 @@ export default function DemoModal({
     setStatus('submitting')
     setErrorMsg('')
 
+    const fullName = `${form.firstName} ${form.lastName}`.trim()
+
     // Fire and forget: the visitor's experience depends only on Web3Forms, as before
     void sendToIntake({
       firstName: form.firstName,
@@ -136,18 +162,41 @@ export default function DemoModal({
       email: form.email,
       company: form.company,
       phone: form.phone,
+      role: form.role,
+      location: form.location,
+      fleetSize: form.fleetSize,
+      currentSoftware: form.currentSoftware,
       hp_field_x: honeypot,
+    })
+    void sendWithRetry(CRM_LEAD_URL, {
+      key: CRM_WIDGET_KEY,
+      name: fullName,
+      company: form.company,
+      phone: form.phone,
+      email: form.email,
+      message: [
+        `Role: ${form.role}`,
+        `Location: ${form.location}`,
+        `Fleet size: ${form.fleetSize} cranes`,
+        `Current software: ${form.currentSoftware}`,
+        'Source: boomline.co demo form',
+      ].join('\n'),
+      website: honeypot,
     })
 
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
       subject: 'Demo Request — Boomline',
-      from_name: `${form.firstName} ${form.lastName}`.trim(),
+      from_name: fullName,
       'First Name': form.firstName,
       'Last Name': form.lastName,
       Email: form.email,
       Company: form.company,
       Phone: form.phone,
+      Role: form.role,
+      Location: form.location,
+      'Fleet Size': `${form.fleetSize} cranes`,
+      'Current Software': form.currentSoftware,
     }
 
     try {
@@ -190,7 +239,7 @@ export default function DemoModal({
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-2)] p-5 sm:p-8 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]"
+            className="relative w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl border border-white/10 bg-[var(--color-bg-2)] p-5 sm:p-8 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.7)]"
           >
             <button
               type="button"
@@ -279,6 +328,41 @@ export default function DemoModal({
                     autoComplete="tel"
                     disabled={status === 'submitting'}
                   />
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <Field
+                      label="Your role"
+                      value={form.role}
+                      onChange={(v) => update('role', v)}
+                      required
+                      autoComplete="organization-title"
+                      placeholder="e.g. Owner, Dispatcher"
+                      disabled={status === 'submitting'}
+                    />
+                    <Field
+                      label="State / region"
+                      value={form.location}
+                      onChange={(v) => update('location', v)}
+                      required
+                      autoComplete="address-level1"
+                      disabled={status === 'submitting'}
+                    />
+                  </div>
+                  <SelectField
+                    label="Fleet size (cranes)"
+                    value={form.fleetSize}
+                    onChange={(v) => update('fleetSize', v)}
+                    options={FLEET_SIZES}
+                    required
+                    disabled={status === 'submitting'}
+                  />
+                  <Field
+                    label="What do you use today to run your operation?"
+                    value={form.currentSoftware}
+                    onChange={(v) => update('currentSoftware', v)}
+                    required
+                    placeholder="e.g. Spreadsheets, whiteboard, other software"
+                    disabled={status === 'submitting'}
+                  />
 
                   {status === 'error' && (
                     <div className="text-sm text-rose-400 bg-rose-400/10 border border-rose-400/20 rounded-lg px-3 py-2">
@@ -324,6 +408,7 @@ function Field({
   type = 'text',
   required,
   autoComplete,
+  placeholder,
   disabled,
 }: {
   label: string
@@ -332,6 +417,7 @@ function Field({
   type?: string
   required?: boolean
   autoComplete?: string
+  placeholder?: string
   disabled?: boolean
 }) {
   return (
@@ -346,9 +432,51 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         autoComplete={autoComplete}
+        placeholder={placeholder}
         disabled={disabled}
         className="px-3 py-3 rounded-lg border border-white/10 bg-white/[0.03] text-base sm:text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--color-yellow)]/40 focus:bg-white/[0.05] transition-colors disabled:opacity-50"
       />
+    </label>
+  )
+}
+
+function SelectField({
+  label,
+  value,
+  onChange,
+  options,
+  required,
+  disabled,
+}: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  options: string[]
+  required?: boolean
+  disabled?: boolean
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+        {label}
+        {required && <span className="text-[var(--color-yellow)] ml-1">*</span>}
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        disabled={disabled}
+        className={`px-3 py-3 rounded-lg border border-white/10 bg-[var(--color-bg-2)] text-base sm:text-sm focus:outline-none focus:border-[var(--color-yellow)]/40 transition-colors disabled:opacity-50 ${value ? 'text-white' : 'text-white/30'}`}
+      >
+        <option value="" disabled>
+          Select
+        </option>
+        {options.map((o) => (
+          <option key={o} value={o} className="text-white">
+            {o}
+          </option>
+        ))}
+      </select>
     </label>
   )
 }
